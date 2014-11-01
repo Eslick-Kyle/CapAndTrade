@@ -5,6 +5,8 @@
  */
 package capandtradesimulation;
 
+import java.util.List;
+
 /**
  *
  * @author Benjamin
@@ -27,6 +29,15 @@ public class CapAndTradeSimulation {
         System.out.println("calcProfit" + ps.calcProfit());
         System.out.println("calcSales" + ps.calcSales());
         System.out.println(ps.calcMarginalProfit());
+        
+        // This is to show that the simulation at least on a general level is working
+        // for the consule.
+        Simulation gameSim = new Simulation();
+        gameSim.setPowerStationNames(gameSim.getPowerStationNamesConsole(3));
+        System.out.println();
+        gameSim.setPowerStationsTradeInformation(gameSim.getPowerStationsTradeInformationConsole());
+        gameSim.displayPowerStationsInfo();
+        
     }
     
 }
