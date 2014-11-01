@@ -108,6 +108,8 @@ public class Simulation {
             String numPermitsTraded = System.console().readLine();
             System.out.print(powerStations.get(i).getPowerStationName() + "'s Permits Total Price: ");
             String permitsTotalPrice = System.console().readLine();
+            
+            theTrades.add(new Trade(numPermitsTraded, permitsTotalPrice));
         }
         
         return theTrades;
