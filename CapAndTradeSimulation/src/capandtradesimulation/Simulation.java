@@ -20,7 +20,6 @@ public class Simulation {
      */
     public Simulation () {
         powerStations = new ArrayList<>();
-        namePowerStationsDefault(10);
     }
     
     /**
@@ -70,7 +69,7 @@ public class Simulation {
     public void getPowerStationNamesConsole(int numberOfTeams) {
         List<String> teamNames = new ArrayList<>();
         for (int i = 0; i < numberOfTeams; i++) {
-            System.out.print("Team " + Integer.toString(i + 1)+ ": ");
+            System.out.print("Power Station Name " + Integer.toString(i + 1)+ ": ");
             String powerStationName = System.console().readLine();
             teamNames.add(powerStationName);
         }
@@ -78,6 +77,9 @@ public class Simulation {
     }
     
     /**
+     * Description: This function will take a list of trades made by the users
+     * and will assign that information to the PowerStations. The size of the 
+     * array has to be the same size for this function to work.
      * 
      * @param trades - the trades each station made and the price they received
      */
@@ -100,6 +102,14 @@ public class Simulation {
     public List<Trade> getPowerStationsTradeInformationConsole() {
         List<Trade> theTrades = new ArrayList<>();
             
+        // get information from console
+        for (int i = 0; i < powerStations.size(); i++) {
+            System.out.print(powerStations.get(i).getPowerStationName() + "'s Permits Traded: ");
+            String numPermitsTraded = System.console().readLine();
+            System.out.print(powerStations.get(i).getPowerStationName() + "'s Permits Total Price: ");
+            String permitsTotalPrice = System.console().readLine();
+        }
+        
         return theTrades;
     }
 }
