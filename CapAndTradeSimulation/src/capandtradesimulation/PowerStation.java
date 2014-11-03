@@ -47,7 +47,6 @@ public class PowerStation {
     }
 
     public int calcPermitUsed() {
-        int permitUsed = 0;
         int currentPermits = permitsTraded + permits;
         if (emissions <= currentPermits) {
             return emissions;
