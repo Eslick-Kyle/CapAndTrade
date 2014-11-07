@@ -169,6 +169,16 @@ public class TradeNGTest {
         result = instance.getPriceOfTrade();
         assertEquals(result, expResult);
         
+        instance = new Trade("-1", "-1");
+        expResult = -1;
+        result = instance.getPermitsTraded();
+        assertEquals(result, expResult);
+        // test priceOfTrade
+        expResult = -1;
+        result = instance.getPriceOfTrade();
+        assertEquals(result, expResult);
+        
+        
     }        
     
     

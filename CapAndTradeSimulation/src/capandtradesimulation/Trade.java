@@ -23,24 +23,40 @@ public class Trade {
         priceOfTrade = totalPriceOfTrade;
     }
 
+    /**
+     * String constructor, takes two strings and calls helper function to parse 
+     * data
+     * @param numPermitsTraded - number of permits traded
+     * @param totalPriceOfTrade - price from the trade
+     */
     public Trade (String numPermitsTraded, String totalPriceOfTrade) {
-        if (!totalPriceOfTrade.matches("^\\d{1,15}$") || totalPriceOfTrade.equals("")) {
+        parseInfo(numPermitsTraded, totalPriceOfTrade);
+    }
+    
+    /**
+     * Parses the strings with info in them, is mostly a helper to the string
+     * constructor
+     * @param parsableStringPermits - number of Permits traded
+     * @param parsableStringPrice  - price from traded permits
+     */
+    public void parseInfo(String parsableStringPermits, String parsableStringPrice) {
+        if (!parsableStringPrice.matches("^-?\\d{1,15}$") || parsableStringPrice.equals("")) {
             System.out.println("ERROR: (Class Trade, String constructor) Invalid price Price will be set to 0");
             priceOfTrade = 0;
         } else {
-            priceOfTrade = Integer.parseInt(totalPriceOfTrade);
+            priceOfTrade = Integer.parseInt(parsableStringPrice);
         }
         
-        if (!numPermitsTraded.matches("^\\d{1,15}$") || numPermitsTraded.equals("")) {
+        if (!parsableStringPermits.matches("^-?\\d{1,15}$") || parsableStringPermits.equals("")) {
             System.out.println("ERROR: (Class Trade, String constructor) Invalid number of permits"
                     + " The number permits sold will be set to 0");
             permitsTraded = 0;
         } else {
-            permitsTraded = Integer.parseInt(numPermitsTraded);
+            permitsTraded = Integer.parseInt(parsableStringPermits);
         }
-        
     }
-    
+
+
     public int getPermitsTraded() {
         return permitsTraded;
     }
