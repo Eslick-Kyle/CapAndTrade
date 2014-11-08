@@ -32,11 +32,8 @@ public class CapAndTradeSimulation {
         
         // This is to show that the simulation at least on a general level is working
         // for the consule.
-        Simulation gameSim = new Simulation();
-        gameSim.setPowerStationNames(gameSim.getPowerStationNamesConsole(3));
-        System.out.println();
-        gameSim.setPowerStationsTradeInformation(gameSim.getPowerStationsTradeInformationConsole());
-        gameSim.displayPowerStationsInfo();
+        Controller gameSim = new Controller();
+        gameSim.runConsoleApplication();
         
     }
     
