@@ -15,11 +15,16 @@ import java.util.List;
 public class Controller {
     private Simulation simulation;
     
+    private static final Controller instance = new Controller();
     /**
      * Default constructor just declares the new Simulation
      */
-    public Controller() {
+    private Controller() {
         simulation = new Simulation();
+    }
+    
+    public static Controller getInstance() {
+        return instance;
     }
     
     /**
@@ -39,7 +44,7 @@ public class Controller {
         CapAndTradeConsole consoleApp = new CapAndTradeConsole();
         
         updatePowerStationNames(consoleApp.getPowerStationNamesConsole(3));
-        updateTradeInfo(consoleApp.getPowerStationsTradeInformationConsole(simulation.getPowerStations()));
+        updateTradeInfo(consoleApp.getPowerStationsTradeInformationConsole());
         consoleApp.displayPowerStationsInfo(simulation.getPowerStations());
     }
     
@@ -57,7 +62,5 @@ public class Controller {
      */
     public void updateTradeInfo(List<Trade> trades) {
         simulation.setPowerStationsTradeInformation(trades);
-    }
-    
-    
+    }   
 }
