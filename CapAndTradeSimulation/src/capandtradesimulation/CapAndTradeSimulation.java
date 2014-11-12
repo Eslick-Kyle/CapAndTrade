@@ -32,8 +32,8 @@ public class CapAndTradeSimulation {
         
         // This is to show that the simulation at least on a general level is working
         // for the consule.
-        Controller gameSim = new Controller();
-        gameSim.runConsoleApplication();
+        
+        Controller.getInstance().runConsoleApplication();
         
     }
     

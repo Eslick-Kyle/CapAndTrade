@@ -17,7 +17,7 @@ import java.util.Scanner;
  * @author Benjamin
  */
 public class CapAndTradeConsole {
-    
+    Controller control;
     
     public CapAndTradeConsole() {
     }
@@ -48,7 +48,8 @@ public class CapAndTradeConsole {
      * @param powerStations the power stations
      * @return - this returns a array list of the information
      */
-    public List<Trade> getPowerStationsTradeInformationConsole(List<PowerStation> powerStations) {
+    public List<Trade> getPowerStationsTradeInformationConsole(/*List<PowerStation> powerStations*/) {
+        List<PowerStation> powerStations = Controller.getInstance().getPowerStationsInfo();
         List<Trade> theTrades = new ArrayList<>();
         // get information from console
         Scanner input = new Scanner(System.in);
