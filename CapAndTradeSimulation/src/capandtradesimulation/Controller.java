@@ -42,7 +42,7 @@ public class Controller extends Model{
      */
     public void runConsoleApplication() {
         CapAndTradeConsole consoleApp = new CapAndTradeConsole();
-        
+        //This is the console process
         updatePowerStationNames(consoleApp.getPowerStationNamesConsole(3));
         updateTradeInfo(consoleApp.getPowerStationsTradeInformationConsole());
         consoleApp.displayPowerStationsInfo(simulation.getPowerStations());
