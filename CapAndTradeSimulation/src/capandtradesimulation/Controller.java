@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Benjamin
  */
-public class Controller {
+public class Controller extends Model{
     private Simulation simulation;
     
     /**
