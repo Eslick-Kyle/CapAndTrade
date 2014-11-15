@@ -13,6 +13,10 @@ import java.util.List;
  */
 public class Model {
     Simulation simulation;
+    
+    public Model() {
+        simulation = new Simulation();
+    }
     void hello() {
         System.out.println("hello");
     }

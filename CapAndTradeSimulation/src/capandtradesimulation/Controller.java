@@ -20,7 +20,7 @@ public class Controller extends Model{
      * Default constructor just declares the new Simulation
      */
     private Controller() {
-        simulation = new Simulation();
+        //simulation = new Simulation();
     }
     
     public static Controller getInstance() {
