@@ -13,7 +13,7 @@ import java.util.List;
  * @author Benjamin
  */
 public class Controller extends Model{
-    private Simulation simulation;
+    //private Simulation simulation;
     
     private static final Controller instance = new Controller();
     /**
@@ -32,7 +32,7 @@ public class Controller extends Model{
      * @return a list of the power stations
      */
     public List<PowerStation> getPowerStationsInfo() {
-        return (simulation.getPowerStations());
+        return (getPowerStations());
     }
     
     /**
@@ -41,11 +41,19 @@ public class Controller extends Model{
      * necessary information.
      */
     public void runConsoleApplication() {
+        
+        
         CapAndTradeConsole consoleApp = new CapAndTradeConsole();
         //This is the console process; much conflict much break need merge
-        updatePowerStationNames(consoleApp.getPowerStationNamesConsole(3));
+        
+        boolean isDefaultName = consoleApp.useDefaultNames();
+        if (isDefaultName) {
+            setPowerStationNamesDefault(consoleApp.getNumTeams());
+        } else {
+            updatePowerStationNames(consoleApp.getPowerStationNamesConsole(consoleApp.getNumTeams()));
+        }
         updateTradeInfo(consoleApp.getPowerStationsTradeInformationConsole());
-        consoleApp.displayPowerStationsInfo(simulation.getPowerStations());
+        consoleApp.displayPowerStationsInfo(getPowerStations());
     }
     
     /**

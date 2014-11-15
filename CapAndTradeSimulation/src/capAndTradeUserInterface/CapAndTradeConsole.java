@@ -22,6 +22,28 @@ public class CapAndTradeConsole {
     public CapAndTradeConsole() {
     }
     
+    public int getNumTeams() {
+        int numTeams;
+        Scanner in = new Scanner(System.in);
+        System.out.print("How many teams would you like for this simulation: ");
+        numTeams = in.nextInt();
+        
+        return numTeams;
+    }
+    
+    public boolean useDefaultNames() {
+        boolean isDefault = true;
+        Scanner in = new Scanner(System.in);
+        
+        System.out.print("Do you want to set the team names(y/n)");
+        String checkValue = in.nextLine();
+        if (checkValue.matches("(?i)y")) {
+            isDefault = false;
+        }
+        
+        return isDefault;
+    }
+    
      /**
      * Description: This is for the console version, it will prompt the user for
      * powerStation names. It will then initialize the power stations with those
