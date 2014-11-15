@@ -3,18 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package capandtradesimulation;
+package model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  *
  * @author Benjamin
  */
 public class Simulation {
+    private List<List<Trade>> tradeHistory = new LinkedList<>();
     private List<PowerStation> powerStations;
+    private List<List<Integer>> marginalProfitHistory = new LinkedList<>();
     
     /**
      * Description: default constructor, automatically gives teams names
@@ -47,7 +49,7 @@ public class Simulation {
      * @param numberOfTeams 
      */
     public void setPowerStationNamesDefault(int numberOfTeams) {
-        char name = 'a';
+        char name = 'A';
         for (int i = 0; i < numberOfTeams; i++) {
             PowerStation team = new PowerStation();
             team.setPowerStationName(String.valueOf(name));
@@ -69,7 +71,22 @@ public class Simulation {
         }
     }
     
-
+    public List<Integer> getTotalMarginalProfit() {
+        List<Integer> totalMarginalProfit = new LinkedList<>();
+        for (List<Integer> mp : marginalProfitHistory) {
+            totalMarginalProfit.add(0);  
+        }
+        for (List<Integer> mp : marginalProfitHistory) {
+            int i = 0;
+            for (Integer profit : mp) {
+                int temp = totalMarginalProfit.get(i) + profit;
+                totalMarginalProfit.set(i, temp);
+                i++;  
+            }
+            
+        }
+        return totalMarginalProfit;
+    }
     
     /**
      * Description: This function will take a list of trades made by the users
@@ -79,17 +96,20 @@ public class Simulation {
      * @param trades - the trades each station made and the price they received
      */
     public void setPowerStationsTradeInformation(List<Trade> trades) {
+        tradeHistory.add(trades);
         if (trades.size() != powerStations.size()) {
             System.out.println("ERROR: (setPowerStationsInformation) not enough information provided");
             System.exit(0);
         }
-        
+        ArrayList<Integer> marginalProfit = new ArrayList<>();
         // set the trade values in the power stations
         int i = 0;
         for (Trade theTrade : trades) {
             powerStations.get(i).setPermitsTraded(theTrade.getPermitsTraded());
             powerStations.get(i).setTradeIncome(theTrade.getPriceOfTrade());
+            marginalProfit.add(powerStations.get(i).calcMarginalProfit());
             i++;
         }
+        marginalProfitHistory.add(marginalProfit);
     }
 }

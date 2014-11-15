@@ -5,6 +5,7 @@
  */
 package capandtradesimulation;
 
+import model.Trade;
 import static org.testng.Assert.*;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;

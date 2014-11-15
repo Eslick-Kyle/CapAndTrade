@@ -5,70 +5,53 @@
  */
 package capandtradesimulation;
 
+import model.Model;
 import capAndTradeUserInterface.CapAndTradeConsole;
-import java.util.List;
 
 /**
  *
  * @author Benjamin
  */
-public class Controller extends Model{
+public class Controller extends Model {
     //private Simulation simulation;
-    
+
     private static final Controller instance = new Controller();
+
     /**
      * Default constructor just declares the new Simulation
      */
     private Controller() {
         //simulation = new Simulation();
     }
-    
+
     public static Controller getInstance() {
         return instance;
     }
-    
+
     /**
-     * A getter for the list of power stations from the Simulation class
-     * @return a list of the power stations
-     */
-    public List<PowerStation> getPowerStationsInfo() {
-        return (getPowerStations());
-    }
-    
-    /**
-     * This will run the console application for the program, it will call the 
+     * This will run the console application for the program, it will call the
      * necessary functions from the CapAndTradeConsole class and will set the
      * necessary information.
      */
     public void runConsoleApplication() {
-        
-        
         CapAndTradeConsole consoleApp = new CapAndTradeConsole();
-        //This is the console process; much conflict much break need merge
-        
+
         boolean isDefaultName = consoleApp.useDefaultNames();
         if (isDefaultName) {
             setPowerStationNamesDefault(consoleApp.getNumTeams());
         } else {
             updatePowerStationNames(consoleApp.getPowerStationNamesConsole(consoleApp.getNumTeams()));
         }
-        updateTradeInfo(consoleApp.getPowerStationsTradeInformationConsole());
-        consoleApp.displayPowerStationsInfo(getPowerStations());
+        consoleApp.displayPowerStationCleanRate(getPowerStations());
+        for (int i = 1;; i++) {
+            System.out.println("Round " + i);
+            updateTradeInfo(consoleApp.getPowerStationsTradeInformationConsole(getPowerStations()));
+            consoleApp.displayPowerStationsInfo(getPowerStations());
+            if (consoleApp.promptToQuit()) {
+                break;
+            }
+        }
+        //show the winner
+        consoleApp.displayWinner(getTotalMarginalProfit(), getPowerStations());
     }
-    
-    /**
-     * This updates the power stations names
-     * @param names - the names of the power stations
-     */
-    public void updatePowerStationNames(List<String> names) {
-        simulation.setPowerStationNames(names);    
-    }
-    
-    /**
-     * Will update trade information in the Simulation data
-     * @param trades - the information that will update the data 
-     */
-    public void updateTradeInfo(List<Trade> trades) {
-        simulation.setPowerStationsTradeInformation(trades);
-    }   
 }
