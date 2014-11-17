@@ -74,16 +74,18 @@ public class Simulation {
     public List<Integer> getTotalMarginalProfit() {
         List<Integer> totalMarginalProfit = new LinkedList<>();
         for (List<Integer> mp : marginalProfitHistory) {
-            totalMarginalProfit.add(0);  
+            for (int i = 0; i < mp.size(); i++) {
+                totalMarginalProfit.add(0);  
+            }
+            break;
         }
         for (List<Integer> mp : marginalProfitHistory) {
             int i = 0;
             for (Integer profit : mp) {
                 int temp = totalMarginalProfit.get(i) + profit;
-                totalMarginalProfit.set(i, temp);
-            i++;
-            }
-                       
+                totalMarginalProfit.set(i, temp);    
+                i++;
+            }         
         }
         return totalMarginalProfit;
     }
