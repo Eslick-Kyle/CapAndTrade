@@ -81,9 +81,9 @@ public class Simulation {
             for (Integer profit : mp) {
                 int temp = totalMarginalProfit.get(i) + profit;
                 totalMarginalProfit.set(i, temp);
-                i++;  
+            i++;
             }
-            
+                       
         }
         return totalMarginalProfit;
     }
