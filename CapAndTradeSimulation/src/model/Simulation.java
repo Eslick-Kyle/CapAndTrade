@@ -10,7 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * Simulation class holds all the main methods to interact with the data in the 
+ * model. It also contains the data to run multiple rounds of the simulation
+ * 
  * @author Benjamin
  */
 public class Simulation {
@@ -28,7 +30,7 @@ public class Simulation {
     /**
      * Description: constructor takes number of Teams, sets names
      * to default values
-     * @param numTeams 
+     * @param numTeams number of teams
      */
     public Simulation (int numTeams) {
         powerStations = new ArrayList<>();
@@ -71,7 +73,14 @@ public class Simulation {
         }
     }
     
+    /**
+     * This returns a list of the total marginal profit that was found over 
+     * the course of multiple rounds.
+     * @return list of Integers with the total marginal profit
+     */
     public List<Integer> getTotalMarginalProfit() {
+        /* This section is to format the total marginal profit to be the same
+        size as the number of teams playing */
         List<Integer> totalMarginalProfit = new LinkedList<>();
         for (List<Integer> mp : marginalProfitHistory) {
             for (int i = 0; i < mp.size(); i++) {
@@ -79,6 +88,8 @@ public class Simulation {
             }
             break;
         }
+        
+        // Here we will find the total marginal profit for all rounds
         for (List<Integer> mp : marginalProfitHistory) {
             int i = 0;
             for (Integer profit : mp) {
@@ -104,6 +115,7 @@ public class Simulation {
             System.exit(0);
         }
         ArrayList<Integer> marginalProfit = new ArrayList<>();
+        
         // set the trade values in the power stations
         int i = 0;
         for (Trade theTrade : trades) {

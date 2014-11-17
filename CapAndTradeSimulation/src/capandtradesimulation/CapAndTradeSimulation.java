@@ -5,8 +5,6 @@
  */
 package capandtradesimulation;
 
-import java.util.List;
-
 /**
  *
  * @author Benjamin

@@ -13,8 +13,8 @@ import capAndTradeUserInterface.CapAndTradeConsole;
  * @author Benjamin
  */
 public class Controller extends Model {
-    //private Simulation simulation;
 
+    // Singleton pattern for the Controller
     private static final Controller instance = new Controller();
 
     /**
@@ -24,6 +24,10 @@ public class Controller extends Model {
         //simulation = new Simulation();
     }
 
+    /**
+     * Singleton patter to call the one instance of the controller
+     * @return returns the Controller object
+     */
     public static Controller getInstance() {
         return instance;
     }

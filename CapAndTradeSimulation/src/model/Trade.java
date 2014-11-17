@@ -6,7 +6,9 @@
 package model;
 
 /**
- *
+ * This contains the basic trade information of number of permits traded, and 
+ * the price those permits were traded for.
+ * 
  * @author Benjamin
  */
 public class Trade {
