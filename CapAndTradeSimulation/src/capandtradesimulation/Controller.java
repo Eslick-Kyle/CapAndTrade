@@ -7,12 +7,22 @@ package capandtradesimulation;
 
 import model.Model;
 import capAndTradeUserInterface.CapAndTradeConsole;
+import capAndTradeUserInterface.CapAndTradeGUI;
+import capAndTradeUserInterface.MultiPlayerGUI;
+import capAndTradeUserInterface.SinglePlayerGUI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  *
  * @author Benjamin
  */
 public class Controller extends Model {
+    private Stage primaryStage;
+
 
     // Singleton pattern for the Controller
     private static final Controller instance = new Controller();
@@ -58,4 +68,28 @@ public class Controller extends Model {
         //show the winner
         consoleApp.displayWinner(getTotalMarginalProfit(), getPowerStations());
     }
+    
+    public void runGUIApplication() {
+
+    }
+    
+    public void selectGameScene(String view) {
+        if (view == "single player") {
+            SinglePlayerGUI singlePlayerView = new SinglePlayerGUI();
+            singlePlayerView.start(primaryStage);
+
+        } else if (view == "multi player") {
+            MultiPlayerGUI multiPlayerView = new MultiPlayerGUI();
+            multiPlayerView.start(primaryStage);
+        }
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+    
 }
