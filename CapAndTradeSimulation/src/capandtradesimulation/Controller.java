@@ -7,13 +7,8 @@ package capandtradesimulation;
 
 import model.Model;
 import capAndTradeUserInterface.CapAndTradeConsole;
-import capAndTradeUserInterface.CapAndTradeGUI;
 import capAndTradeUserInterface.MultiPlayerGUI;
 import capAndTradeUserInterface.SinglePlayerGUI;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -73,6 +68,11 @@ public class Controller extends Model {
 
     }
     
+    /**
+     * This function determines what next action needs to be take with the game
+     * This selects the game type that the user wants to be played.
+     * @param view - string with the name of the view to be changed
+     */
     public void selectGameScene(String view) {
         if (view == "single player") {
             SinglePlayerGUI singlePlayerView = new SinglePlayerGUI();
@@ -80,6 +80,7 @@ public class Controller extends Model {
 
         } else if (view == "multi player") {
             MultiPlayerGUI multiPlayerView = new MultiPlayerGUI();
+            multiPlayerView.getNumberOfTeams();
             multiPlayerView.start(primaryStage);
         }
     }

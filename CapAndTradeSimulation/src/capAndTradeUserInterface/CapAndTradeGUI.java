@@ -51,6 +51,8 @@ public class CapAndTradeGUI extends Application {
             }
         });
         
+        /* We will need to better improve this GUI look and probably the VBox 
+        container */
         VBox root = new VBox();
         root.getChildren().add(singlePlayerBtn);
         root.getChildren().add(multiPlayerBtn);
