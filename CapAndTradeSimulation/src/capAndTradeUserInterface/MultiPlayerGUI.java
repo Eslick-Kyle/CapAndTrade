@@ -6,12 +6,21 @@
 package capAndTradeUserInterface;
 
 import capandtradesimulation.Controller;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import javafx.application.Application;
+import javafx.beans.InvalidationListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -29,14 +38,14 @@ public class MultiPlayerGUI extends Application{
     @Override
     public void start(Stage primaryStage) {
         
-        TextArea displayTeamsArea = new TextArea();
+        ListView displayTeamsArea = new ListView();
+        ObservableList<String> displayList = FXCollections.observableArrayList();
         
-        String displayInfo = "";
         for (PowerStation ps : Controller.getInstance().getPowerStations()) {
-            displayInfo += ps.getPowerStationName() + "\n";
+            displayList.add(ps.getPowerStationName());
         }
         
-        displayTeamsArea.setText(displayInfo);
+        displayTeamsArea.setItems(displayList);
         
         /* This is very basic information, the VBox will need to be replaced, 
         this was mostly to show what needed to be done */
@@ -64,6 +73,9 @@ public class MultiPlayerGUI extends Application{
             @Override
             public void handle(ActionEvent event) {
                 String numTeams = numberInputField.getText();
+                if (numTeams.equals("") || numTeams.equals("0")) {
+                    numTeams = "1";
+                }
                 Controller.getInstance().setPowerStationNamesDefault(Integer.parseInt(numTeams));
                 start(Controller.getInstance().getPrimaryStage());
                 secondaryStage.close();
