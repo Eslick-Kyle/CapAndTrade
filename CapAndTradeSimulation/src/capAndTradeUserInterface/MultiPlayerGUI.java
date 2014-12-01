@@ -6,6 +6,7 @@
 package capAndTradeUserInterface;
 
 import capandtradesimulation.Controller;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -33,7 +34,8 @@ import model.PowerStation;
  */
 public class MultiPlayerGUI extends Application{
     private Scene multiPlayerScene;
-    private Stage secondaryStage;
+    private Stage getTeamNamesStage;
+    VBox askInfo;
     
     @Override
     public void start(Stage primaryStage) {
@@ -66,9 +68,10 @@ public class MultiPlayerGUI extends Application{
     public void getNumberOfTeams() {
         TextField numberInputField = new TextField();    
         
-        Button enterBtn = new Button();
-        enterBtn.setText("Submit");
-        enterBtn.setOnAction(new EventHandler<ActionEvent>() {
+        
+        Button defaultNamesBtn = new Button();
+        defaultNamesBtn.setText("Default Names");
+        defaultNamesBtn.setOnAction(new EventHandler<ActionEvent>() {
             
             @Override
             public void handle(ActionEvent event) {
@@ -78,23 +81,54 @@ public class MultiPlayerGUI extends Application{
                 }
                 Controller.getInstance().setPowerStationNamesDefault(Integer.parseInt(numTeams));
                 start(Controller.getInstance().getPrimaryStage());
-                secondaryStage.close();
+                getTeamNamesStage.close();
             }
         });
         
+        Button customNamesBtn = new Button();
+        customNamesBtn.setText("Non Default Names");
+        customNamesBtn.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                String numTeams = numberInputField.getText();
+                if (numTeams.equals("") || numTeams.equals("0")) {
+                    numTeams = "1";
+                }
+                ArrayList<String> names = new ArrayList<>();
+                for (int i = 0; i < Integer.parseInt(numTeams); i++) {
+                    TextField inputName = new TextField();
+                    askInfo.getChildren().add(inputName);
+                    String teamName = inputName.getText();
+                    if (teamName.equals("")) {
+                        teamName = "No Name";
+                    }
+                    names.add(teamName);
+                }
+                
+                Controller.getInstance().setPowerStationNames(names);
+                start(Controller.getInstance().getPrimaryStage());
+                getTeamNamesStage.close();
+            }
+        });
         /* The container to contain the information, This will most likely need 
          to be changed to something else */
-        VBox askInfo = new VBox();
+        askInfo = new VBox();
         askInfo.getChildren().add(numberInputField);
-        askInfo.getChildren().add(enterBtn);
+        askInfo.getChildren().add(defaultNamesBtn);
+        askInfo.getChildren().add(customNamesBtn);
         
         Scene getTeamInfoScene = new Scene(askInfo, 300, 250);
         
         // Creates the secondary stage or the info window
-        secondaryStage = new Stage();
-        secondaryStage.setTitle("Power Station Information");
-        secondaryStage.setScene(getTeamInfoScene);
-        secondaryStage.show();
-        secondaryStage.toFront();
+        getTeamNamesStage = new Stage();
+        getTeamNamesStage.setTitle("Power Station Information");
+        getTeamNamesStage.setScene(getTeamInfoScene);
+        getTeamNamesStage.show();
+        getTeamNamesStage.toFront();
+    }
+    
+    public void getTradeInfo() {
+        
     }
 }
