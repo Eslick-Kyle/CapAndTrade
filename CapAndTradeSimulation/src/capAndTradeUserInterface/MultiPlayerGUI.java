@@ -24,9 +24,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.PowerStation;
+import model.Trade;
 
 /**
  *
@@ -37,6 +39,7 @@ public class MultiPlayerGUI extends Application{
     private Stage getTeamNamesStage;
     Stage primaryStage;
     VBox askInfo;
+    VBox root;
     
     @Override
     public void start(Stage primaryStage) {
@@ -50,14 +53,101 @@ public class MultiPlayerGUI extends Application{
         this was mostly to show what needed to be done */
         Label welcome = new Label();
         welcome.setText("Welcome to the Multiplayer");
-        VBox root = new VBox();
+        
+        root = new VBox();
+        
+        
         root.getChildren().add(welcome);
         root.getChildren().add(displayTeamsArea);
+        displayPowerStationsAndGetTradesBoxes();
         
         multiPlayerScene = new Scene(root, 700, 500);
         primaryStage.setScene(multiPlayerScene);
     }
     
+    /**
+     * This is an optional way to display the information, this might be easier 
+     * to format the way that we want as opposed to the display list. This could
+     * allow us to get the trades information.
+     */
+    public void displayPowerStationsAndGetTradesBoxes() {
+        HBox titleInfo = new HBox();
+        Label nameTitle = new Label();
+        nameTitle.setText("Power Station Name");
+        
+        Label cleanRateTitle = new Label();
+        cleanRateTitle.setText("Clean Rate");
+        
+        Label permitsTradedTitle = new Label();
+        permitsTradedTitle.setText("Permits Traded");
+        
+        Label salePriceTitle = new Label();
+        salePriceTitle.setText("Sale Price");
+        
+        Label marginalProfitTitle = new Label();
+        marginalProfitTitle.setText("Marginal Profit");
+        
+        titleInfo.getChildren().add(nameTitle);
+        titleInfo.getChildren().add(cleanRateTitle);
+        titleInfo.getChildren().add(permitsTradedTitle);
+        titleInfo.getChildren().add(salePriceTitle);
+        titleInfo.getChildren().add(marginalProfitTitle);
+        
+        root.getChildren().add(titleInfo);
+        
+        ArrayList<TextField> prices = new ArrayList<>();
+        ArrayList<TextField> permitsTraded = new ArrayList<>();
+        for (PowerStation powerStation : Controller.getInstance().getPowerStations()) {
+            HBox powerStationInfo = new HBox();
+            Label name = new Label();
+            name.setText(powerStation.getPowerStationName());
+            
+            Label cleanRate = new Label();
+            cleanRate.setText(Integer.toString(powerStation.getCleanRate()));
+            
+            TextField inputNumOfPermitsTraded = new TextField();
+            permitsTraded.add(inputNumOfPermitsTraded);
+            
+            TextField inputPriceOfTrades = new TextField();
+            prices.add(inputPriceOfTrades);
+            
+            Label marginalProfit = new Label();
+            marginalProfit.setText(Integer.toString(powerStation.calcMarginalProfit()));
+            
+            powerStationInfo.getChildren().add(name);
+            powerStationInfo.getChildren().add(cleanRate);
+            powerStationInfo.getChildren().add(inputNumOfPermitsTraded);
+            powerStationInfo.getChildren().add(inputPriceOfTrades);
+            powerStationInfo.getChildren().add(marginalProfit);
+            
+            root.getChildren().add(powerStationInfo);
+            
+        }
+        
+        Button submitTradeInfoBtn = new Button();
+        submitTradeInfoBtn.setText("Submit Trade Info");
+        submitTradeInfoBtn.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                ArrayList<Trade> trades = new ArrayList<>();
+                for (int i = 0; i < prices.size(); i++) {
+                    trades.add(new Trade(prices.get(i).getText(), permitsTraded.get(i).getText()));
+                    prices.get(i).clear();
+                    permitsTraded.get(i).clear();
+                }
+                
+                Controller.getInstance().updateTradeInfo(trades);
+            }
+        });
+        
+        root.getChildren().add(submitTradeInfoBtn);
+    }
+    
+    /**
+     * This formats the information to be displayed in the observable list
+     * @return a list to be displayed
+     */
     public ObservableList displayPowerStationsInfo() {
         ObservableList<String> displayList = FXCollections.observableArrayList();
         
@@ -128,6 +218,10 @@ public class MultiPlayerGUI extends Application{
         getTeamNamesStage.toFront();
     }
     
+    /**
+     * This changes the stage to get the power stations information
+     * @param numTeams - this is the number of teams
+     */
     public void getCustomPowerStationNames(int numTeams) {
         
         Label customNamesLabel = new Label();
