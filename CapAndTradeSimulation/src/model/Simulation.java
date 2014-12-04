@@ -122,6 +122,7 @@ public class Simulation {
             powerStations.get(i).setPermitsTraded(theTrade.getPermitsTraded());
             powerStations.get(i).setTradeIncome(theTrade.getPriceOfTrade());
             marginalProfit.add(powerStations.get(i).calcMarginalProfit());
+            powerStations.get(i).calcCleanRate();
             i++;
         }
         marginalProfitHistory.add(marginalProfit);
