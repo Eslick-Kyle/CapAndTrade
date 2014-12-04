@@ -51,13 +51,16 @@ public class Simulation {
      * @param numberOfTeams 
      */
     public void setPowerStationNamesDefault(int numberOfTeams) {
+        List<Integer> margeProfit = new ArrayList<>();
         char name = 'A';
         for (int i = 0; i < numberOfTeams; i++) {
             PowerStation team = new PowerStation();
             team.setPowerStationName(String.valueOf(name));
             powerStations.add(team);
             name++;
+            margeProfit.add(0);
         }
+        marginalProfitHistory.add(margeProfit);
     }
     
     /**
@@ -66,11 +69,14 @@ public class Simulation {
      * @param powerStationNames - This is the names of the teams
      */
     public void setPowerStationNames (List<String> powerStationNames) {
+        List<Integer> margeProfit = new ArrayList<>();
         for (String name : powerStationNames) {
             PowerStation team = new PowerStation();
             team.setPowerStationName(name);
             powerStations.add(team);
+            margeProfit.add(0);
         }
+        marginalProfitHistory.add(margeProfit);
     }
     
     /**

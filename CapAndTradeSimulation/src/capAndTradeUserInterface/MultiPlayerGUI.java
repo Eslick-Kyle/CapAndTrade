@@ -7,6 +7,8 @@ package capAndTradeUserInterface;
 
 import capandtradesimulation.Controller;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -178,11 +180,15 @@ public class MultiPlayerGUI extends Application {
 
         String formatDisplay = "Name  CleanRate  Marginal Profit";
         displayList.add(formatDisplay);
+        
+        List<Integer> totalMargeProfit = Controller.getInstance().getTotalMarginalProfit();
+        int i = 0;
         for (PowerStation ps : Controller.getInstance().getPowerStations()) {
             formatDisplay = ps.getPowerStationName() + "\t\t"
                     + Integer.toString(ps.getCleanRate())
-                    + "\t\t" + Integer.toString(ps.calcMarginalProfit());
+                    + "\t\t" + Integer.toString(totalMargeProfit.get(i));
             displayList.add(formatDisplay);
+            i++;
         }
 
         return displayList;
