@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -41,6 +42,14 @@ public class MultiPlayerGUI extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        displayMultiplayerWindow();
+    }
+
+    /**
+     * This function displays the basic window, this will be used anytime that 
+     * the GUI needs to be updated
+     */
+    public void displayMultiplayerWindow() {
         ListView displayTeamsArea = new ListView();
         ObservableList<String> displayList = displayPowerStationsInfo();
 
@@ -62,7 +71,7 @@ public class MultiPlayerGUI extends Application {
         multiPlayerScene = new Scene(border, 700, 500);
         primaryStage.setScene(multiPlayerScene);
     }
-
+    
     /**
      * This is an optional way to display the information, this might be easier
      * to format the way that we want as opposed to the display list. This could
@@ -106,20 +115,30 @@ public class MultiPlayerGUI extends Application {
         VBox psInputBoxes = new VBox();
         for (PowerStation powerStation : Controller.getInstance().getPowerStations()) {
             HBox powerStationInfo = new HBox();
+            powerStationInfo.setSpacing(20);
+            powerStationInfo.setMinWidth(100);
+            
             Label name = new Label();
             name.setText(powerStation.getPowerStationName());
+            name.setMinWidth(40);
 
             Label cleanRate = new Label();
             cleanRate.setText(Integer.toString(powerStation.getCleanRate()));
+            cleanRate.setMinWidth(40);
 
             TextField inputNumOfPermitsTraded = new TextField();
             permitsTraded.add(inputNumOfPermitsTraded);
+            inputNumOfPermitsTraded.setMinWidth(40);
+            inputNumOfPermitsTraded.setMaxWidth(100);
 
             TextField inputPriceOfTrades = new TextField();
             prices.add(inputPriceOfTrades);
+            inputPriceOfTrades.setMinWidth(40);
+            inputPriceOfTrades.setMaxWidth(100);
 
             Label marginalProfit = new Label();
             marginalProfit.setText(Integer.toString(powerStation.calcMarginalProfit()));
+            marginalProfit.setMinWidth(40);
 
             powerStationInfo.getChildren().add(name);
             powerStationInfo.getChildren().add(cleanRate);
@@ -137,11 +156,12 @@ public class MultiPlayerGUI extends Application {
             public void handle(ActionEvent event) {
                 ArrayList<Trade> trades = new ArrayList<>();
                 for (int i = 0; i < prices.size(); i++) {
-                    trades.add(new Trade(prices.get(i).getText(), permitsTraded.get(i).getText()));
+                    trades.add(new Trade(permitsTraded.get(i).getText(), prices.get(i).getText()));
                     prices.get(i).clear();
                     permitsTraded.get(i).clear();
                 }
                 Controller.getInstance().updateTradeInfo(trades);
+                displayMultiplayerWindow();
             }
         });
         psInputBoxes.getChildren().add(submitTradeInfoBtn);
