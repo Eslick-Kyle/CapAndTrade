@@ -40,9 +40,14 @@ public class PowerStation {
         //make clean rate a random number
         cleanRate = 0;
         Random r = new Random();
-        while (cleanRate < 10) {
+        //Only keep number if it is 10 20 or 60
+        while (cleanRate < 10 || (cleanRate > 20 && cleanRate < 50)) {
             cleanRate = r.nextInt(61);
+            
             cleanRate -= cleanRate % 10;
+            if (cleanRate >= 50) {
+                cleanRate = 60;
+            }
         }
     }
 
