@@ -133,4 +133,10 @@ public class Simulation {
         }
         marginalProfitHistory.add(marginalProfit);
     }
+    
+    public void restartSimulation() {
+        tradeHistory = new LinkedList<>();
+        powerStations = new ArrayList<>();
+        marginalProfitHistory = new LinkedList<>();
+    }
 }

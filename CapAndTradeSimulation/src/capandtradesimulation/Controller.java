@@ -8,6 +8,7 @@ package capandtradesimulation;
 import model.Model;
 import capAndTradeUserInterface.CapAndTradeConsole;
 import capAndTradeUserInterface.CapAndTradeGUI;
+import capAndTradeUserInterface.InfoSetupMultiPlayerGUI;
 import capAndTradeUserInterface.MultiPlayerGUI;
 import capAndTradeUserInterface.SinglePlayerGUI;
 import capAndTradeUserInterface.TutorialGUI;
@@ -82,7 +83,6 @@ public class Controller extends Model {
 
         } else if (view == "multi player") {
             MultiPlayerGUI multiPlayerView = new MultiPlayerGUI();
-            multiPlayerView.getNumberOfTeams();
             multiPlayerView.start(primaryStage);
         } else if (view == "tutorial") {
             TutorialGUI tutorial = new TutorialGUI();
@@ -90,6 +90,9 @@ public class Controller extends Model {
         } else if (view == "main menu") {
             CapAndTradeGUI menu = new CapAndTradeGUI();
             menu.start(primaryStage);
+        } else if (view == "setup multiplayer") {
+            InfoSetupMultiPlayerGUI setup = new InfoSetupMultiPlayerGUI();
+            setup.start(primaryStage);
         }
     }
 
