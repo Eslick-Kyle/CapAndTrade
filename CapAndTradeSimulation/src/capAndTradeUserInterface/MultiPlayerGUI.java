@@ -46,7 +46,21 @@ public class MultiPlayerGUI extends Application {
         this.primaryStage = primaryStage;
         displayMultiplayerWindow();
     }
+    
+    public Button returnToMenu () {
+        Button menuBtn = new Button();
+        menuBtn.setText("Main Menu");
+        menuBtn.setOnAction(new EventHandler<ActionEvent>(){
 
+            @Override
+            public void handle(ActionEvent event) {
+               Controller.getInstance().selectGameScene("main menu");
+            }
+            
+        });
+        return menuBtn;
+    }
+    
     /**
      * This function displays the basic window, this will be used anytime that 
      * the GUI needs to be updated
@@ -68,6 +82,7 @@ public class MultiPlayerGUI extends Application {
 
         border.setTop(welcome);
         border.setCenter(displayTeamsArea);
+        border.setRight(returnToMenu());
         displayPowerStationsAndGetTradesBoxes();
 
         multiPlayerScene = new Scene(border, 700, 500);
@@ -110,7 +125,10 @@ public class MultiPlayerGUI extends Application {
         //border.setLeft(titleInfo);
         
         
-
+        /* Sets the information with the text fields to account for all the 
+            information. This also formats the area where the information will 
+            be displayed and input can be gotten from the user.
+        */
         ArrayList<TextField> prices = new ArrayList<>();
         ArrayList<TextField> permitsTraded = new ArrayList<>();
 
@@ -150,7 +168,20 @@ public class MultiPlayerGUI extends Application {
 
             psInputBoxes.getChildren().add(powerStationInfo);
         }
+        
+        // puts the button in that will get the input for trade info
+        Button submitTradeInfo = submitTradeInfo(prices, permitsTraded);
+        psInputBoxes.getChildren().add(submitTradeInfo);
+        border.setBottom(psInputBoxes);
+    }
 
+    /**
+     * This sets up and controls the button that sill submit tradeInformation
+     * @param prices - the text fields that get the price input
+     * @param permitsTraded - the text fields that get the permitsTraded input
+     * @return returns a button
+     */
+    public Button submitTradeInfo(List<TextField> prices, List<TextField> permitsTraded) {
         Button submitTradeInfoBtn = new Button();
         submitTradeInfoBtn.setText("Submit Trade Info");
         submitTradeInfoBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -166,10 +197,9 @@ public class MultiPlayerGUI extends Application {
                 displayMultiplayerWindow();
             }
         });
-        psInputBoxes.getChildren().add(submitTradeInfoBtn);
-        border.setBottom(psInputBoxes);
+        return submitTradeInfoBtn;
     }
-
+    
     /**
      * This formats the information to be displayed in the observable list
      *
@@ -193,7 +223,10 @@ public class MultiPlayerGUI extends Application {
 
         return displayList;
     }
-
+    
+    public void displayGetNumberOfTeams () {
+        
+    }
     /**
      * This function creates a new stage to get the number of teams and then
      * send the info to name those teams the default names.

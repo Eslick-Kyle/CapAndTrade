@@ -19,12 +19,12 @@ import javafx.stage.Stage;
  *
  * @author Benjamin
  */
-public class SinglePlayerGUI extends Application {
+public class InfoSetupMultiPlayerGUI extends Application {
     Scene singlePlayerScene;
     VBox root;
     
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws Exception {
         Label welcome = new Label();
         welcome.setText("Welcome to the Single Player");
         root = new VBox();
@@ -33,6 +33,9 @@ public class SinglePlayerGUI extends Application {
         singlePlayerScene = new Scene(root, 700, 500);
         primaryStage.setScene(singlePlayerScene);
     }
+    
+    
+    
     
     public void returnToMenu () {
         Button menuBtn = new Button();
