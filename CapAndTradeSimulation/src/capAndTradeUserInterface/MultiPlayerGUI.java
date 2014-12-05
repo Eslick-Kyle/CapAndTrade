@@ -220,6 +220,17 @@ public class MultiPlayerGUI extends Application {
             i++;
         }
 
+                String displayPStationInfo;
+        displayPStationInfo = "Clean Rate     Emissions     Energy Production     Permits     Sales\n";
+        displayList.add(displayPStationInfo);
+        PowerStation basicInfo = Controller.getInstance().getPowerStations().get(0);
+        displayPStationInfo = "       " + basicInfo.getCleanRate();
+        displayPStationInfo += "                 " + basicInfo.getEmissions();
+        displayPStationInfo += "                     " + basicInfo.getEnergyProd();
+        displayPStationInfo += "                    " + basicInfo.getPermits();
+        displayPStationInfo += "        " + basicInfo.calcSales() + "\n";
+        displayList.add(displayPStationInfo);
+        
         return displayList;
     }
     
