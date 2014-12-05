@@ -25,38 +25,23 @@ public class CapAndTradeGUI extends Application {
     Scene scene;
     VBox root;
     
+    private Button tutorialBtn;
+    private Button singlePlayerBtn;
+    private Button multiPlayerBtn;
+    
     @Override
     public void start(Stage primaryStage) {
         Controller.getInstance().setPrimaryStage(primaryStage);
-
-        // create the single player button
-        Button singlePlayerBtn = new Button();
-        singlePlayerBtn.setText("Single Player");
-        singlePlayerBtn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                Controller.getInstance().selectGameScene("single player");
-            }
-        });
         
-        // create the multiplayer button
-        Button multiPlayerBtn = new Button();
-        multiPlayerBtn.setText("Multi Player");
-        multiPlayerBtn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                Controller.getInstance().selectGameScene("setup multiplayer");
-            }
-        });
+        /* Create the Buttons in their own functions  */
+        createTutorialButton();
+        createSinglePlayerButton();
+        createMultiPlayerButton();
         
-        /* We will need to better improve this GUI look and probably the VBox 
-        container */
         root = new VBox();
+        root.getChildren().add(tutorialBtn);
         root.getChildren().add(singlePlayerBtn);
         root.getChildren().add(multiPlayerBtn);
-        tutorialButton();
         
         scene = new Scene(root, 700, 500);
         
@@ -65,8 +50,8 @@ public class CapAndTradeGUI extends Application {
         primaryStage.show();
     }
     
-    public void tutorialButton () {
-        Button tutorialBtn = new Button();
+    public void createTutorialButton () {
+        tutorialBtn = new Button();
         tutorialBtn.setText("Tutorial");
         tutorialBtn.setOnAction(new EventHandler<ActionEvent>() {
             
@@ -74,9 +59,37 @@ public class CapAndTradeGUI extends Application {
             public void handle(ActionEvent event) {
                 Controller.getInstance().selectGameScene("tutorial");
             }
+        });      
+    }
+    
+    /**
+     * This is the set up and control of the singlePlayerButton
+     * @return
+     */
+    public void createSinglePlayerButton () {
+        // create the single player button
+        singlePlayerBtn = new Button();
+        singlePlayerBtn.setText("Single Player");
+        singlePlayerBtn.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                Controller.getInstance().selectGameScene("single player");
+            }
         });
-        
-        root.getChildren().add(tutorialBtn);
+    }
+    
+    public void createMultiPlayerButton() {
+        // create the multiplayer button
+        multiPlayerBtn = new Button();
+        multiPlayerBtn.setText("Multi Player");
+        multiPlayerBtn.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                Controller.getInstance().selectGameScene("setup multiplayer");
+            }
+        });
     }
     
     /**

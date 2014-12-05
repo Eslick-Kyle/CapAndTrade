@@ -34,12 +34,10 @@ import model.Trade;
  */
 public class MultiPlayerGUI extends Application {
 
-    private Scene multiPlayerScene;
-    
-    Stage primaryStage;
-    
-    VBox root;
-    BorderPane border;
+    private Scene multiPlayerScene;    
+    private Stage primaryStage;  
+    private VBox root;
+    private BorderPane border;
 
     @Override
     public void start(Stage primaryStage) {
