@@ -23,7 +23,7 @@ import javafx.stage.Stage;
  */
 public class CapAndTradeGUI extends Application {
     Scene scene;
-    
+    VBox root;
     
     @Override
     public void start(Stage primaryStage) {
@@ -53,15 +53,30 @@ public class CapAndTradeGUI extends Application {
         
         /* We will need to better improve this GUI look and probably the VBox 
         container */
-        VBox root = new VBox();
+        root = new VBox();
         root.getChildren().add(singlePlayerBtn);
         root.getChildren().add(multiPlayerBtn);
+        tutorialButton();
         
         scene = new Scene(root, 700, 500);
         
         primaryStage.setTitle("Cap and Trade Simulation");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+    
+    public void tutorialButton () {
+        Button tutorialBtn = new Button();
+        tutorialBtn.setText("Tutorial");
+        tutorialBtn.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                Controller.getInstance().selectGameScene("tutorial");
+            }
+        });
+        
+        root.getChildren().add(tutorialBtn);
     }
     
     /**

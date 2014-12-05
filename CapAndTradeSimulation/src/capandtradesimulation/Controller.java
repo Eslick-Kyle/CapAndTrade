@@ -7,8 +7,10 @@ package capandtradesimulation;
 
 import model.Model;
 import capAndTradeUserInterface.CapAndTradeConsole;
+import capAndTradeUserInterface.CapAndTradeGUI;
 import capAndTradeUserInterface.MultiPlayerGUI;
 import capAndTradeUserInterface.SinglePlayerGUI;
+import capAndTradeUserInterface.TutorialGUI;
 import javafx.stage.Stage;
 
 /**
@@ -30,7 +32,7 @@ public class Controller extends Model {
     }
 
     /**
-     * Singleton patter to call the one instance of the controller
+     * Singleton pattern to call the one instance of the controller
      * @return returns the Controller object
      */
     public static Controller getInstance() {
@@ -82,6 +84,12 @@ public class Controller extends Model {
             MultiPlayerGUI multiPlayerView = new MultiPlayerGUI();
             multiPlayerView.getNumberOfTeams();
             multiPlayerView.start(primaryStage);
+        } else if (view == "tutorial") {
+            TutorialGUI tutorial = new TutorialGUI();
+            tutorial.start(primaryStage);
+        } else if (view == "main menu") {
+            CapAndTradeGUI menu = new CapAndTradeGUI();
+            menu.start(primaryStage);
         }
     }
 
