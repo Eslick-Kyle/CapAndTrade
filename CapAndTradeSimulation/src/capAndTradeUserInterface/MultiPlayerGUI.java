@@ -35,9 +35,9 @@ import model.Trade;
 public class MultiPlayerGUI extends Application {
 
     private Scene multiPlayerScene;
-    private Stage getTeamNamesStage;
+    
     Stage primaryStage;
-    VBox askInfo;
+    
     VBox root;
     BorderPane border;
 
@@ -54,7 +54,8 @@ public class MultiPlayerGUI extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-               Controller.getInstance().selectGameScene("main menu");
+                Controller.getInstance().restartSimulation();
+                Controller.getInstance().selectGameScene("main menu");
             }
             
         });
@@ -224,110 +225,6 @@ public class MultiPlayerGUI extends Application {
         return displayList;
     }
     
-    public void displayGetNumberOfTeams () {
-        
-    }
-    /**
-     * This function creates a new stage to get the number of teams and then
-     * send the info to name those teams the default names.
-     */
-    public void getNumberOfTeams() {
-        TextField numberInputField = new TextField();
-
-        Button defaultNamesBtn = new Button();
-        defaultNamesBtn.setText("Default Names");
-        defaultNamesBtn.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                String numTeams = numberInputField.getText();
-                if (numTeams.equals("") || numTeams.equals("0")) {
-                    numTeams = "1";
-                }
-                Controller.getInstance().setPowerStationNamesDefault(Integer.parseInt(numTeams));
-                start(Controller.getInstance().getPrimaryStage());
-                getTeamNamesStage.close();
-            }
-        });
-
-        Button customNamesBtn = new Button();
-        customNamesBtn.setText("Non Default Names");
-        customNamesBtn.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                String numTeams = numberInputField.getText();
-                if (numTeams.equals("") || numTeams.equals("0")) {
-                    numTeams = "1";
-                }
-                getCustomPowerStationNames(Integer.parseInt(numTeams));
-
-            }
-        });
-        /* The container to contain the information, This will most likely need 
-         to be changed to something else */
-        askInfo = new VBox();
-        askInfo.getChildren().add(numberInputField);
-        askInfo.getChildren().add(defaultNamesBtn);
-        askInfo.getChildren().add(customNamesBtn);
-
-        Scene getTeamInfoScene = new Scene(askInfo, 300, 250);
-
-        // Creates the secondary stage or the info window
-        getTeamNamesStage = new Stage();
-        getTeamNamesStage.setTitle("Power Station Information");
-        getTeamNamesStage.setScene(getTeamInfoScene);
-        getTeamNamesStage.show();
-        getTeamNamesStage.toFront();
-    }
-
-    /**
-     * This changes the stage to get the power stations information
-     *
-     * @param numTeams - this is the number of teams
-     */
-    public void getCustomPowerStationNames(int numTeams) {
-
-        Label customNamesLabel = new Label();
-        customNamesLabel.setText("Enter Power Station Names:");
-        askInfo = new VBox();
-        askInfo.getChildren().add(customNamesLabel);
-
-        ArrayList<TextField> inputFields = new ArrayList<>();
-        for (int i = 0; i < numTeams; i++) {
-            TextField inputName = new TextField();
-            inputFields.add(inputName);
-            askInfo.getChildren().add(inputName);
-        }
-
-        Button submitCostomNamesBtn = new Button();
-        submitCostomNamesBtn.setText("Submit Names");
-        submitCostomNamesBtn.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                ArrayList<String> names = new ArrayList<>();
-                String teamName = "";
-                for (int i = 0; i < inputFields.size(); i++) {
-                    teamName = inputFields.get(i).getText();
-                    if (teamName.equals("")) {
-                        teamName = "No Name";
-                    }
-                    names.add(teamName);
-                }
-                Controller.getInstance().setPowerStationNames(names);
-                start(Controller.getInstance().getPrimaryStage());
-
-                getTeamNamesStage.close();
-            }
-        });
-        askInfo.getChildren().add(submitCostomNamesBtn);
-
-        Scene customNamesScene = new Scene(askInfo, 300, 250);
-
-        getTeamNamesStage.setScene(customNamesScene);
-    }
-
     public void getTradeInfo() {
 
     }

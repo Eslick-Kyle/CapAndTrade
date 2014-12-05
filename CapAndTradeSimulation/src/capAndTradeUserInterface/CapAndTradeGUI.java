@@ -47,7 +47,7 @@ public class CapAndTradeGUI extends Application {
             
             @Override
             public void handle(ActionEvent event) {
-                Controller.getInstance().selectGameScene("multi player");
+                Controller.getInstance().selectGameScene("setup multiplayer");
             }
         });
         
