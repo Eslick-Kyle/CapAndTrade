@@ -26,7 +26,7 @@ public class InfoSetupMultiPlayerGUI extends Application {
     private Stage getTeamNamesStage;
     private VBox root;
     private VBox askInfo;
-    
+
     
     @Override
     public void start(Stage primaryStage) {
@@ -38,11 +38,13 @@ public class InfoSetupMultiPlayerGUI extends Application {
         getNumberOfTeams();
         multiPlayerSetupScene = new Scene(askInfo, 700, 500);
         primaryStage.setScene(multiPlayerSetupScene);
+        multiPlayerSetupScene.getStylesheets().add("Style.css");
     }
-    
+
         public void displayGetNumberOfTeams () {
-        
+
     }
+
     /**
      * This function creates a new stage to get the number of teams and then
      * send the info to name those teams the default names.
@@ -131,8 +133,10 @@ public class InfoSetupMultiPlayerGUI extends Application {
         Scene customNamesScene = new Scene(askInfo, 700, 500);
 
         getTeamNamesStage.setScene(customNamesScene);
+        getTeamNamesStage.setFullScreen(true);
+        customNamesScene.getStylesheets().add("Style.css");
     }
-    
+
     
     public void returnToMenu () {
         Button menuBtn = new Button();
@@ -141,11 +145,11 @@ public class InfoSetupMultiPlayerGUI extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-               Controller.getInstance().selectGameScene("main menu");
+                Controller.getInstance().selectGameScene("main menu");
             }
-            
+
         });
-      
+
         askInfo.getChildren().add(menuBtn);
     }
 }
