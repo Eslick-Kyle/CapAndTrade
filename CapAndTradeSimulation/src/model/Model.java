@@ -90,4 +90,13 @@ public class Model {
     public void restartSimulation() {
         simulation.restartSimulation();
     }
+    
+    public int getNumRounds() {
+        return simulation.getNumberOfRounds();
+    }
+    
+    public List<List<Trade>> getTradeHistory() {
+        return simulation.getTradeHistory();
+    }
+             
 }

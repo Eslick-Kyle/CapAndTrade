@@ -43,20 +43,7 @@ public class MultiPlayerGUI extends Application {
         displayMultiplayerWindow();
     }
     
-    public Button returnToMenu () {
-        Button menuBtn = new Button();
-        menuBtn.setText("Main Menu");
-        menuBtn.setOnAction(new EventHandler<ActionEvent>(){
 
-            @Override
-            public void handle(ActionEvent event) {
-                Controller.getInstance().restartSimulation();
-                Controller.getInstance().selectGameScene("main menu");
-            }
-            
-        });
-        return menuBtn;
-    }
     
     /**
      * This function displays the basic window, this will be used anytime that 
@@ -76,10 +63,15 @@ public class MultiPlayerGUI extends Application {
         welcome.setText("Welcome to the Multiplayer");
 
         root = new VBox();
-
+        
+        //format buttons at the bottom
+        HBox endGameButtonsHBox = new HBox();
+        endGameButtonsHBox.getChildren().add(returnToMenu());
+        endGameButtonsHBox.getChildren().add(endGameButton());
+        
         border.setTop(welcome);
         border.setCenter(displayTeamsArea);
-        border.setBottom(returnToMenu());
+        border.setBottom(endGameButtonsHBox);
         displayPowerStationsAndGetTradesBoxes();
 
         multiPlayerScene = new Scene(border, 700, 500);
@@ -236,5 +228,42 @@ public class MultiPlayerGUI extends Application {
     
     public void getTradeInfo() {
 
+    }
+    
+    /**
+     * This creates an end of game button
+     * @return the button to send info to end of game screen.
+     */
+    public Button endGameButton() {
+        Button endGameBtn = new Button();
+        endGameBtn.setText("End Simulation");
+        endGameBtn.setOnAction(new EventHandler<ActionEvent>(){
+
+            @Override
+            public void handle(ActionEvent event) {
+                Controller.getInstance().selectGameScene("end multiplayer");
+            }
+            
+        });
+        return endGameBtn;
+    }
+    
+    /**
+     * This creates a return to menu button
+     * @return returns the button created
+     */
+    public Button returnToMenu () {
+        Button menuBtn = new Button();
+        menuBtn.setText("Main Menu");
+        menuBtn.setOnAction(new EventHandler<ActionEvent>(){
+
+            @Override
+            public void handle(ActionEvent event) {
+                Controller.getInstance().restartSimulation();
+                Controller.getInstance().selectGameScene("main menu");
+            }
+            
+        });
+        return menuBtn;
     }
 }

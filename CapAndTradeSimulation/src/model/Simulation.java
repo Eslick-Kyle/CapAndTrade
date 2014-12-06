@@ -19,12 +19,14 @@ public class Simulation {
     private List<List<Trade>> tradeHistory = new LinkedList<>();
     private List<PowerStation> powerStations;
     private List<List<Integer>> marginalProfitHistory = new LinkedList<>();
+    private int numberOfRounds;
     
     /**
      * Description: default constructor, automatically gives teams names
      */
     public Simulation () {
         powerStations = new ArrayList<>();
+        numberOfRounds = 0;
     }
     
     /**
@@ -43,6 +45,18 @@ public class Simulation {
      */
     public List<PowerStation> getPowerStations() {
         return powerStations;
+    }
+
+    /**
+     * The number of rounds played in the simulation
+     * @return number of rounds
+     */
+    public int getNumberOfRounds() {
+        return numberOfRounds;
+    }
+
+    public List<List<Trade>> getTradeHistory() {
+        return tradeHistory;
     }
     
     /**
@@ -131,6 +145,7 @@ public class Simulation {
             powerStations.get(i).calcCleanRate();
             i++;
         }
+        numberOfRounds++;
         marginalProfitHistory.add(marginalProfit);
     }
     
@@ -138,5 +153,6 @@ public class Simulation {
         tradeHistory = new LinkedList<>();
         powerStations = new ArrayList<>();
         marginalProfitHistory = new LinkedList<>();
+        numberOfRounds = 0;
     }
 }
