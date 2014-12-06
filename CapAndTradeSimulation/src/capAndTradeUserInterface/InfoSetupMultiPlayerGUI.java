@@ -7,6 +7,7 @@ package capAndTradeUserInterface;
 
 import capandtradesimulation.Controller;
 import java.util.ArrayList;
+import java.util.List;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,6 +33,7 @@ public class InfoSetupMultiPlayerGUI extends Application {
     private VBox askInfo;
     private Button defaultNamesBtn;
     private Button customNamesBtn;
+    private Button submitCustomNamesBtn;
     private ComboBox inputNumTeamsComboBox;
     
     @Override
@@ -136,9 +138,23 @@ public class InfoSetupMultiPlayerGUI extends Application {
             askInfo.getChildren().add(inputName);
         }
 
-        Button submitCostomNamesBtn = new Button();
-        submitCostomNamesBtn.setText("Submit Names");
-        submitCostomNamesBtn.setOnAction(new EventHandler<ActionEvent>() {
+        submitButton(inputFields);
+        askInfo.getChildren().add(submitCustomNamesBtn);
+
+        Scene customNamesScene = new Scene(askInfo, 700, 500);
+
+        getTeamNamesStage.setScene(customNamesScene);
+        getTeamNamesStage.setFullScreen(true);
+        customNamesScene.getStylesheets().add("Style.css");
+    }
+    
+    /**
+     * This is the submit button which will submit the custom names
+     */
+    public void submitButton(List<TextField> inputFields) {
+        submitCustomNamesBtn = new Button();
+        submitCustomNamesBtn.setText("Submit Names");
+        submitCustomNamesBtn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
@@ -155,13 +171,6 @@ public class InfoSetupMultiPlayerGUI extends Application {
                 Controller.getInstance().selectGameScene("multi player");
             }
         });
-        askInfo.getChildren().add(submitCostomNamesBtn);
-
-        Scene customNamesScene = new Scene(askInfo, 700, 500);
-
-        getTeamNamesStage.setScene(customNamesScene);
-        getTeamNamesStage.setFullScreen(true);
-        customNamesScene.getStylesheets().add("Style.css");
     }
     
     /**
