@@ -47,6 +47,7 @@ public class CapAndTradeGUI extends Application {
         
         primaryStage.setTitle("Cap and Trade Simulation");
         primaryStage.setScene(scene);
+        scene.getStylesheets().add("Style.css");        
         primaryStage.show();
     }
     

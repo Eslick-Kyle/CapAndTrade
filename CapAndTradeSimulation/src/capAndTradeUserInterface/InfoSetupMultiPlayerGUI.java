@@ -8,12 +8,16 @@ package capAndTradeUserInterface;
 import capandtradesimulation.Controller;
 import java.util.ArrayList;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -26,7 +30,9 @@ public class InfoSetupMultiPlayerGUI extends Application {
     private Stage getTeamNamesStage;
     private VBox root;
     private VBox askInfo;
-
+    private Button defaultNamesBtn;
+    private Button customNamesBtn;
+    private ComboBox inputNumTeamsComboBox;
     
     @Override
     public void start(Stage primaryStage) {
@@ -50,46 +56,67 @@ public class InfoSetupMultiPlayerGUI extends Application {
      * send the info to name those teams the default names.
      */
     public void getNumberOfTeams() {
-        TextField numberInputField = new TextField();
-
-        Button defaultNamesBtn = new Button();
-        defaultNamesBtn.setText("Default Names");
-        defaultNamesBtn.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                String numTeams = numberInputField.getText();
-                if (numTeams.equals("") || numTeams.equals("0")) {
-                    numTeams = "1";
-                }
-                Controller.getInstance().setPowerStationNamesDefault(Integer.parseInt(numTeams));
-                Controller.getInstance().selectGameScene("multi player");
-            }
-        });
-
-        Button customNamesBtn = new Button();
-        customNamesBtn.setText("Non Default Names");
-        customNamesBtn.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                String numTeams = numberInputField.getText();
-                if (numTeams.equals("") || numTeams.equals("0")) {
-                    numTeams = "1";
-                }
-                getCustomPowerStationNames(Integer.parseInt(numTeams));
-
-            }
-        });
         /* The container to contain the information, This will most likely need 
          to be changed to something else */
-        askInfo.getChildren().add(numberInputField);
+        
+        Label enterTeamsLbl = new Label();
+        enterTeamsLbl.setText("Number of Teams:");
+        
+        HBox enterNumTeamsHBox = new HBox();
+        //format enterNumTeamsHBox
+        enterNumTeamsHBox.setSpacing(10);
+        
+        //Enter info to enterNumTeamsHBox
+        createComboBoxForNumTeams();
+        enterNumTeamsHBox.getChildren().add(enterTeamsLbl);
+        enterNumTeamsHBox.getChildren().add(inputNumTeamsComboBox);
+        
+               
+        defaultNamesButton();
+        nonDefaultNamesButton();
+        // Enter information into the base containter
+        askInfo.getChildren().add(enterNumTeamsHBox);
         askInfo.getChildren().add(defaultNamesBtn);
         askInfo.getChildren().add(customNamesBtn);
 
 
     }
 
+    /**
+     * This will create a button that will handle the case of non default teams
+     */
+    public void nonDefaultNamesButton() {
+        customNamesBtn = new Button();
+        customNamesBtn.setText("Non Default Names");
+        customNamesBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                String numTeams = inputNumTeamsComboBox.getSelectionModel().getSelectedItem().toString();
+                getCustomPowerStationNames(Integer.parseInt(numTeams));
+
+            }
+        });
+    }
+    
+    /**
+     * This will create a button that will handle the case of default names.
+     */
+    public void defaultNamesButton() {
+        defaultNamesBtn = new Button();
+        defaultNamesBtn.setText("Default Names");
+        defaultNamesBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                String numTeams = inputNumTeamsComboBox.getSelectionModel().getSelectedItem().toString();
+                
+                Controller.getInstance().setPowerStationNamesDefault(Integer.parseInt(numTeams));
+                Controller.getInstance().selectGameScene("multi player");
+            }
+        });
+    }
+    
     /**
      * This changes the stage to get the power stations information
      *
@@ -136,7 +163,22 @@ public class InfoSetupMultiPlayerGUI extends Application {
         getTeamNamesStage.setFullScreen(true);
         customNamesScene.getStylesheets().add("Style.css");
     }
-
+    
+    /**
+     * This will create a new ComboBox that will set up the get num teams info
+     */
+    public void createComboBoxForNumTeams() {
+        inputNumTeamsComboBox = new ComboBox();
+        ObservableList<String> displaySelection = FXCollections.observableArrayList();
+        
+        // put the numbers into the list
+        for (int i = 1; i <= 20; i++) {
+            displaySelection.add(Integer.toString(i));
+        }
+        
+        inputNumTeamsComboBox.setItems(displaySelection);
+        inputNumTeamsComboBox.setValue("1");
+    }
     
     public void returnToMenu () {
         Button menuBtn = new Button();

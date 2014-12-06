@@ -7,7 +7,6 @@ package capAndTradeUserInterface;
 
 import capandtradesimulation.Controller;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -15,7 +14,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -81,11 +79,13 @@ public class MultiPlayerGUI extends Application {
 
         border.setTop(welcome);
         border.setCenter(displayTeamsArea);
-        border.setRight(returnToMenu());
+        border.setBottom(returnToMenu());
         displayPowerStationsAndGetTradesBoxes();
 
         multiPlayerScene = new Scene(border, 700, 500);
+        multiPlayerScene.getStylesheets().add("multiplayerStyle.css");
         primaryStage.setScene(multiPlayerScene);
+        primaryStage.setFullScreen(true);
     }
     
     /**
@@ -171,7 +171,7 @@ public class MultiPlayerGUI extends Application {
         // puts the button in that will get the input for trade info
         Button submitTradeInfo = submitTradeInfo(prices, permitsTraded);
         psInputBoxes.getChildren().add(submitTradeInfo);
-        border.setBottom(psInputBoxes);
+        border.setRight(psInputBoxes);
     }
 
     /**
