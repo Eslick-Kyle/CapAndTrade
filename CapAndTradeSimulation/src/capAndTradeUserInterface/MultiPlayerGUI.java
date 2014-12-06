@@ -102,7 +102,7 @@ public class MultiPlayerGUI extends Application {
         titleInfo.setPadding(new Insets(15, 12, 15, 12));
         titleInfo.setSpacing(10);
         Label nameTitle = new Label();
-        nameTitle.setText("Power Station Name");
+        nameTitle.setText("Name");
 
         Label cleanRateTitle = new Label();
         cleanRateTitle.setText("Clean Rate");
@@ -221,14 +221,14 @@ public class MultiPlayerGUI extends Application {
         }
 
                 String displayPStationInfo;
-        displayPStationInfo = "Clean Rate     Emissions     Energy Production     Permits     Sales\n";
+        displayPStationInfo = "Clean Rate\t\tEmissions\t\tEnergy Production\t\tPermits\t\tSales\n";
         displayList.add(displayPStationInfo);
         PowerStation basicInfo = Controller.getInstance().getPowerStations().get(0);
-        displayPStationInfo = "       " + basicInfo.getCleanRate();
-        displayPStationInfo += "                 " + basicInfo.getEmissions();
-        displayPStationInfo += "                     " + basicInfo.getEnergyProd();
-        displayPStationInfo += "                    " + basicInfo.getPermits();
-        displayPStationInfo += "        " + basicInfo.calcSales() + "\n";
+        displayPStationInfo = "      " + basicInfo.getCleanRate() + "\t  \t\t";
+        displayPStationInfo += "     " + basicInfo.getEmissions() + "     \t\t";
+        displayPStationInfo += "\t    " + basicInfo.getEnergyProd() + "\t     \t\t";
+        displayPStationInfo += "   " + basicInfo.getPermits() + "   \t       ";
+        displayPStationInfo += "" + basicInfo.calcSales() + "\n";
         displayList.add(displayPStationInfo);
         
         return displayList;
