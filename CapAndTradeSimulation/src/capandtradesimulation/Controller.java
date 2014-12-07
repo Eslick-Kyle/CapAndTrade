@@ -94,9 +94,11 @@ public class Controller extends Model {
         } else if (view == "setup multiplayer") {
             InfoSetupMultiPlayerGUI setup = new InfoSetupMultiPlayerGUI();
             setup.start(primaryStage);
-        } else if (view == "end multiplayer") {
+        } else if (view == "results multiplayer") {
             EndGameMultiplayerGUI endScreen = new EndGameMultiplayerGUI();
             endScreen.start(primaryStage);
+        } else if (view == "quit") {
+            primaryStage.close();
         }
     }
 

@@ -47,6 +47,7 @@ public class CapAndTradeGUI extends Application {
         root.getChildren().add(tutorialBtn);
         root.getChildren().add(singlePlayerBtn);
         root.getChildren().add(multiPlayerBtn);
+        root.getChildren().add(quitSimulation());
         
         scene = new Scene(root, 700, 500);
         
@@ -96,6 +97,25 @@ public class CapAndTradeGUI extends Application {
                 Controller.getInstance().selectGameScene("setup multiplayer");
             }
         });
+    }
+    
+    /**
+     * Sends command to controller to quit the simulation
+     * @return Button with quit game on it
+     */
+    public Button quitSimulation() {
+        Button quitBtn = new Button();
+        quitBtn.setText("Quit");
+        
+        quitBtn.setOnAction(new EventHandler<ActionEvent>(){
+
+            @Override
+            public void handle(ActionEvent event) {
+                Controller.getInstance().selectGameScene("quit");
+            }
+            
+        });
+        return quitBtn;
     }
     
     /**

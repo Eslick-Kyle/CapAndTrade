@@ -37,17 +37,25 @@ public class EndGameMultiplayerGUI extends Application {
     public void start(Stage primaryStage) {
         Label welcome = new Label();
         welcome.setText("The Simulation Results");
+        HBox formatButtons = new HBox(10);
+        formatButtons.getChildren().add(returnToMenu());
+        formatButtons.getChildren().add(quitSimulation());
+        
         root = new VBox();
         root.getChildren().add(welcome);
-        returnToMenu();
         displayResults();
         root.getChildren().add(displayWinner());
         root.getChildren().add(displayInfoVBox);
+        root.getChildren().add(formatButtons);
         
         endGameScene = new Scene(root, 700, 500);
         primaryStage.setScene(endGameScene);
     }
     
+    /**
+     * This formats the results into a VBox so that everything is displayed 
+     * correctly.
+     */
     public void displayResults() {
         displayInfoVBox = new VBox();
         
@@ -90,7 +98,7 @@ public class EndGameMultiplayerGUI extends Application {
         
         displayInfoVBox.getChildren().add(titleInfo);
         
-        //build 1 string;
+        //build HBox that will be used to display power station information;
         int i = 0; 
         for (PowerStation powerStation : Controller.getInstance().getPowerStations()) {
             HBox powerStationInfo = new HBox(40);
@@ -102,7 +110,7 @@ public class EndGameMultiplayerGUI extends Application {
             name.setTextAlignment(TextAlignment.LEFT);
             powerStationInfo.getChildren().add(name);
             
-            //format the trade history so that it can be seen
+            //format the trade history so that it can be seen for all rounds
             for (List<Trade> round : Controller.getInstance().getTradeHistory()) {
                 Label permitsTradedLbl = new Label();
                 permitsTradedLbl.setMinWidth(40);
@@ -192,9 +200,28 @@ public class EndGameMultiplayerGUI extends Application {
     }
     
     /**
+     * Sends command to controller to quit the simulation
+     * @return Button with quit game on it
+     */
+    public Button quitSimulation() {
+        Button quitBtn = new Button();
+        quitBtn.setText("Quit Game");
+        
+        quitBtn.setOnAction(new EventHandler<ActionEvent>(){
+
+            @Override
+            public void handle(ActionEvent event) {
+                Controller.getInstance().selectGameScene("quit");
+            }
+            
+        });
+        return quitBtn;
+    }
+    
+    /**
      * The button that will return the user to the main menu
      */
-    public void returnToMenu () {
+    public Button returnToMenu () {
         Button menuBtn = new Button();
         menuBtn.setText("Main Menu");
         menuBtn.setOnAction(new EventHandler<ActionEvent>(){
@@ -207,6 +234,6 @@ public class EndGameMultiplayerGUI extends Application {
             
         });
       
-        root.getChildren().add(menuBtn);
+        return menuBtn;
     }
 }

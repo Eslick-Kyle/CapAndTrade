@@ -50,6 +50,10 @@ public class TutorialGUI extends Application{
         primaryStage.setScene(tutorialScene);
     }
     
+    /**
+     * Displays the game explanation using Labels and then putting them in a VBox
+     * @return a VBox with the correctly formatted labels
+     */
     public VBox displayExplanationOfGame() {
         VBox formatedExplanation = new VBox(10);
         
@@ -111,6 +115,10 @@ public class TutorialGUI extends Application{
         return formatedExplanation;
     }
     
+    /**
+     * This is the explanation for the purpose of the game
+     * @return Label with an explanation of the game
+     */
     public Label purposeOfGameExplanationLabel() {
         Label purposeOfGameLbl = new Label();
         

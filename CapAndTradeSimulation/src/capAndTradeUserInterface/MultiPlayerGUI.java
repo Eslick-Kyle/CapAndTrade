@@ -199,6 +199,17 @@ public class MultiPlayerGUI extends Application {
     public ObservableList displayPowerStationsInfo() {
         ObservableList<String> displayList = FXCollections.observableArrayList();
 
+        String displayPStationInfo;
+        displayPStationInfo = "Clean Rate\t\tEmissions\t\tEnergy Production\t\tPermits\t\tSales\n";
+        displayList.add(displayPStationInfo);
+        PowerStation basicInfo = Controller.getInstance().getPowerStations().get(0);
+        displayPStationInfo = "      " + basicInfo.getCleanRate() + "\t  \t\t";
+        displayPStationInfo += "     " + basicInfo.getEmissions() + "     \t\t";
+        displayPStationInfo += "\t    " + basicInfo.getEnergyProd() + "\t     \t\t";
+        displayPStationInfo += "   " + basicInfo.getPermits() + "   \t       ";
+        displayPStationInfo += "" + basicInfo.calcSales() + "\n";
+        displayList.add(displayPStationInfo);
+        
         String formatDisplay = "Name  CleanRate  Marginal Profit";
         displayList.add(formatDisplay);
         
@@ -212,16 +223,7 @@ public class MultiPlayerGUI extends Application {
             i++;
         }
 
-                String displayPStationInfo;
-        displayPStationInfo = "Clean Rate\t\tEmissions\t\tEnergy Production\t\tPermits\t\tSales\n";
-        displayList.add(displayPStationInfo);
-        PowerStation basicInfo = Controller.getInstance().getPowerStations().get(0);
-        displayPStationInfo = "      " + basicInfo.getCleanRate() + "\t  \t\t";
-        displayPStationInfo += "     " + basicInfo.getEmissions() + "     \t\t";
-        displayPStationInfo += "\t    " + basicInfo.getEnergyProd() + "\t     \t\t";
-        displayPStationInfo += "   " + basicInfo.getPermits() + "   \t       ";
-        displayPStationInfo += "" + basicInfo.calcSales() + "\n";
-        displayList.add(displayPStationInfo);
+
         
         return displayList;
     }
@@ -241,7 +243,7 @@ public class MultiPlayerGUI extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-                Controller.getInstance().selectGameScene("end multiplayer");
+                Controller.getInstance().selectGameScene("results multiplayer");
             }
             
         });

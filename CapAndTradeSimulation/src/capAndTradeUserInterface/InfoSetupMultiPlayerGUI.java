@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -41,7 +42,8 @@ public class InfoSetupMultiPlayerGUI extends Application {
         getTeamNamesStage = primaryStage;
         Label welcome = new Label();
         welcome.setText("Multiplayer Setup");
-        askInfo = new VBox();
+        askInfo = new VBox(10);
+        askInfo.setAlignment(Pos.CENTER);
         askInfo.getChildren().add(welcome);
         getNumberOfTeams();
         multiPlayerSetupScene = new Scene(askInfo, 700, 500);
@@ -65,6 +67,7 @@ public class InfoSetupMultiPlayerGUI extends Application {
         enterTeamsLbl.setText("Number of Teams:");
         
         HBox enterNumTeamsHBox = new HBox();
+        enterNumTeamsHBox.setAlignment(Pos.CENTER);
         //format enterNumTeamsHBox
         enterNumTeamsHBox.setSpacing(10);
         
