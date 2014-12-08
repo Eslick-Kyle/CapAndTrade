@@ -98,5 +98,9 @@ public class Model {
     public List<List<Trade>> getTradeHistory() {
         return simulation.getTradeHistory();
     }
+    
+    public List<List<Integer>> marginalProfitHistory() {
+        return simulation.getMarginalProfitHistory();
+    }
              
 }

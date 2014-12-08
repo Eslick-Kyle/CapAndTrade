@@ -32,6 +32,8 @@ public class SinglePlayerGUI extends Application {
         returnToMenu();
         singlePlayerScene = new Scene(root, 700, 500);
         primaryStage.setScene(singlePlayerScene);
+        
+        singlePlayerScene.getStylesheets().add("Style.css");
     }
     
     public void returnToMenu () {

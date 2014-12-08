@@ -13,6 +13,7 @@ import capAndTradeUserInterface.InfoSetupMultiPlayerGUI;
 import capAndTradeUserInterface.MultiPlayerGUI;
 import capAndTradeUserInterface.SinglePlayerGUI;
 import capAndTradeUserInterface.TutorialGUI;
+import java.util.List;
 import javafx.stage.Stage;
 
 /**
@@ -108,6 +109,9 @@ public class Controller extends Model {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+    }
+    public List<List<Integer>> getMarginalProfitHistory() {
+        return marginalProfitHistory();
     }
     
 }

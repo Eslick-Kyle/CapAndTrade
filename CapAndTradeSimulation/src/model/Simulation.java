@@ -155,4 +155,12 @@ public class Simulation {
         marginalProfitHistory = new LinkedList<>();
         numberOfRounds = 0;
     }
+
+    public List<List<Integer>> getMarginalProfitHistory() {
+        return marginalProfitHistory;
+    }
+
+    public void setMarginalProfitHistory(List<List<Integer>> marginalProfitHistory) {
+        this.marginalProfitHistory = marginalProfitHistory;
+    }
 }

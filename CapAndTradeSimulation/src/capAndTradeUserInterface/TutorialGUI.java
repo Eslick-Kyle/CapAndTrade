@@ -48,6 +48,8 @@ public class TutorialGUI extends Application{
         
         tutorialScene = new Scene(root, 700, 550);
         primaryStage.setScene(tutorialScene);
+        
+        tutorialScene.getStylesheets().add("Style.css");
     }
     
     /**
