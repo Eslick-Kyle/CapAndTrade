@@ -170,8 +170,8 @@ public class MultiPlayerGUI extends Application {
         
         // puts the button in that will get the input for trade info
         Button submitTradeInfo = submitTradeInfo(prices, permitsTraded);
-        psInputBoxes.getChildren().add(submitTradeInfo);
         psInputBoxes.getChildren().add(updateTradeInfoButton(prices, permitsTraded));
+        psInputBoxes.getChildren().add(submitTradeInfo);        
         border.setRight(psInputBoxes);
     }
 
@@ -210,7 +210,6 @@ public class MultiPlayerGUI extends Application {
                 for (int i = 0; i < prices.size(); i++) {
                     trades.add(new Trade(permitsTraded.get(i).getText(), prices.get(i).getText()));
                 }
-                //Controller.getInstance().updateTradeInfo(trades);
                 updateListView(trades);
             }
         });
@@ -240,7 +239,9 @@ public class MultiPlayerGUI extends Application {
             safePowerStation = new PowerStation();
             safePowerStation.setCleanRate(ps.getCleanRate());
             safePowerStation.setTradeIncome(trades.get(i).getPriceOfTrade());
-            safePowerStation.setPermits(trades.get(i).getPermitsTraded());
+            safePowerStation.setPermitsTraded(trades.get(i).getPermitsTraded());
+            System.out.println("number of permits:"+safePowerStation.getPermitsTraded());
+            System.out.println("price of trade   :"+safePowerStation.getTradeIncome());
             formatDisplay = ps.getPowerStationName() + " \t\t\t"
                     + Integer.toString(ps.getCleanRate())
                     + " \t\t\t\t" + Integer.toString(safePowerStation.calcMarginalProfit());

@@ -72,7 +72,7 @@ public class PowerStation {
     }
 
     public int calcMarginalProfit() {
-        return calcProfit() - (calcSales() - calcCleanCost());
+        return calcProfit() - (calcSales() - (emissions - permits) * cleanRate);
     }
 
     public String getPowerStationName() {
