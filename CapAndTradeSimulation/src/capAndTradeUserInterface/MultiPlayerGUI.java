@@ -54,6 +54,7 @@ public class MultiPlayerGUI extends Application {
         ObservableList<String> displayList = displayPowerStationsInfo();
 
         border = new BorderPane(); //main display grid
+        border.setPadding(new Insets(10, 10, 10, 10));
 
         displayTeamsArea.setItems(displayList);
 
@@ -65,7 +66,7 @@ public class MultiPlayerGUI extends Application {
         root = new VBox();
         
         //format buttons at the bottom
-        HBox endGameButtonsHBox = new HBox();
+        HBox endGameButtonsHBox = new HBox(5);
         endGameButtonsHBox.getChildren().add(returnToMenu());
         endGameButtonsHBox.getChildren().add(endGameButton());
         
@@ -91,8 +92,8 @@ public class MultiPlayerGUI extends Application {
         // right now this hBox is not being used!!!!!!!!!!
         HBox titleInfo = new HBox();
 
-        titleInfo.setPadding(new Insets(15, 12, 15, 12));
-        titleInfo.setSpacing(10);
+        //titleInfo.setPadding(new Insets(15, 12, 15, 12));
+        titleInfo.setSpacing(50);
         Label nameTitle = new Label();
         nameTitle.setText("Name");
 
@@ -109,10 +110,10 @@ public class MultiPlayerGUI extends Application {
         marginalProfitTitle.setText("Marginal Profit");
 
         titleInfo.getChildren().add(nameTitle);
-        titleInfo.getChildren().add(cleanRateTitle);
+        //titleInfo.getChildren().add(cleanRateTitle);
         titleInfo.getChildren().add(permitsTradedTitle);
         titleInfo.getChildren().add(salePriceTitle);
-        titleInfo.getChildren().add(marginalProfitTitle);
+        //titleInfo.getChildren().add(marginalProfitTitle);
         //border.setLeft(titleInfo);
         
         
@@ -123,39 +124,40 @@ public class MultiPlayerGUI extends Application {
         ArrayList<TextField> prices = new ArrayList<>();
         ArrayList<TextField> permitsTraded = new ArrayList<>();
 
-        VBox psInputBoxes = new VBox();
+        VBox psInputBoxes = new VBox(5);
+        psInputBoxes.getChildren().add(titleInfo);
         for (PowerStation powerStation : Controller.getInstance().getPowerStations()) {
             HBox powerStationInfo = new HBox();
-            powerStationInfo.setSpacing(20);
-            powerStationInfo.setMinWidth(100);
+            powerStationInfo.setSpacing(10);
+            powerStationInfo.setMinWidth(165);
             
             Label name = new Label();
             name.setText(powerStation.getPowerStationName());
-            name.setMinWidth(40);
+            name.setMinWidth(100);
 
-            Label cleanRate = new Label();
-            cleanRate.setText(Integer.toString(powerStation.getCleanRate()));
-            cleanRate.setMinWidth(40);
+            //Label cleanRate = new Label();
+            //cleanRate.setText(Integer.toString(powerStation.getCleanRate()));
+            //cleanRate.setMinWidth(40);
 
             TextField inputNumOfPermitsTraded = new TextField();
             permitsTraded.add(inputNumOfPermitsTraded);
-            inputNumOfPermitsTraded.setMinWidth(40);
-            inputNumOfPermitsTraded.setMaxWidth(100);
+            inputNumOfPermitsTraded.setMinWidth(70);
+            inputNumOfPermitsTraded.setMaxWidth(165);
 
             TextField inputPriceOfTrades = new TextField();
             prices.add(inputPriceOfTrades);
-            inputPriceOfTrades.setMinWidth(40);
-            inputPriceOfTrades.setMaxWidth(100);
+            inputPriceOfTrades.setMinWidth(70);
+            inputPriceOfTrades.setMaxWidth(165);
 
-            Label marginalProfit = new Label();
-            marginalProfit.setText(Integer.toString(powerStation.calcMarginalProfit()));
-            marginalProfit.setMinWidth(40);
+            //Label marginalProfit = new Label();
+            //marginalProfit.setText(Integer.toString(powerStation.calcMarginalProfit()));
+            //marginalProfit.setMinWidth(40);
 
             powerStationInfo.getChildren().add(name);
-            powerStationInfo.getChildren().add(cleanRate);
+            //powerStationInfo.getChildren().add(cleanRate);
             powerStationInfo.getChildren().add(inputNumOfPermitsTraded);
             powerStationInfo.getChildren().add(inputPriceOfTrades);
-            powerStationInfo.getChildren().add(marginalProfit);
+            //powerStationInfo.getChildren().add(marginalProfit);
 
             psInputBoxes.getChildren().add(powerStationInfo);
         }
@@ -210,15 +212,15 @@ public class MultiPlayerGUI extends Application {
         displayPStationInfo += "" + basicInfo.calcSales() + "\n";
         displayList.add(displayPStationInfo);
         
-        String formatDisplay = "Name  CleanRate  Marginal Profit";
+        String formatDisplay = "Name        CleanRate           Marginal Profit";
         displayList.add(formatDisplay);
         
         List<Integer> totalMargeProfit = Controller.getInstance().getTotalMarginalProfit();
         int i = 0;
         for (PowerStation ps : Controller.getInstance().getPowerStations()) {
-            formatDisplay = ps.getPowerStationName() + "\t\t"
+            formatDisplay = ps.getPowerStationName() + " \t\t\t"
                     + Integer.toString(ps.getCleanRate())
-                    + "\t\t" + Integer.toString(totalMargeProfit.get(i));
+                    + " \t\t\t\t" + Integer.toString(totalMargeProfit.get(i));
             displayList.add(formatDisplay);
             i++;
         }

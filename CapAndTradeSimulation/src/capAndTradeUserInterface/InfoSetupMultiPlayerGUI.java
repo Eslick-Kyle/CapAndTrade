@@ -131,12 +131,14 @@ public class InfoSetupMultiPlayerGUI extends Application {
 
         Label customNamesLabel = new Label();
         customNamesLabel.setText("Enter Power Station Names:");
-        askInfo = new VBox();
+        askInfo = new VBox(5);
+        askInfo.setAlignment(Pos.CENTER);
         askInfo.getChildren().add(customNamesLabel);
 
         ArrayList<TextField> inputFields = new ArrayList<>();
         for (int i = 0; i < numTeams; i++) {
             TextField inputName = new TextField();
+            inputName.setMaxWidth(400);
             inputFields.add(inputName);
             askInfo.getChildren().add(inputName);
         }
@@ -184,7 +186,7 @@ public class InfoSetupMultiPlayerGUI extends Application {
         ObservableList<String> displaySelection = FXCollections.observableArrayList();
         
         // put the numbers into the list
-        for (int i = 1; i <= 20; i++) {
+        for (int i = 1; i <= 13; i++) {
             displaySelection.add(Integer.toString(i));
         }
         

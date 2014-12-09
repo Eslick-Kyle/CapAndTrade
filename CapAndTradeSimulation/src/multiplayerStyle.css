@@ -9,7 +9,8 @@ and open the template in the editor.
 */
 
 .root {
-    -fx-font-size: 2em;
+    -fx-font-size: 1.8em;
+    -fx-font-family: "Currier";
 
 
     -fx-background: #6e8299; /* Old browsers */
@@ -20,17 +21,20 @@ and open the template in the editor.
     -fx-background: -ms-linear-gradient(top,  #6e8299 0%,#96c0d3 27%,#b7cace 60%); /* IE10+ */
     -fx-background: linear-gradient(to bottom,  #6e8299 0%,#96c0d3 27%,#b7cace 60%); /* W3C */
     -fx-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6e8299', endColorstr='#b7cace',GradientType=0 ); /* IE6-9 */
+    -fx-margin: 200px;
 }
 .button {
     -fx-font-family: "Ariel";
-    -fx-font-size: 2em;
+    -fx-font-size: 1.5em;
     -fx-font-weight: bold;
     -fx-background: grey;
+    -fx-min-width: 300px;
 }
 
 .text-field {
     -fx-background-color: #a9a9a9 , white , white;
-    -fx-padding: 10px;
+    -fx-padding-right: 5px;
+    -fx-padding-bottom: 1px;
 }
 
 .text-field:focused {
