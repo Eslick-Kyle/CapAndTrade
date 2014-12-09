@@ -21,7 +21,7 @@ public class PowerStation {
     private int permitsTraded;
     private int tradeIncome;
 
-    PowerStation() {
+    public PowerStation() {
         powerStationName = "a";
         energyProd = 100;
         emissions = 200;
@@ -72,7 +72,7 @@ public class PowerStation {
     }
 
     public int calcMarginalProfit() {
-        return calcProfit() - (calcSales() - (emissions - permits) * cleanRate);
+        return calcProfit() - (calcSales() - calcCleanCost());
     }
 
     public String getPowerStationName() {

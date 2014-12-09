@@ -36,14 +36,14 @@ public class MultiPlayerGUI extends Application {
     private Stage primaryStage;  
     private VBox root;
     private BorderPane border;
+    private ObservableList<String> displayList;
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        displayMultiplayerWindow();
+        displayMultiplayerWindow();       
     }
     
-
     
     /**
      * This function displays the basic window, this will be used anytime that 
@@ -51,7 +51,7 @@ public class MultiPlayerGUI extends Application {
      */
     public void displayMultiplayerWindow() {
         ListView displayTeamsArea = new ListView();
-        ObservableList<String> displayList = displayPowerStationsInfo();
+        displayList = displayPowerStationsInfo();
 
         border = new BorderPane(); //main display grid
         border.setPadding(new Insets(10, 10, 10, 10));
@@ -79,6 +79,12 @@ public class MultiPlayerGUI extends Application {
         multiPlayerScene.getStylesheets().add("multiplayerStyle.css");
         primaryStage.setScene(multiPlayerScene);
         primaryStage.setFullScreen(true);
+    }
+    
+    public void updateListView(List<Trade> trades) {
+        displayList.clear();
+        updatePowerStationsInfo(trades);
+        
     }
     
     /**
@@ -165,6 +171,7 @@ public class MultiPlayerGUI extends Application {
         // puts the button in that will get the input for trade info
         Button submitTradeInfo = submitTradeInfo(prices, permitsTraded);
         psInputBoxes.getChildren().add(submitTradeInfo);
+        psInputBoxes.getChildren().add(updateTradeInfoButton(prices, permitsTraded));
         border.setRight(psInputBoxes);
     }
 
@@ -193,6 +200,60 @@ public class MultiPlayerGUI extends Application {
         return submitTradeInfoBtn;
     }
     
+        public Button updateTradeInfoButton(List<TextField> prices, List<TextField> permitsTraded) {
+        Button updateTradeInfoBtn = new Button();
+        updateTradeInfoBtn.setText("Update Trade Info");
+        updateTradeInfoBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ArrayList<Trade> trades = new ArrayList<>();
+                for (int i = 0; i < prices.size(); i++) {
+                    trades.add(new Trade(permitsTraded.get(i).getText(), prices.get(i).getText()));
+                }
+                //Controller.getInstance().updateTradeInfo(trades);
+                updateListView(trades);
+            }
+        });
+        return updateTradeInfoBtn;
+    }
+    
+    public void updatePowerStationsInfo(List<Trade> trades) {
+        displayList.clear();
+
+        String displayPStationInfo;
+        displayPStationInfo = "Clean Rate\t\tEmissions\t\tEnergy Production\t\tPermits\t\tSales\n";
+        displayList.add(displayPStationInfo);
+        PowerStation basicInfo = Controller.getInstance().getPowerStations().get(0);
+        displayPStationInfo = "      " + basicInfo.getCleanRate() + "\t  \t\t";
+        displayPStationInfo += "     " + basicInfo.getEmissions() + "     \t\t";
+        displayPStationInfo += "\t    " + basicInfo.getEnergyProd() + "\t     \t\t";
+        displayPStationInfo += "   " + basicInfo.getPermits() + "   \t       ";
+        displayPStationInfo += "" + basicInfo.calcSales() + "\n";
+        displayList.add(displayPStationInfo);
+        
+        String formatDisplay = "Name        CleanRate           Marginal Profit";
+        displayList.add(formatDisplay);
+        
+        PowerStation safePowerStation;      
+        int i = 0;
+        for (PowerStation ps : Controller.getInstance().getPowerStations()) {
+            safePowerStation = new PowerStation();
+            safePowerStation.setCleanRate(ps.getCleanRate());
+            safePowerStation.setTradeIncome(trades.get(i).getPriceOfTrade());
+            safePowerStation.setPermits(trades.get(i).getPermitsTraded());
+            formatDisplay = ps.getPowerStationName() + " \t\t\t"
+                    + Integer.toString(ps.getCleanRate())
+                    + " \t\t\t\t" + Integer.toString(safePowerStation.calcMarginalProfit());
+            displayList.add(formatDisplay);
+            i++;
+        }
+
+    }
+    
+    public void getTradeInfo() {
+
+    }    
+        
     /**
      * This formats the information to be displayed in the observable list
      *
@@ -228,10 +289,6 @@ public class MultiPlayerGUI extends Application {
 
         
         return displayList;
-    }
-    
-    public void getTradeInfo() {
-
     }
     
     /**
