@@ -20,6 +20,7 @@ and open the template in the editor.
     -fx-font-size: 2em;
     -fx-font-weight: bold;
     -fx-background: grey;
+    -fx-min-width: 400px;
 }
 
 .text-field {

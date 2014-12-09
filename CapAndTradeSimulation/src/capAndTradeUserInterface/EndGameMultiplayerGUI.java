@@ -42,11 +42,12 @@ public class EndGameMultiplayerGUI extends Application {
     public void start(Stage primaryStage) {
         Label welcome = new Label();
         welcome.setText("The Simulation Results");
-        HBox formatButtons = new HBox(10);
+        HBox formatButtons = new HBox(5);
         formatButtons.getChildren().add(returnToMenu());
         formatButtons.getChildren().add(quitSimulation());
 
         root = new VBox();
+        root.setPadding(new Insets(10, 10 , 10, 10));
         root.getChildren().add(welcome);
         displayResults();
         root.getChildren().add(displayWinner());
