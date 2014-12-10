@@ -87,6 +87,10 @@ public class Model {
         return simulation.getTotalMarginalProfit();
     }
     
+    public List<Integer> getCurrentRoundMarginalProfit() {
+        return simulation.getCurrentRoundMarginalProfit();
+    }
+    
     public void restartSimulation() {
         simulation.restartSimulation();
     }

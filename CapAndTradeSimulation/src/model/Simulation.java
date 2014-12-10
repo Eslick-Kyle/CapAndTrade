@@ -122,6 +122,14 @@ public class Simulation {
     }
     
     /**
+     * Returns the last rounds marginal profit
+     * @return 
+     */
+    public List<Integer> getCurrentRoundMarginalProfit() {
+        return marginalProfitHistory.get(marginalProfitHistory.size() - 1);
+    }
+    
+    /**
      * Description: This function will take a list of trades made by the users
      * and will assign that information to the PowerStations. The size of the 
      * array has to be the same size for this function to work.

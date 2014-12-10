@@ -277,17 +277,15 @@ public class MultiPlayerGUI extends Application {
         String formatDisplay = "Name        CleanRate           Marginal Profit";
         displayList.add(formatDisplay);
         
-        List<Integer> totalMargeProfit = Controller.getInstance().getTotalMarginalProfit();
+        List<Integer> currentMargeProfit = Controller.getInstance().getCurrentRoundMarginalProfit();
         int i = 0;
         for (PowerStation ps : Controller.getInstance().getPowerStations()) {
             formatDisplay = ps.getPowerStationName() + " \t\t\t"
                     + Integer.toString(ps.getCleanRate())
-                    + " \t\t\t\t" + Integer.toString(totalMargeProfit.get(i));
+                    + " \t\t\t\t" + Integer.toString(currentMargeProfit.get(i));
             displayList.add(formatDisplay);
             i++;
         }
-
-
         
         return displayList;
     }
