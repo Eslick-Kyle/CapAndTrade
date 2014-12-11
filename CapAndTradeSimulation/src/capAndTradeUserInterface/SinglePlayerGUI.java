@@ -38,8 +38,8 @@ import model.Trade;
  */
 public class SinglePlayerGUI extends Application {
 
-    private Scene singleiPlayerScene;    
-    private Stage primaryStage;  
+    private Scene singleiPlayerScene;
+    private Stage primaryStage;
     private VBox root;
     private BorderPane border;
     private ObservableList<String> displayList;
@@ -53,10 +53,9 @@ public class SinglePlayerGUI extends Application {
         Controller.getInstance().setSinglePlayerNames();
         displaySingleplayerWindow();
     }
-    
-    
+
     /**
-     * This function displays the basic window, this will be used anytime that 
+     * This function displays the basic window, this will be used anytime that
      * the GUI needs to be updated
      */
     public void displaySingleplayerWindow() {
@@ -74,12 +73,12 @@ public class SinglePlayerGUI extends Application {
         welcome.setText("Welcome to the Multiplayer");
 
         root = new VBox();
-        
+
         //format buttons at the bottom
         HBox endGameButtonsHBox = new HBox(5);
         endGameButtonsHBox.getChildren().add(returnToMenu());
         endGameButtonsHBox.getChildren().add(endGameButton());
-        
+
         border.setTop(welcome);
         border.setCenter(displayTeamsArea);
         border.setBottom(endGameButtonsHBox);
@@ -90,21 +89,20 @@ public class SinglePlayerGUI extends Application {
         primaryStage.setScene(singleiPlayerScene);
         primaryStage.setFullScreen(true);
     }
-    
+
     public void updateListView(List<Trade> trades) {
         displayList.clear();
         updatePowerStationsInfo(trades);
-        
+
     }
-    
+
     /**
      * This is an optional way to display the information, this might be easier
      * to format the way that we want as opposed to the display list. This could
      * allow us to get the trades information.
      */
     public void displayPowerStationsAndGetTradesBoxes() {
-        
-        
+
         // right now this hBox is not being used!!!!!!!!!!
         HBox titleInfo = new HBox();
 
@@ -131,12 +129,11 @@ public class SinglePlayerGUI extends Application {
         //titleInfo.getChildren().add(salePriceTitle);
         //titleInfo.getChildren().add(marginalProfitTitle);
         //border.setLeft(titleInfo);
-        
-        
+
         /* Sets the information with the text fields to account for all the 
-            information. This also formats the area where the information will 
-            be displayed and input can be gotten from the user.
-        */
+         information. This also formats the area where the information will 
+         be displayed and input can be gotten from the user.
+         */
         ArrayList<Integer> prices = new ArrayList<>();
         ArrayList<Button> acceptedTradeBtns = new ArrayList<>();
         prices.add(0, 0);
@@ -151,14 +148,14 @@ public class SinglePlayerGUI extends Application {
             HBox powerStationInfo = new HBox();
             powerStationInfo.setSpacing(10);
             powerStationInfo.setMinWidth(165);
-            
+
             Label name = new Label();
             name.setText(powerStations.get(i).getPowerStationName());
             name.setMinWidth(100);
 
             Label permitsToTradeLbl = new Label();
             int tradePrice = prices.get(i);
-            
+
             if (tradePrice != 0) {
                 String tradeOfferString = powerStations.get(i).getPowerStationName();
                 prices.add(tradePrice);
@@ -171,20 +168,14 @@ public class SinglePlayerGUI extends Application {
                 
                 Button acceptTradeBtn = acceptTradeButton(acceptedTradeBtns);
                 acceptedTradeBtns.add(acceptTradeBtn);
-                
-                permitsToTradeLbl.setText(tradeOfferString);
-                powerStationInfo.getChildren().add(permitsToTradeLbl);
-                powerStationInfo.getChildren().add(acceptTradeBtn);
-            }
-           
+                    tradeOfferString += " offers to buy 25 permits for $" + tradePrice;
+                }
             //powerStationInfo.getChildren().add(name);
-            
             //powerStationInfo.getChildren().add(cleanRate);
             //powerStationInfo.getChildren().add(marginalProfit);
-
             psInputBoxes.getChildren().add(powerStationInfo);
         }
-        
+
         // puts the button in that will get the input for trade info
         Button submitTradeInfo = submitTradeInfo(prices);
         psInputBoxes.getChildren().add(submitTradeInfo);
@@ -207,15 +198,24 @@ public class SinglePlayerGUI extends Application {
                     for (Button acceptedTradeBtn : acceptedTradeBtns) {
                         acceptedTradeBtn.setDisable(true);
                     }
+                    int maxTrades = Controller.getInstance().getPowerStations().get(0).getPermitsTraded();
+                    if (maxTrades > 100) {
+                        System.out.println("You may not get more than 100 permits");
+                    } else {
+                        acceptTradeBtn.setText("Accepted");
+                        acceptTradeBtn.setDisable(true);
+                    }
                 }
-            }
+            }    
         });
+        
         
         return acceptTradeBtn;
     }
 
     /**
      * This sets up and controls the button that sill submit tradeInformation
+     *
      * @param prices - the text fields that get the price input
      * @param permitsTraded - the text fields that get the permitsTraded input
      * @return returns a button
@@ -239,7 +239,7 @@ public class SinglePlayerGUI extends Application {
         return submitTradeInfoBtn;
     }
     
-        public Button updateTradeInfoButton(List<Integer> prices) {
+    public Button updateTradeInfoButton(List<Integer> prices) {
         Button updateTradeInfoBtn = new Button();
         updateTradeInfoBtn.setText("Update Trade Info");
         updateTradeInfoBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -255,7 +255,7 @@ public class SinglePlayerGUI extends Application {
         });
         return updateTradeInfoBtn;
     }
-    
+
     public void updatePowerStationsInfo(List<Trade> trades) {
         displayList.clear();
 
@@ -269,11 +269,11 @@ public class SinglePlayerGUI extends Application {
         displayPStationInfo += "   " + basicInfo.getPermits() + "   \t       ";
         displayPStationInfo += "" + basicInfo.calcSales() + "\n";
         displayList.add(displayPStationInfo);
-        
+
         String formatDisplay = "Name        CleanRate           Marginal Profit";
         displayList.add(formatDisplay);
-        
-        PowerStation safePowerStation;      
+
+        PowerStation safePowerStation;
         int i = 0;
         for (PowerStation ps : Controller.getInstance().getPowerStations()) {
             safePowerStation = new PowerStation();
@@ -288,11 +288,11 @@ public class SinglePlayerGUI extends Application {
         }
 
     }
-    
+
     public void getTradeInfo() {
 
-    }    
-        
+    }
+
     /**
      * This formats the information to be displayed in the observable list
      *
@@ -311,10 +311,10 @@ public class SinglePlayerGUI extends Application {
         displayPStationInfo += "   " + basicInfo.getPermits() + "   \t       ";
         displayPStationInfo += "" + basicInfo.calcSales() + "\n";
         displayList.add(displayPStationInfo);
-        
+
         String formatDisplay = "Name        CleanRate           Marginal Profit";
         displayList.add(formatDisplay);
-        
+
         List<Integer> totalMargeProfit = Controller.getInstance().getTotalMarginalProfit();
         int i = 0;
         for (PowerStation ps : Controller.getInstance().getPowerStations()) {
@@ -325,53 +325,70 @@ public class SinglePlayerGUI extends Application {
             i++;
         }
 
-
-        
         return displayList;
     }
-    
+
     /**
      * This creates an end of game button
+     *
      * @return the button to send info to end of game screen.
      */
     public Button endGameButton() {
         Button endGameBtn = new Button();
         endGameBtn.setText("End Simulation");
-        endGameBtn.setOnAction(new EventHandler<ActionEvent>(){
+        endGameBtn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
                 Controller.getInstance().selectGameScene("results multiplayer");
             }
-            
+
         });
         return endGameBtn;
     }
-    
+
     /**
      * This creates a return to menu button
+     *
      * @return returns the button created
      */
-    public Button returnToMenu () {
+    public Button returnToMenu() {
         Button menuBtn = new Button();
         menuBtn.setText("Main Menu");
-        menuBtn.setOnAction(new EventHandler<ActionEvent>(){
+        menuBtn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
                 Controller.getInstance().restartSimulation();
                 Controller.getInstance().selectGameScene("main menu");
             }
-            
+
         });
         return menuBtn;
     }
-    
+
     public void doComputerTrades() {
+        int count = 1;
         for (PowerStation ps : Controller.getInstance().getPowerStations()) {
             if (!ps.getPowerStationName().equals("Player")) {
-                
+
+                for (int i = 1; i < 10; i++) {
+                    if (!(ps.getPermitsTraded() == 100 || ps.getPermitsTraded() == -100)) {
+                        break;
+                    }
+                    if (count != i) {
+                        int trade = Controller.getInstance().computerAskPrice(count, i);
+                        if (trade > 0) {        //positive means the second station wants to sell
+                            ps.setPermitsTraded(ps.getPermitsTraded() + 25);
+                            ps.setTradeIncome(ps.getTradeIncome() - trade);
+                        } else if (trade < 0) { //negitive means the second station wants to buy
+                            ps.setPermitsTraded(ps.getPermitsTraded() - 25);
+                            ps.setTradeIncome(ps.getTradeIncome() + trade);
+                        }
+                    }
+                }
             }
+            count++;
         }
     }
 }
