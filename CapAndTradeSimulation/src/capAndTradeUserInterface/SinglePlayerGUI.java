@@ -207,11 +207,11 @@ public class SinglePlayerGUI extends Application {
                         acceptTradeBtn.setText("Accepted");
                         acceptTradeBtn.setDisable(true);
                     }
-                    
+
                 }
             }    
         });
-        
+
         return acceptTradeBtn;
     }
 
@@ -240,7 +240,7 @@ public class SinglePlayerGUI extends Application {
         });
         return submitTradeInfoBtn;
     }
-    
+
     
     public Button updateTradeInfoButton(List<Integer> prices) {
         Button updateTradeInfoBtn = new Button();
