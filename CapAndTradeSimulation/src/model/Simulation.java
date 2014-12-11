@@ -105,19 +105,27 @@ public class Simulation {
         }
         marginalProfitHistory.add(margeProfit);
     }
-
+    
+    /**
+     * Gets the computers ask price for 25 permits based off the
+     * difference in clean rates between the user and the computer
+     * with a bit of random to make the bids higher or lower
+     * @param computer
+     * @return askPrice
+     */
     public int getComputerAskPrice(int computer) {
         int playerCleanRate = powerStations.get(0).getCleanRate();
         int computerCleanRate = powerStations.get(computer).getCleanRate();
         Random r = new Random();
         int diff = 0;
         if (playerCleanRate != computerCleanRate) {
-
+            //gets the difference in clean rates
             diff = playerCleanRate - computerCleanRate;
 
             //get the midway point betwen prices
             diff /= 2;
 
+            //this makes the clean rates have a bit of random in them
             int nextInt = r.nextInt(100);
             if (nextInt >= 90) {
                 diff += 10;
@@ -129,12 +137,14 @@ public class Simulation {
                 diff -= 10;
             }
         }
+        //this makes the clean rates have a bit of random in them
         int nextInt = r.nextInt(100);
         if (nextInt >= 90) {
             diff += 5;
         } else if (nextInt <= 10) {
             diff -= 5;
         }
+        
         //diff is the clean rate times 25 permits
         diff *= 25;
         return diff;
