@@ -370,6 +370,10 @@ public class SinglePlayerGUI extends Application {
                         break;
                     }
                     if (count != i) {
+                        if (!(Controller.getInstance().getPowerStations().get(count).getPermitsTraded() == 100 
+                                || Controller.getInstance().getPowerStations().get(count).getPermitsTraded() == -100)) {
+                        break;
+                    }
                         int trade = Controller.getInstance().computerAskPrice(count, i);
                         if (trade > 0) {        //positive means the second station wants to sell
                             ps.setPermitsTraded(ps.getPermitsTraded() + 25);
