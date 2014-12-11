@@ -85,7 +85,7 @@ public class Simulation {
      * Description: Sets user's name to player and adds names for computers
      * names computer power stations with letters starting at 'a' 
      *
-     * @param numberOfTeams
+     * 
      */
     public void setSinglePlayerPowerStationNames() {
         PowerStation team = new PowerStation();

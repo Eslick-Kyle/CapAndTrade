@@ -82,7 +82,7 @@ public class Controller extends Model {
         if (view == "single player") {
             SinglePlayerGUI singlePlayerView = new SinglePlayerGUI();
             singlePlayerView.start(primaryStage);
-
+            
         } else if (view == "multi player") {
             MultiPlayerGUI multiPlayerView = new MultiPlayerGUI();
             multiPlayerView.start(primaryStage);

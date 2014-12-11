@@ -106,5 +106,8 @@ public class Model {
     public List<List<Integer>> marginalProfitHistory() {
         return simulation.getMarginalProfitHistory();
     }
-             
+        
+    public void setSinglePlayerNames() {
+        simulation.setSinglePlayerPowerStationNames();
+    }
 }
