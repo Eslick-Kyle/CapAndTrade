@@ -8,6 +8,7 @@ package model;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Simulation class holds all the main methods to interact with the data in the
@@ -81,11 +82,12 @@ public class Simulation {
         }
         marginalProfitHistory.add(margeProfit);
     }
-/**
+
+    /**
      * Description: Sets user's name to player and adds names for computers
-     * names computer power stations with letters starting at 'a' 
+     * names computer power stations with letters starting at 'a'
      *
-     * 
+     *
      */
     public void setSinglePlayerPowerStationNames() {
         PowerStation team = new PowerStation();
@@ -104,6 +106,32 @@ public class Simulation {
         marginalProfitHistory.add(margeProfit);
     }
 
+    public int getComputerAskPrice(int computer) {
+        int playerCleanRate = powerStations.get(0).getCleanRate();
+        int computerCleanRate = powerStations.get(computer).getCleanRate();
+        int diff = 0;
+        if (playerCleanRate != computerCleanRate) {
+            if (playerCleanRate < computerCleanRate) {
+                diff = computerCleanRate - playerCleanRate;
+            } else {
+                diff = playerCleanRate - computerCleanRate;
+            }
+            Random r = new Random();
+            int nextInt = r.nextInt(100);
+            if (nextInt >= 90) {
+                diff += 20;
+            } else if (nextInt >= 70) {
+                diff += 10;
+            } else if (nextInt <= 30) {
+                diff -= 10;
+            } else if (nextInt <= 10) {
+                diff -= 20;
+            }
+        }
+        //diff is the clean rate times 25 permits
+        diff *= 25;
+        return diff;
+    }
     /**
      * Description: takes a list of names and sets the powerStations names to
      * those values
