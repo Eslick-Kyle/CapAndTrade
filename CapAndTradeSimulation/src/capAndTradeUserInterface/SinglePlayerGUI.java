@@ -334,4 +334,8 @@ public class SinglePlayerGUI extends Application {
         });
         return menuBtn;
     }
+    
+    public void doComputerTrades() {
+        
+    }
 }
