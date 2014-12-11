@@ -135,8 +135,12 @@ public class SinglePlayerGUI extends Application {
             information. This also formats the area where the information will 
             be displayed and input can be gotten from the user.
         */
-        ArrayList<TextField> prices = new ArrayList<>();
+        ArrayList<Integer> prices = new ArrayList<>();
         ArrayList<TextField> permitsTraded = new ArrayList<>();
+        prices.add(0, 0);
+        for (int i = 1; i < 10; i++) {
+            prices.add(Controller.getInstance().computerAskPrice(i));
+        }
 
         VBox psInputBoxes = new VBox(5);
         psInputBoxes.getChildren().add(titleInfo);
@@ -151,11 +155,24 @@ public class SinglePlayerGUI extends Application {
             name.setMinWidth(100);
 
             Label permitsToTradeLbl = new Label();
+            int tradePrice = prices.get(i);
             
-            permitsToTradeLbl.setText("25");
+            if (tradePrice != 0) {
+                String tradeOfferString = powerStations.get(i).getPowerStationName();
+                prices.add(tradePrice);
+                if (tradePrice < 0) {
+                    tradeOfferString += " offers to sell 25 permits for $"
+                            + Integer.toString((-1)*tradePrice); 
+                } else if (tradePrice > 0) {
+                    tradeOfferString += " offers to buy 25 permits for $" + tradePrice;
+                } 
+                permitsToTradeLbl.setText(tradeOfferString);
+                powerStationInfo.getChildren().add(permitsToTradeLbl);
+                powerStationInfo.getChildren().add(acceptTradeButton());
+            }
            
-            powerStationInfo.getChildren().add(name);
-            powerStationInfo.getChildren().add(acceptTradeButton());
+            //powerStationInfo.getChildren().add(name);
+            
             //powerStationInfo.getChildren().add(cleanRate);
             //powerStationInfo.getChildren().add(marginalProfit);
 
@@ -196,7 +213,7 @@ public class SinglePlayerGUI extends Application {
      * @param permitsTraded - the text fields that get the permitsTraded input
      * @return returns a button
      */
-    public Button submitTradeInfo(List<TextField> prices, List<TextField> permitsTraded) {
+    public Button submitTradeInfo(List<Integer> prices, List<TextField> permitsTraded) {
         Button submitTradeInfoBtn = new Button();
         submitTradeInfoBtn.setText("Submit Trade Info");
         submitTradeInfoBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -204,8 +221,8 @@ public class SinglePlayerGUI extends Application {
             public void handle(ActionEvent event) {
                 ArrayList<Trade> trades = new ArrayList<>();
                 for (int i = 0; i < prices.size(); i++) {
-                    trades.add(new Trade(permitsTraded.get(i).getText(), prices.get(i).getText()));
-                    prices.get(i).clear();
+                    //trades.add(new Trade(permitsTraded.get(i).getText(), prices.get(i).getText()));
+                    //prices.get(i).clear();
                     permitsTraded.get(i).clear();
                 }
                 Controller.getInstance().updateTradeInfo(trades);
@@ -215,7 +232,7 @@ public class SinglePlayerGUI extends Application {
         return submitTradeInfoBtn;
     }
     
-        public Button updateTradeInfoButton(List<TextField> prices, List<TextField> permitsTraded) {
+        public Button updateTradeInfoButton(List<Integer> prices, List<TextField> permitsTraded) {
         Button updateTradeInfoBtn = new Button();
         updateTradeInfoBtn.setText("Update Trade Info");
         updateTradeInfoBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -223,7 +240,7 @@ public class SinglePlayerGUI extends Application {
             public void handle(ActionEvent event) {
                 ArrayList<Trade> trades = new ArrayList<>();
                 for (int i = 0; i < prices.size(); i++) {
-                    trades.add(new Trade(permitsTraded.get(i).getText(), prices.get(i).getText()));
+                    //trades.add(new Trade(permitsTraded.get(i).getText(), prices.get(i).));
                 }
                 //Controller.getInstance().updateTradeInfo(trades);
                 updateListView(trades);
