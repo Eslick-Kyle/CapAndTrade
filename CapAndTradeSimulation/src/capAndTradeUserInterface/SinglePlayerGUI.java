@@ -43,11 +43,12 @@ public class SinglePlayerGUI extends Application {
     private VBox root;
     private BorderPane border;
     private ObservableList<String> displayList;
+    private int numTrades;
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        
+        numTrades = 0;
         Controller.getInstance().setSinglePlayerNames();
         displaySingleplayerWindow();
     }
@@ -107,15 +108,15 @@ public class SinglePlayerGUI extends Application {
         HBox titleInfo = new HBox();
 
         //titleInfo.setPadding(new Insets(15, 12, 15, 12));
-        titleInfo.setSpacing(50);
-        Label nameTitle = new Label();
-        nameTitle.setText("Name");
+        //titleInfo.setSpacing(50);
+        //Label nameTitle = new Label();
+        //nameTitle.setText("Name");
 
-        Label cleanRateTitle = new Label();
-        cleanRateTitle.setText("Clean Rate");
+        //Label cleanRateTitle = new Label();
+        //cleanRateTitle.setText("Clean Rate");
 
-        Label permitsTradedTitle = new Label();
-        permitsTradedTitle.setText("Permits Traded");
+        //Label permitsTradedTitle = new Label();
+        //permitsTradedTitle.setText("Permits Traded");
 
         Label salePriceTitle = new Label();
         salePriceTitle.setText("Sale Price");
@@ -123,10 +124,10 @@ public class SinglePlayerGUI extends Application {
         Label marginalProfitTitle = new Label();
         marginalProfitTitle.setText("Marginal Profit");
 
-        titleInfo.getChildren().add(nameTitle);
+        //titleInfo.getChildren().add(nameTitle);
         //titleInfo.getChildren().add(cleanRateTitle);
-        titleInfo.getChildren().add(permitsTradedTitle);
-        titleInfo.getChildren().add(salePriceTitle);
+        //titleInfo.getChildren().add(permitsTradedTitle);
+        //titleInfo.getChildren().add(salePriceTitle);
         //titleInfo.getChildren().add(marginalProfitTitle);
         //border.setLeft(titleInfo);
         
@@ -136,7 +137,7 @@ public class SinglePlayerGUI extends Application {
             be displayed and input can be gotten from the user.
         */
         ArrayList<Integer> prices = new ArrayList<>();
-        ArrayList<TextField> permitsTraded = new ArrayList<>();
+        ArrayList<Button> acceptedTradeBtns = new ArrayList<>();
         prices.add(0, 0);
         for (int i = 1; i < 10; i++) {
             prices.add(Controller.getInstance().computerAskPrice(i));
@@ -166,9 +167,13 @@ public class SinglePlayerGUI extends Application {
                 } else if (tradePrice > 0) {
                     tradeOfferString += " offers to buy 25 permits for $" + tradePrice;
                 } 
+                
+                Button acceptTradeBtn = acceptTradeButton();
+                acceptedTradeBtns.add(acceptTradeBtn);
+                
                 permitsToTradeLbl.setText(tradeOfferString);
                 powerStationInfo.getChildren().add(permitsToTradeLbl);
-                powerStationInfo.getChildren().add(acceptTradeButton());
+                powerStationInfo.getChildren().add(acceptTradeBtn);
             }
            
             //powerStationInfo.getChildren().add(name);
@@ -180,9 +185,9 @@ public class SinglePlayerGUI extends Application {
         }
         
         // puts the button in that will get the input for trade info
-        Button submitTradeInfo = submitTradeInfo(prices, permitsTraded);
+        Button submitTradeInfo = submitTradeInfo(prices);
         psInputBoxes.getChildren().add(submitTradeInfo);
-        psInputBoxes.getChildren().add(updateTradeInfoButton(prices, permitsTraded));
+        psInputBoxes.getChildren().add(updateTradeInfoButton(prices));
         border.setRight(psInputBoxes);
     }
     
@@ -193,14 +198,10 @@ public class SinglePlayerGUI extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-                int maxTrades = Controller.getInstance().getPowerStations().get(0).getPermitsTraded();
-                if (maxTrades > 100) {
-                    System.out.println("You may not get more than 100 permits");
-                } else {
-                    acceptTradeBtn.setText("Accepted");
-                    acceptTradeBtn.setDisable(true);
-                     
-                }
+                numTrades++;
+                acceptTradeBtn.setText("Accepted");
+                acceptTradeBtn.setDisable(true);
+
             }
         });
         
@@ -213,7 +214,7 @@ public class SinglePlayerGUI extends Application {
      * @param permitsTraded - the text fields that get the permitsTraded input
      * @return returns a button
      */
-    public Button submitTradeInfo(List<Integer> prices, List<TextField> permitsTraded) {
+    public Button submitTradeInfo(List<Integer> prices) {
         Button submitTradeInfoBtn = new Button();
         submitTradeInfoBtn.setText("Submit Trade Info");
         submitTradeInfoBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -223,7 +224,7 @@ public class SinglePlayerGUI extends Application {
                 for (int i = 0; i < prices.size(); i++) {
                     //trades.add(new Trade(permitsTraded.get(i).getText(), prices.get(i).getText()));
                     //prices.get(i).clear();
-                    permitsTraded.get(i).clear();
+                    //permitsTraded.get(i).clear();
                 }
                 Controller.getInstance().updateTradeInfo(trades);
                 displaySingleplayerWindow();
@@ -232,7 +233,7 @@ public class SinglePlayerGUI extends Application {
         return submitTradeInfoBtn;
     }
     
-        public Button updateTradeInfoButton(List<Integer> prices, List<TextField> permitsTraded) {
+        public Button updateTradeInfoButton(List<Integer> prices) {
         Button updateTradeInfoBtn = new Button();
         updateTradeInfoBtn.setText("Update Trade Info");
         updateTradeInfoBtn.setOnAction(new EventHandler<ActionEvent>() {
