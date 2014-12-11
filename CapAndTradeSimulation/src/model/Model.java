@@ -110,4 +110,8 @@ public class Model {
     public void setSinglePlayerNames() {
         simulation.setSinglePlayerPowerStationNames();
     }
+    
+    public int getComputerAskPrice(int computer) {
+        return simulation.getComputerAskPrice(computer);
+    }
 }

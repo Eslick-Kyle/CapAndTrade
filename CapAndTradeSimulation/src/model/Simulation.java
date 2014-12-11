@@ -8,6 +8,7 @@ package model;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Simulation class holds all the main methods to interact with the data in the
@@ -81,11 +82,12 @@ public class Simulation {
         }
         marginalProfitHistory.add(margeProfit);
     }
-/**
+
+    /**
      * Description: Sets user's name to player and adds names for computers
-     * names computer power stations with letters starting at 'a' 
+     * names computer power stations with letters starting at 'a'
      *
-     * 
+     *
      */
     public void setSinglePlayerPowerStationNames() {
         PowerStation team = new PowerStation();
@@ -102,6 +104,50 @@ public class Simulation {
             margeProfit.add(0);
         }
         marginalProfitHistory.add(margeProfit);
+    }
+    
+    /**
+     * Gets the computers ask price for 25 permits based off the
+     * difference in clean rates between the user and the computer
+     * with a bit of random to make the bids higher or lower
+     * @param computer
+     * @return askPrice
+     */
+    public int getComputerAskPrice(int computer) {
+        int playerCleanRate = powerStations.get(0).getCleanRate();
+        int computerCleanRate = powerStations.get(computer).getCleanRate();
+        Random r = new Random();
+        int diff = 0;
+        if (playerCleanRate != computerCleanRate) {
+            //gets the difference in clean rates
+            diff = playerCleanRate - computerCleanRate;
+
+            //get the midway point betwen prices
+            diff /= 2;
+
+            //this makes the clean rates have a bit of random in them
+            int nextInt = r.nextInt(100);
+            if (nextInt >= 90) {
+                diff += 10;
+            } else if (nextInt >= 70) {
+                diff += 5;
+            } else if (nextInt <= 30) {
+                diff -= 5;
+            } else if (nextInt <= 10) {
+                diff -= 10;
+            }
+        }
+        //this makes the clean rates have a bit of random in them
+        int nextInt = r.nextInt(100);
+        if (nextInt >= 90) {
+            diff += 5;
+        } else if (nextInt <= 10) {
+            diff -= 5;
+        }
+        
+        //diff is the clean rate times 25 permits
+        diff *= 25;
+        return diff;
     }
 
     /**
