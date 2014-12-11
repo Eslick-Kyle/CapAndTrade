@@ -44,6 +44,7 @@ public class SinglePlayerGUI extends Application {
     private BorderPane border;
     private ObservableList<String> displayList;
     private int numTrades;
+    
 
     @Override
     public void start(Stage primaryStage) {
@@ -162,13 +163,13 @@ public class SinglePlayerGUI extends Application {
                 String tradeOfferString = powerStations.get(i).getPowerStationName();
                 prices.add(tradePrice);
                 if (tradePrice < 0) {
-                    tradeOfferString += " offers to sell 25 permits for $"
+                    tradeOfferString += " offers to buy 25 permits for $"
                             + Integer.toString((-1)*tradePrice); 
                 } else if (tradePrice > 0) {
-                    tradeOfferString += " offers to buy 25 permits for $" + tradePrice;
+                    tradeOfferString += " offers to sell 25 permits for $" + tradePrice;
                 } 
                 
-                Button acceptTradeBtn = acceptTradeButton();
+                Button acceptTradeBtn = acceptTradeButton(acceptedTradeBtns);
                 acceptedTradeBtns.add(acceptTradeBtn);
                 
                 permitsToTradeLbl.setText(tradeOfferString);
@@ -191,7 +192,7 @@ public class SinglePlayerGUI extends Application {
         border.setRight(psInputBoxes);
     }
     
-    public Button acceptTradeButton() {
+    public Button acceptTradeButton(List<Button> acceptedTradeBtns) {
         Button acceptTradeBtn = new Button();
         acceptTradeBtn.setText("Accept");
         acceptTradeBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -202,6 +203,11 @@ public class SinglePlayerGUI extends Application {
                 acceptTradeBtn.setText("Accepted");
                 acceptTradeBtn.setDisable(true);
 
+                if (numTrades >= 4) {
+                    for (Button acceptedTradeBtn : acceptedTradeBtns) {
+                        acceptedTradeBtn.setDisable(true);
+                    }
+                }
             }
         });
         
