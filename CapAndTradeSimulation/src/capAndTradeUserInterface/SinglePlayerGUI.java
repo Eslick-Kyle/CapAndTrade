@@ -140,7 +140,7 @@ public class SinglePlayerGUI extends Application {
         ArrayList<Button> acceptedTradeBtns = new ArrayList<>();
         prices.add(0, 0);
         for (int i = 1; i < 10; i++) {
-            prices.add(Controller.getInstance().computerAskPrice(i));
+            prices.add(Controller.getInstance().computerAskPrice(0, i));
         }
 
         VBox psInputBoxes = new VBox(5);
@@ -359,5 +359,13 @@ public class SinglePlayerGUI extends Application {
             
         });
         return menuBtn;
+    }
+    
+    public void doComputerTrades() {
+        for (PowerStation ps : Controller.getInstance().getPowerStations()) {
+            if (!ps.getPowerStationName().equals("Player")) {
+                
+            }
+        }
     }
 }

@@ -111,7 +111,7 @@ public class Model {
         simulation.setSinglePlayerPowerStationNames();
     }
     
-    public int getComputerAskPrice(int computer) {
-        return simulation.getComputerAskPrice(computer);
+    public int getComputerAskPrice(int psOne, int psTwo) {
+        return simulation.getComputerAskPrice(psOne, psTwo);
     }
 }
