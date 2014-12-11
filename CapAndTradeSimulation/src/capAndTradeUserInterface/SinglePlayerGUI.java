@@ -356,6 +356,10 @@ public class SinglePlayerGUI extends Application {
         return menuBtn;
     }
 
+    /**
+     * the computers trade amungst themselves and store the information in 
+     * each of the power stations.
+     */
     public void doComputerTrades() {
         int count = 1;
         for (PowerStation ps : Controller.getInstance().getPowerStations()) {
