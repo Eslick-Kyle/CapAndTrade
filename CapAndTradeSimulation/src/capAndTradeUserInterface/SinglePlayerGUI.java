@@ -48,7 +48,7 @@ public class SinglePlayerGUI extends Application {
         this.primaryStage = primaryStage;
         
         Controller.getInstance().setSinglePlayerNames();
-        displaySingleplayerWindow();       
+        displaySingleplayerWindow();
     }
     
     

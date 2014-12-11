@@ -109,29 +109,37 @@ public class Simulation {
     public int getComputerAskPrice(int computer) {
         int playerCleanRate = powerStations.get(0).getCleanRate();
         int computerCleanRate = powerStations.get(computer).getCleanRate();
+        Random r = new Random();
         int diff = 0;
         if (playerCleanRate != computerCleanRate) {
-            if (playerCleanRate < computerCleanRate) {
-                diff = computerCleanRate - playerCleanRate;
-            } else {
-                diff = playerCleanRate - computerCleanRate;
-            }
-            Random r = new Random();
+
+            diff = playerCleanRate - computerCleanRate;
+
+            //get the midway point betwen prices
+            diff /= 2;
+
             int nextInt = r.nextInt(100);
             if (nextInt >= 90) {
-                diff += 20;
-            } else if (nextInt >= 70) {
                 diff += 10;
+            } else if (nextInt >= 70) {
+                diff += 5;
             } else if (nextInt <= 30) {
-                diff -= 10;
+                diff -= 5;
             } else if (nextInt <= 10) {
-                diff -= 20;
+                diff -= 10;
             }
+        }
+        int nextInt = r.nextInt(100);
+        if (nextInt >= 90) {
+            diff += 5;
+        } else if (nextInt <= 10) {
+            diff -= 5;
         }
         //diff is the clean rate times 25 permits
         diff *= 25;
         return diff;
     }
+
     /**
      * Description: takes a list of names and sets the powerStations names to
      * those values
