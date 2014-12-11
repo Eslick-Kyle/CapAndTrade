@@ -18,6 +18,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -139,37 +140,23 @@ public class SinglePlayerGUI extends Application {
 
         VBox psInputBoxes = new VBox(5);
         psInputBoxes.getChildren().add(titleInfo);
-        for (PowerStation powerStation : Controller.getInstance().getPowerStations()) {
+        List<PowerStation> powerStations = Controller.getInstance().getPowerStations();
+        for (int i = 1; i < powerStations.size(); i++) {
             HBox powerStationInfo = new HBox();
             powerStationInfo.setSpacing(10);
             powerStationInfo.setMinWidth(165);
             
             Label name = new Label();
-            name.setText(powerStation.getPowerStationName());
+            name.setText(powerStations.get(i).getPowerStationName());
             name.setMinWidth(100);
 
-            //Label cleanRate = new Label();
-            //cleanRate.setText(Integer.toString(powerStation.getCleanRate()));
-            //cleanRate.setMinWidth(40);
-
-            TextField inputNumOfPermitsTraded = new TextField();
-            permitsTraded.add(inputNumOfPermitsTraded);
-            inputNumOfPermitsTraded.setMinWidth(70);
-            inputNumOfPermitsTraded.setMaxWidth(165);
-
-            TextField inputPriceOfTrades = new TextField();
-            prices.add(inputPriceOfTrades);
-            inputPriceOfTrades.setMinWidth(70);
-            inputPriceOfTrades.setMaxWidth(165);
-
-            //Label marginalProfit = new Label();
-            //marginalProfit.setText(Integer.toString(powerStation.calcMarginalProfit()));
-            //marginalProfit.setMinWidth(40);
-
+            Label permitsToTradeLbl = new Label();
+            
+            permitsToTradeLbl.setText("25");
+           
             powerStationInfo.getChildren().add(name);
+            powerStationInfo.getChildren().add(acceptTradeButton());
             //powerStationInfo.getChildren().add(cleanRate);
-            powerStationInfo.getChildren().add(inputNumOfPermitsTraded);
-            powerStationInfo.getChildren().add(inputPriceOfTrades);
             //powerStationInfo.getChildren().add(marginalProfit);
 
             psInputBoxes.getChildren().add(powerStationInfo);
@@ -180,6 +167,27 @@ public class SinglePlayerGUI extends Application {
         psInputBoxes.getChildren().add(submitTradeInfo);
         psInputBoxes.getChildren().add(updateTradeInfoButton(prices, permitsTraded));
         border.setRight(psInputBoxes);
+    }
+    
+    public Button acceptTradeButton() {
+        Button acceptTradeBtn = new Button();
+        acceptTradeBtn.setText("Accept");
+        acceptTradeBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                int maxTrades = Controller.getInstance().getPowerStations().get(0).getPermitsTraded();
+                if (maxTrades > 100) {
+                    System.out.println("You may not get more than 100 permits");
+                } else {
+                    acceptTradeBtn.setText("Accepted");
+                    acceptTradeBtn.setDisable(true);
+                     
+                }
+            }
+        });
+        
+        return acceptTradeBtn;
     }
 
     /**
