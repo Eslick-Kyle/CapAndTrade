@@ -110,17 +110,17 @@ public class Simulation {
      * Gets the computers ask price for 25 permits based off the
      * difference in clean rates between the user and the computer
      * with a bit of random to make the bids higher or lower
-     * @param computer
+     * @param psTwo
      * @return askPrice
      */
-    public int getComputerAskPrice(int computer) {
-        int playerCleanRate = powerStations.get(0).getCleanRate();
-        int computerCleanRate = powerStations.get(computer).getCleanRate();
+    public int getComputerAskPrice(int psOne, int psTwo) {
+        int firstPSCleanRate = powerStations.get(psOne).getCleanRate();
+        int secondPSCleanRate = powerStations.get(psTwo).getCleanRate();
         Random r = new Random();
         int diff = 0;
-        if (playerCleanRate != computerCleanRate) {
+        if (firstPSCleanRate != secondPSCleanRate) {
             //gets the difference in clean rates
-            diff = playerCleanRate - computerCleanRate;
+            diff = firstPSCleanRate - secondPSCleanRate;
 
             //get the midway point betwen prices
             diff /= 2;

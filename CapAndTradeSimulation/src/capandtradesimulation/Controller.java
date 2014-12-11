@@ -114,8 +114,8 @@ public class Controller extends Model {
         return marginalProfitHistory();
     }
     
-    public int computerAskPrice(int computer) {
-        return getComputerAskPrice(computer);
+    public int computerAskPrice(int psOne, int psTwo) {
+        return getComputerAskPrice(psOne, psTwo);
     }
         
 }
