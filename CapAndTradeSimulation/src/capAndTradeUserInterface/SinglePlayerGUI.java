@@ -50,6 +50,7 @@ public class SinglePlayerGUI extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         numTrades = 0;
+
         Controller.getInstance().setSinglePlayerNames();
         displaySingleplayerWindow();
     }
@@ -162,7 +163,8 @@ public class SinglePlayerGUI extends Application {
                 if (tradePrice < 0) {
                     tradeOfferString += " offers to buy 25 permits for $"
                             + Integer.toString((-1)*tradePrice); 
-                } else if (tradePrice > 0) {
+                    tradeOfferString += " offers to sell 25 permits for $"
+                            + Integer.toString((-1) * tradePrice);
                     tradeOfferString += " offers to sell 25 permits for $" + tradePrice;
                 } 
                 
@@ -205,10 +207,10 @@ public class SinglePlayerGUI extends Application {
                         acceptTradeBtn.setText("Accepted");
                         acceptTradeBtn.setDisable(true);
                     }
+                    
                 }
             }    
         });
-        
         
         return acceptTradeBtn;
     }
@@ -238,6 +240,7 @@ public class SinglePlayerGUI extends Application {
         });
         return submitTradeInfoBtn;
     }
+    
     
     public Button updateTradeInfoButton(List<Integer> prices) {
         Button updateTradeInfoBtn = new Button();
@@ -367,6 +370,11 @@ public class SinglePlayerGUI extends Application {
         return menuBtn;
     }
 
+
+    /**
+     * the computers trade amungst themselves and store the information in 
+     * each of the power stations.
+     */
     public void doComputerTrades() {
         int count = 1;
         for (PowerStation ps : Controller.getInstance().getPowerStations()) {
