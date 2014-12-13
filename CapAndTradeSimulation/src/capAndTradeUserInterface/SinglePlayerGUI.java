@@ -98,9 +98,7 @@ public class SinglePlayerGUI extends Application {
     }
 
     /**
-     * This is an optional way to display the information, this might be easier
-     * to format the way that we want as opposed to the display list. This could
-     * allow us to get the trades information.
+     * This adds a section that will display the trade information
      */
     public void displayPowerStationsAndGetTradesBoxes() {
 
@@ -230,19 +228,27 @@ public class SinglePlayerGUI extends Application {
         for (Button acceptedTradeBtn : acceptedTradeBtns) {
             acceptedTradeBtn.setDisable(true);
         }
+        //only allows the function in this if to be called once
         if (!allTradeButtonsDisabled) {
             //doComputerTrades();
             allTradeButtonsDisabled = true;
         }
     }
-
+    
+    /**
+     * This will update the players information that they have selected from the
+     * GUI
+     * @param prices - the prices that are available
+     * @param acceptedTradeBtns - list of buttons, some which are disabled
+     */
     public void updatePowerStationsPlayer(List<Integer> prices, List<Button> acceptedTradeBtns) {
         int playerPrice = 0;
         int playerPermits = 0;
         List<PowerStation> powerStations = Controller.getInstance().getPowerStations();
-        for (int i = 0; i < prices.size(); i++) {
-            if (acceptedTradeBtns.get(i).isDisabled()) {
-
+        //loops through all the prices to find the trades and prices to be updated
+        for (int i = 0; i < prices.size(); i++) {  
+            //check if the button is disabled
+            if (acceptedTradeBtns.get(i).isDisabled()) {               
                 if (prices.get(i) < 0) {  //if negative player sells permits
                     playerPermits -= 25;
                     // add the prices to the individuals permits
@@ -296,9 +302,7 @@ public class SinglePlayerGUI extends Application {
     }
 
     /**
-     * This updates the trade info to the screen
-     *
-     * @param prices list of prices
+     * This updates the trade info to the GUI
      * @param acceptedTradeBtns list of buttons
      * @return returns a button
      */
@@ -392,7 +396,7 @@ public class SinglePlayerGUI extends Application {
     }
 
     /**
-     * This creates an end of game button
+     * This creates a button that ends the game
      *
      * @return the button to send info to end of game screen.
      */
@@ -411,7 +415,7 @@ public class SinglePlayerGUI extends Application {
     }
 
     /**
-     * This creates a return to menu button
+     * This creates a button that returns to the main menu
      *
      * @return returns the button created
      */
