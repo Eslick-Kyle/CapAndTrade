@@ -94,7 +94,6 @@ public class SinglePlayerGUI extends Application {
     public void updateListView(List<Trade> trades) {
         displayList.clear();
         updatePowerStationsInfo(trades);
-
     }
 
     /**
@@ -228,9 +227,9 @@ public class SinglePlayerGUI extends Application {
         for (Button acceptedTradeBtn : acceptedTradeBtns) {
             acceptedTradeBtn.setDisable(true);
         }
+        doComputerTrades();
         //only allows the function in this if to be called once
         if (!allTradeButtonsDisabled) {
-            //doComputerTrades();
             allTradeButtonsDisabled = true;
         }
     }
@@ -256,7 +255,7 @@ public class SinglePlayerGUI extends Application {
                 } else {                  //else player buys the permits
                     playerPermits += 25;
                     // add the prices to the individuals permits
-                    playerPrice += prices.get(i);
+                    playerPrice -= prices.get(i);
                 }
 
                 // factor in price to the team that made the trade
@@ -270,7 +269,7 @@ public class SinglePlayerGUI extends Application {
                 } else {                 //else the company buys my permits
                     teamPermits += 25;
                     // sets the power stations trade income
-                    powerStations.get(i).setTradeIncome(-teamPrice);
+                    powerStations.get(i).setTradeIncome(teamPrice);
                 }
                 // sets the power stations permits traded
                 powerStations.get(i).setPermitsTraded(teamPermits);
@@ -455,13 +454,13 @@ public class SinglePlayerGUI extends Application {
                         if (trade > 0) {        //positive means the second station wants to sell
                             ps.setPermitsTraded(ps.getPermitsTraded() + 25);
                             ps.setTradeIncome(ps.getTradeIncome() - trade);
-                            Controller.getInstance().getPowerStations().get(count).setPermitsTraded(Controller.getInstance().getPowerStations().get(count).getPermitsTraded() - 25);
-                            Controller.getInstance().getPowerStations().get(count).setTradeIncome(Controller.getInstance().getPowerStations().get(count).getTradeIncome() + trade);
+                            //Controller.getInstance().getPowerStations().get(count).setPermitsTraded(Controller.getInstance().getPowerStations().get(count).getPermitsTraded() - 25);
+                            //Controller.getInstance().getPowerStations().get(count).setTradeIncome(Controller.getInstance().getPowerStations().get(count).getTradeIncome() + trade);
                         } else if (trade < 0) { //negitive means the second station wants to buy
                             ps.setPermitsTraded(ps.getPermitsTraded() - 25);
                             ps.setTradeIncome(ps.getTradeIncome() - trade);
-                            Controller.getInstance().getPowerStations().get(count).setPermitsTraded(Controller.getInstance().getPowerStations().get(count).getPermitsTraded() + 25);
-                            Controller.getInstance().getPowerStations().get(count).setTradeIncome(Controller.getInstance().getPowerStations().get(count).getTradeIncome() + trade);
+                            //Controller.getInstance().getPowerStations().get(count).setPermitsTraded(Controller.getInstance().getPowerStations().get(count).getPermitsTraded() + 25);
+                            //Controller.getInstance().getPowerStations().get(count).setTradeIncome(Controller.getInstance().getPowerStations().get(count).getTradeIncome() + trade);
                         }
                     }
                 }
