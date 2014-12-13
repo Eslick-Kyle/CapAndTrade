@@ -182,7 +182,7 @@ public class SinglePlayerGUI extends Application {
         }
 
         // puts the button in that will get the input for trade info
-        Button submitTradeInfo = submitTradeInfo();
+        Button submitTradeInfo = submitTradeInfo(acceptedTradeBtns);
         psInputBoxes.getChildren().add(submitTradeInfo);
         psInputBoxes.getChildren().add(updateTradeInfoButton(acceptedTradeBtns));
         border.setRight(psInputBoxes);
@@ -226,9 +226,9 @@ public class SinglePlayerGUI extends Application {
         for (Button acceptedTradeBtn : acceptedTradeBtns) {
             acceptedTradeBtn.setDisable(true);
         }
-        doComputerTrades();
         //only allows the function in this if to be called once
         if (!allTradeButtonsDisabled) {
+            doComputerTrades();
             allTradeButtonsDisabled = true;
         }
     }
@@ -283,19 +283,14 @@ public class SinglePlayerGUI extends Application {
      *
      * @return returns a button
      */
-    public Button submitTradeInfo() {
+    public Button submitTradeInfo(List<Button> acceptedTradeBtns) {
         Button submitTradeInfoBtn = new Button();
         submitTradeInfoBtn.setText("Submit Trade Info");
         submitTradeInfoBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                List<Trade> makeTradeList = makeTradeList();
-                Controller.getInstance().updateTradeInfo(makeTradeList);
-                makeTradeList = null;
-                if (!allTradeButtonsDisabled)
-                {
-                    doComputerTrades();
-                }
+                disableAcceptTradeButtons(acceptedTradeBtns);
+                Controller.getInstance().updateTradeInfo(makeTradeList());
                 allTradeButtonsDisabled = false;
                 numTrades = 0;
                 displaySingleplayerWindow();
@@ -347,13 +342,9 @@ public class SinglePlayerGUI extends Application {
         PowerStation safePowerStation;
         int i = 0;
         for (PowerStation ps : Controller.getInstance().getPowerStations()) {
-            safePowerStation = new PowerStation();
-            safePowerStation.setCleanRate(ps.getCleanRate());
-            safePowerStation.setTradeIncome(trades.get(i).getPriceOfTrade());
-            safePowerStation.setPermits(trades.get(i).getPermitsTraded());
             formatDisplay = ps.getPowerStationName() + " \t\t\t"
                     + Integer.toString(ps.getCleanRate())
-                    + " \t\t\t\t" + Integer.toString(safePowerStation.calcMarginalProfit());
+                    + " \t\t\t\t" + Integer.toString(ps.calcMarginalProfit());
             displayList.add(formatDisplay);
             i++;
         }
@@ -385,12 +376,12 @@ public class SinglePlayerGUI extends Application {
         String formatDisplay = "Name        CleanRate           Marginal Profit";
         displayList.add(formatDisplay);
 
-        List<Integer> totalMargeProfit = Controller.getInstance().getTotalMarginalProfit();
+        List<Integer> currentRoundMarginalProfit = Controller.getInstance().getCurrentRoundMarginalProfit();
         int i = 0;
         for (PowerStation ps : Controller.getInstance().getPowerStations()) {
             formatDisplay = ps.getPowerStationName() + " \t\t\t"
                     + Integer.toString(ps.getCleanRate())
-                    + " \t\t\t\t" + Integer.toString(totalMargeProfit.get(i));
+                    + " \t\t\t\t" + Integer.toString(currentRoundMarginalProfit.get(i));
             displayList.add(formatDisplay);
             i++;
         }
@@ -445,7 +436,7 @@ public class SinglePlayerGUI extends Application {
         int count = 1;
         for (PowerStation ps : Controller.getInstance().getPowerStations()) {
             if (!ps.getPowerStationName().equals("Player")) {
-                for (int i = 1; i < 10; i++) {
+                for (int i = 1; i < 11; i++) {
                     if ((ps.getPermitsTraded() == 100 || ps.getPermitsTraded() == -100)) {
                         break;
                     }
