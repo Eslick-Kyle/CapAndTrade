@@ -45,7 +45,6 @@ public class SinglePlayerGUI extends Application {
     private ObservableList<String> displayList;
     private int numTrades;
     private boolean allTradeButtonsDisabled = false;
-    
 
     @Override
     public void start(Stage primaryStage) {
@@ -133,11 +132,11 @@ public class SinglePlayerGUI extends Application {
          */
         ArrayList<Integer> prices = new ArrayList<>();
         ArrayList<Button> acceptedTradeBtns = new ArrayList<>();
-        
+
         acceptedTradeBtns.add(new Button());
-        
+
         // gets the computer trade price offers
-        prices.add(0,0);
+        prices.add(0, 0);
         for (int i = 1; i < 11; i++) {
             prices.add(Controller.getInstance().computerAskPrice(0, i));
         }
@@ -156,7 +155,7 @@ public class SinglePlayerGUI extends Application {
 
             Label permitsToTradeLbl = new Label();
             int tradePrice = prices.get(i);
-            
+
             System.out.println("trade price " + tradePrice);
             if (tradePrice != 0) {
                 String tradeOfferString = powerStations.get(i).getPowerStationName();
@@ -211,7 +210,7 @@ public class SinglePlayerGUI extends Application {
                 acceptTradeBtn.setDisable(true);
                 updatePowerStationsPlayer(prices, acceptedTradeBtns);
                 // check if four trades have been made and disable buttons
-                if (numTrades >= 4) {    
+                if (numTrades >= 4) {
                     disableAcceptTradeButtons(acceptedTradeBtns);
                 }
             }
@@ -219,9 +218,10 @@ public class SinglePlayerGUI extends Application {
 
         return acceptTradeBtn;
     }
-    
+
     /**
      * This will disable all the trade info buttons
+     *
      * @param acceptedTradeBtns
      */
     public void disableAcceptTradeButtons(List<Button> acceptedTradeBtns) {
@@ -246,28 +246,31 @@ public class SinglePlayerGUI extends Application {
         int playerPermits = 0;
         List<PowerStation> powerStations = Controller.getInstance().getPowerStations();
         //loops through all the prices to find the trades and prices to be updated
-        for (int i = 0; i < prices.size(); i++) {
+        for (int i = 0; i < prices.size(); i++) {  
             //check if the button is disabled
-            if (acceptedTradeBtns.get(i).isDisabled()) { 
-                // add the prices to the individuals permits
-                playerPrice -= prices.get(i);
+            if (acceptedTradeBtns.get(i).isDisabled()) {               
                 if (prices.get(i) < 0) {  //if negative player sells permits
-                    playerPermits += -25;
+                    playerPermits -= 25;
+                    // add the prices to the individuals permits
+                    playerPrice -= prices.get(i);
                 } else {                  //else player buys the permits
                     playerPermits += 25;
+                    // add the prices to the individuals permits
+                    playerPrice += prices.get(i);
                 }
-                
+
                 // factor in price to the team that made the trade
-                int teamPrice = 0; 
-                teamPrice = powerStations.get(i).getTradeIncome() - prices.get(i);
-                // sets the power stations trade income
-                powerStations.get(i).setTradeIncome(teamPrice);
-                
+                int teamPrice = prices.get(i);
+
                 int teamPermits = 0;
                 if (prices.get(i) > 0) { //if positive the company sells me permits
-                    teamPermits = powerStations.get(i).getPermitsTraded() - 25;
+                    teamPermits -= 25;
+                    // sets the power stations trade income
+                    powerStations.get(i).setTradeIncome(teamPrice);
                 } else {                 //else the company buys my permits
-                    teamPermits = powerStations.get(i).getPermitsTraded() + 25;
+                    teamPermits += 25;
+                    // sets the power stations trade income
+                    powerStations.get(i).setTradeIncome(-teamPrice);
                 }
                 // sets the power stations permits traded
                 powerStations.get(i).setPermitsTraded(teamPermits);
@@ -275,7 +278,7 @@ public class SinglePlayerGUI extends Application {
         }
         powerStations.get(0).setPermitsTraded(playerPermits); // sets my permits
         powerStations.get(0).setTradeIncome(playerPrice); // sets my total income
-                    
+
     }
 
     /**
@@ -317,6 +320,7 @@ public class SinglePlayerGUI extends Application {
 
     /**
      * This updates the power station information
+     *
      * @param trades
      */
     public void updatePowerStationsInfo(List<Trade> trades) {
@@ -442,7 +446,7 @@ public class SinglePlayerGUI extends Application {
                         break;
                     }
                     if (count != i) {
-                        if ((Controller.getInstance().getPowerStations().get(count).getPermitsTraded() == 100 
+                        if ((Controller.getInstance().getPowerStations().get(count).getPermitsTraded() == 100
                                 || Controller.getInstance().getPowerStations().get(count).getPermitsTraded() == -100)) {
                             break;
                         }
@@ -464,10 +468,11 @@ public class SinglePlayerGUI extends Application {
             }
         }
     }
-    
+
     /**
      * Makes a List of trades from the information stored in the power stations
-     * @return 
+     *
+     * @return
      */
     public List<Trade> makeTradeList() {
         ArrayList<Trade> trades = new ArrayList<>();
@@ -477,7 +482,7 @@ public class SinglePlayerGUI extends Application {
             tempTrade.setPriceOfTrade(ps.getTradeIncome());
             trades.add(tempTrade);
         }
-        
+
         return trades;
     }
 }
