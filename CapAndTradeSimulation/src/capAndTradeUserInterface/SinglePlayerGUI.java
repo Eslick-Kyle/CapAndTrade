@@ -156,7 +156,6 @@ public class SinglePlayerGUI extends Application {
             Label permitsToTradeLbl = new Label();
             int tradePrice = prices.get(i);
 
-            System.out.println("trade price " + tradePrice);
             if (tradePrice != 0) {
                 String tradeOfferString = powerStations.get(i).getPowerStationName();
                 if (tradePrice < 0) {
@@ -249,7 +248,7 @@ public class SinglePlayerGUI extends Application {
         for (int i = 0; i < prices.size(); i++) {  
             //check if the button is disabled
             if (acceptedTradeBtns.get(i).isDisabled()) {               
-                if (prices.get(i) < 0) {  //if negative player sells permits
+                if (prices.get(i) < 0) {  //if negative, player sells permits
                     playerPermits -= 25;
                     // add the prices to the individuals permits
                     playerPrice -= prices.get(i);
