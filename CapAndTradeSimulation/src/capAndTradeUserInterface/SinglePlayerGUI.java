@@ -279,7 +279,6 @@ public class SinglePlayerGUI extends Application {
             @Override
             public void handle(ActionEvent event) {
                 disableAcceptTradeButtons(acceptedTradeBtns);
-                doComputerTrades();
                 updateListView(makeTradeList());
             }
         });
