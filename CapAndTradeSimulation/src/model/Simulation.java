@@ -105,11 +105,12 @@ public class Simulation {
         }
         marginalProfitHistory.add(margeProfit);
     }
-    
+
     /**
-     * Gets the computers ask price for 25 permits based off the
-     * difference in clean rates between the user and the computer
-     * with a bit of random to make the bids higher or lower
+     * Gets the computers ask price for 25 permits based off the difference in
+     * clean rates between the user and the computer with a bit of random to
+     * make the bids higher or lower
+     *
      * @param psTwo
      * @return askPrice
      */
@@ -124,6 +125,15 @@ public class Simulation {
 
             //get the midway point betwen prices
             diff /= 2;
+            if (diff == 25) {
+                diff = 40;
+            } else if (diff == -25) {
+                diff = -40;
+            } else if (diff == 20) {
+                diff = 30;
+            } else if (diff == -20) {
+                diff = -30;
+            }
 
             //this makes the clean rates have a bit of random in them
             int nextInt = r.nextInt(100);
@@ -136,15 +146,19 @@ public class Simulation {
             } else if (nextInt <= 10) {
                 diff -= 10;
             }
+        } else {
+            diff = firstPSCleanRate;
+            //this makes the clean rates have a bit of random in them
+            int nextInt = r.nextInt(100);
+            if (nextInt >= 90) {
+                diff += 5;
+            } else if (nextInt <= 10) {
+                diff -= 5;
+            } else {
+                diff = 0;
+            }
         }
-        //this makes the clean rates have a bit of random in them
-        int nextInt = r.nextInt(100);
-        if (nextInt >= 90) {
-            diff += 5;
-        } else if (nextInt <= 10) {
-            diff -= 5;
-        }
-        
+
         //diff is the clean rate times 25 permits
         diff *= 25;
         return diff;
