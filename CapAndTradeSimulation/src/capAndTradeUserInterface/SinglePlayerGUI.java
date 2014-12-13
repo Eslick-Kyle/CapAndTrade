@@ -137,7 +137,7 @@ public class SinglePlayerGUI extends Application {
         ArrayList<Button> acceptedTradeBtns = new ArrayList<>();
         prices.add(0,0);
         acceptedTradeBtns.add(new Button());
-        for (int i = 0; i < 10; i++) {
+        for (int i = 1; i < 11; i++) {
             prices.add(Controller.getInstance().computerAskPrice(0, i));
         }
 
@@ -155,14 +155,15 @@ public class SinglePlayerGUI extends Application {
 
             Label permitsToTradeLbl = new Label();
             int tradePrice = prices.get(i);
-
+            
+            System.out.println("trade price " + tradePrice);
             if (tradePrice != 0) {
                 String tradeOfferString = powerStations.get(i).getPowerStationName();
                 if (tradePrice < 0) {
-                    tradeOfferString += " offers to buy 25 permits for $"
+                    tradeOfferString += " offers to sell 25 permits for $"
                             + Integer.toString((-1) * tradePrice);
                 } else if (tradePrice > 0) {
-                    tradeOfferString += " offers to sell 25 permits for $"
+                    tradeOfferString += " offers to buy 25 permits for $"
                             + tradePrice;
                 }
 
