@@ -139,6 +139,8 @@ public class SinglePlayerGUI extends Application {
             name.setMinWidth(100);
 
             Label permitsToTradeLbl = new Label();
+            permitsToTradeLbl.setMinWidth(446);
+            permitsToTradeLbl.setMaxWidth(500);
             int tradePrice = prices.get(i);
 
             if (tradePrice != 0) {
@@ -161,20 +163,18 @@ public class SinglePlayerGUI extends Application {
             } else {
                 acceptedTradeBtns.add(new Button());
             }
-            //powerStationInfo.getChildren().add(name);
-            //powerStationInfo.getChildren().add(cleanRate);
-            //powerStationInfo.getChildren().add(marginalProfit);
             psInputBoxes.getChildren().add(powerStationInfo);
         }
 
         //format button acceptedTradeBtns and submitTradeInfo button
-        VBox buttons = new VBox();
+        HBox buttons = new HBox(5);
         Button submitTradeInfo = submitTradeInfo(acceptedTradeBtns);
         buttons.getChildren().add(submitTradeInfo);
-        // puts the button in that will get the input for trade info
+        buttons.getChildren().add(updateTradeInfoButton(acceptedTradeBtns));
         
-        psInputBoxes.getChildren().add(submitTradeInfo);
-        psInputBoxes.getChildren().add(updateTradeInfoButton(acceptedTradeBtns));
+        //puts the buttons in that will get the input for trade info, 
+        //and submitTradeInfo        
+        psInputBoxes.getChildren().add(buttons);
         border.setRight(psInputBoxes);
     }
 
