@@ -378,12 +378,12 @@ public class SinglePlayerGUI extends Application {
         String formatDisplay = "Name        CleanRate           Marginal Profit";
         displayList.add(formatDisplay);
 
-        List<Integer> currentRoundMarginalProfit = Controller.getInstance().getCurrentRoundMarginalProfit();
+        List<Integer> totalMarginalProfit = Controller.getInstance().getTotalMarginalProfit();
         int i = 0;
         for (PowerStation ps : Controller.getInstance().getPowerStations()) {
             formatDisplay = ps.getPowerStationName() + " \t\t\t"
                     + Integer.toString(ps.getCleanRate())
-                    + " \t\t\t\t" + Integer.toString(currentRoundMarginalProfit.get(i));
+                    + " \t\t\t\t" + Integer.toString(totalMarginalProfit.get(i));
             displayList.add(formatDisplay);
             i++;
         }
