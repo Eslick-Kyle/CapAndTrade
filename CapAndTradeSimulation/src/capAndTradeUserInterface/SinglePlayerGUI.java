@@ -331,15 +331,19 @@ public class SinglePlayerGUI extends Application {
         //formats the heading for all the teams
         String formatDisplay = "Name\t\t\tCleanRate\t\tMarginal Profit";
         displayList.add(formatDisplay);
+        
+        PowerStation player = Controller.getInstance().getPowerStations().get(0);
+        formatDisplay = player.getPowerStationName() + "       \t\t\t" + player.getCleanRate()
+                + "\t\t\t\t" + player.calcMarginalProfit();
+        displayList.add(formatDisplay);
 
-        PowerStation safePowerStation;
-        int i = 0;
-        for (PowerStation ps : Controller.getInstance().getPowerStations()) {
-            formatDisplay = ps.getPowerStationName() + " \t\t\t"
-                    + Integer.toString(ps.getCleanRate())
-                    + " \t\t\t\t" + Integer.toString(ps.calcMarginalProfit());
+        //formats the computer teams to make them display correctly
+        List<PowerStation> ps = Controller.getInstance().getPowerStations();
+        for (int i = 1; i < ps.size(); i++) {
+            formatDisplay = ps.get(i).getPowerStationName() + " \t\t\t"
+                    + Integer.toString(ps.get(i).getCleanRate())
+                    + " \t\t\t\t" + Integer.toString(ps.get(i).calcMarginalProfit());
             displayList.add(formatDisplay);
-            i++;
         }
     }
 
