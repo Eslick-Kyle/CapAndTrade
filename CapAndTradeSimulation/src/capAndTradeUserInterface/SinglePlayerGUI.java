@@ -44,6 +44,7 @@ public class SinglePlayerGUI extends Application {
     private BorderPane border;
     private ObservableList<String> displayList;
     private int numTrades;
+    ;
     
 
     @Override
@@ -162,16 +163,23 @@ public class SinglePlayerGUI extends Application {
                 prices.add(tradePrice);
                 if (tradePrice < 0) {
                     tradeOfferString += " offers to buy 25 permits for $"
-                            + Integer.toString((-1)*tradePrice); 
+                            + Integer.toString((-1)*tradePrice);
+                }
+                else if (tradePrice > 0) {
                     tradeOfferString += " offers to sell 25 permits for $"
-                            + Integer.toString((-1) * tradePrice);
-                    tradeOfferString += " offers to sell 25 permits for $" + tradePrice;
+                            + tradePrice;
                 } 
                 
-                Button acceptTradeBtn = acceptTradeButton(acceptedTradeBtns);
+                permitsToTradeLbl.setText(tradeOfferString);
+                
+                Button acceptTradeBtn = acceptTradeButton(prices, acceptedTradeBtns);
                 acceptedTradeBtns.add(acceptTradeBtn);
-                    tradeOfferString += " offers to buy 25 permits for $" + tradePrice;
-                }
+                
+                powerStationInfo.getChildren().add(permitsToTradeLbl);
+                powerStationInfo.getChildren().add(acceptTradeBtn);
+            } else {
+                acceptedTradeBtns.add(new Button());
+            }
             //powerStationInfo.getChildren().add(name);
             //powerStationInfo.getChildren().add(cleanRate);
             //powerStationInfo.getChildren().add(marginalProfit);
@@ -185,7 +193,14 @@ public class SinglePlayerGUI extends Application {
         border.setRight(psInputBoxes);
     }
     
-    public Button acceptTradeButton(List<Button> acceptedTradeBtns) {
+    /**
+     * This will create a button that checks if a trade is excepted or not
+     * @param prices
+     * @param acceptedTradeBtns
+     * @return - returns a button
+     */
+    public Button acceptTradeButton(List<Integer> prices, List<Button> acceptedTradeBtns) {
+        
         Button acceptTradeBtn = new Button();
         acceptTradeBtn.setText("Accept");
         acceptTradeBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -196,18 +211,13 @@ public class SinglePlayerGUI extends Application {
                 acceptTradeBtn.setText("Accepted");
                 acceptTradeBtn.setDisable(true);
 
+                // check if four trades have been made and disable buttons
                 if (numTrades >= 4) {
+                    System.out.println("acceptTradeButton " + prices.size() + " = " + acceptedTradeBtns.size());
+                    
                     for (Button acceptedTradeBtn : acceptedTradeBtns) {
                         acceptedTradeBtn.setDisable(true);
                     }
-                    int maxTrades = Controller.getInstance().getPowerStations().get(0).getPermitsTraded();
-                    if (maxTrades > 100) {
-                        System.out.println("You may not get more than 100 permits");
-                    } else {
-                        acceptTradeBtn.setText("Accepted");
-                        acceptTradeBtn.setDisable(true);
-                    }
-
                 }
             }    
         });
