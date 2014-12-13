@@ -138,8 +138,9 @@ public class SinglePlayerGUI extends Application {
          */
         ArrayList<Integer> prices = new ArrayList<>();
         ArrayList<Button> acceptedTradeBtns = new ArrayList<>();
-        prices.add(0, 0);
-        for (int i = 1; i < 10; i++) {
+        prices.add(0,0);
+        acceptedTradeBtns.add(new Button());
+        for (int i = 0; i < 10; i++) {
             prices.add(Controller.getInstance().computerAskPrice(0, i));
         }
 
@@ -160,7 +161,6 @@ public class SinglePlayerGUI extends Application {
 
             if (tradePrice != 0) {
                 String tradeOfferString = powerStations.get(i).getPowerStationName();
-                prices.add(tradePrice);
                 if (tradePrice < 0) {
                     tradeOfferString += " offers to buy 25 permits for $"
                             + Integer.toString((-1)*tradePrice);
@@ -213,7 +213,7 @@ public class SinglePlayerGUI extends Application {
 
                 // check if four trades have been made and disable buttons
                 if (numTrades >= 4) {
-                    System.out.println("acceptTradeButton " + prices.size() + " = " + acceptedTradeBtns.size());
+                    
                     
                     for (Button acceptedTradeBtn : acceptedTradeBtns) {
                         acceptedTradeBtn.setDisable(true);
