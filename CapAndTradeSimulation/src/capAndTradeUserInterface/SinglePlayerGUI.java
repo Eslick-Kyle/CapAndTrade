@@ -264,8 +264,9 @@ public class SinglePlayerGUI extends Application {
 
     /**
      * This updates the trade info to the screen
-     * @param prices
-     * @return
+     * @param prices list of prices
+     * @param acceptedTradeBtns list of buttons
+     * @return returns a button
      */
     public Button updateTradeInfoButton(List<Integer> prices, List<Button> acceptedTradeBtns) {
         Button updateTradeInfoBtn = new Button();
