@@ -44,6 +44,7 @@ public class SinglePlayerGUI extends Application {
     private BorderPane border;
     private ObservableList<String> displayList;
     private int numTrades;
+
     ;
     
 
@@ -54,6 +55,7 @@ public class SinglePlayerGUI extends Application {
 
         Controller.getInstance().setSinglePlayerNames();
         displaySingleplayerWindow();
+        doComputerTrades();
     }
 
     /**
@@ -112,13 +114,10 @@ public class SinglePlayerGUI extends Application {
         //titleInfo.setSpacing(50);
         //Label nameTitle = new Label();
         //nameTitle.setText("Name");
-
         //Label cleanRateTitle = new Label();
         //cleanRateTitle.setText("Clean Rate");
-
         //Label permitsTradedTitle = new Label();
         //permitsTradedTitle.setText("Permits Traded");
-
         Label salePriceTitle = new Label();
         salePriceTitle.setText("Sale Price");
 
@@ -163,18 +162,17 @@ public class SinglePlayerGUI extends Application {
                 prices.add(tradePrice);
                 if (tradePrice < 0) {
                     tradeOfferString += " offers to buy 25 permits for $"
-                            + Integer.toString((-1)*tradePrice);
-                }
-                else if (tradePrice > 0) {
+                            + Integer.toString((-1) * tradePrice);
+                } else if (tradePrice > 0) {
                     tradeOfferString += " offers to sell 25 permits for $"
                             + tradePrice;
-                } 
-                
+                }
+
                 permitsToTradeLbl.setText(tradeOfferString);
-                
+
                 Button acceptTradeBtn = acceptTradeButton(prices, acceptedTradeBtns);
                 acceptedTradeBtns.add(acceptTradeBtn);
-                
+
                 powerStationInfo.getChildren().add(permitsToTradeLbl);
                 powerStationInfo.getChildren().add(acceptTradeBtn);
             } else {
@@ -192,15 +190,16 @@ public class SinglePlayerGUI extends Application {
         psInputBoxes.getChildren().add(updateTradeInfoButton(prices));
         border.setRight(psInputBoxes);
     }
-    
+
     /**
      * This will create a button that checks if a trade is excepted or not
+     *
      * @param prices
      * @param acceptedTradeBtns
      * @return - returns a button
      */
     public Button acceptTradeButton(List<Integer> prices, List<Button> acceptedTradeBtns) {
-        
+
         Button acceptTradeBtn = new Button();
         acceptTradeBtn.setText("Accept");
         acceptTradeBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -214,12 +213,12 @@ public class SinglePlayerGUI extends Application {
                 // check if four trades have been made and disable buttons
                 if (numTrades >= 4) {
                     System.out.println("acceptTradeButton " + prices.size() + " = " + acceptedTradeBtns.size());
-                    
+
                     for (Button acceptedTradeBtn : acceptedTradeBtns) {
                         acceptedTradeBtn.setDisable(true);
                     }
                 }
-            }    
+            }
         });
 
         return acceptTradeBtn;
@@ -251,7 +250,6 @@ public class SinglePlayerGUI extends Application {
         return submitTradeInfoBtn;
     }
 
-    
     public Button updateTradeInfoButton(List<Integer> prices) {
         Button updateTradeInfoBtn = new Button();
         updateTradeInfoBtn.setText("Update Trade Info");
@@ -299,7 +297,6 @@ public class SinglePlayerGUI extends Application {
             displayList.add(formatDisplay);
             i++;
         }
-
     }
 
     public void getTradeInfo() {
@@ -380,33 +377,36 @@ public class SinglePlayerGUI extends Application {
         return menuBtn;
     }
 
-
     /**
-     * the computers trade amungst themselves and store the information in 
-     * each of the power stations.
+     * the computers trade amungst themselves and store the information in each
+     * of the power stations.
      */
     public void doComputerTrades() {
         int count = 1;
         for (PowerStation ps : Controller.getInstance().getPowerStations()) {
             if (!ps.getPowerStationName().equals("Player")) {
-
                 for (int i = 1; i < 10; i++) {
-                    if (!(ps.getPermitsTraded() == 100 || ps.getPermitsTraded() == -100)) {
+                    if ((ps.getPermitsTraded() == 100 || ps.getPermitsTraded() == -100)) {
                         break;
                     }
                     if (count != i) {
+                        if ((Controller.getInstance().getPowerStations().get(count).getPermitsTraded() == 100 
+                                || Controller.getInstance().getPowerStations().get(count).getPermitsTraded() == -100)) {
+                            break;
+                        }
                         int trade = Controller.getInstance().computerAskPrice(count, i);
                         if (trade > 0) {        //positive means the second station wants to sell
                             ps.setPermitsTraded(ps.getPermitsTraded() + 25);
                             ps.setTradeIncome(ps.getTradeIncome() - trade);
                         } else if (trade < 0) { //negitive means the second station wants to buy
                             ps.setPermitsTraded(ps.getPermitsTraded() - 25);
-                            ps.setTradeIncome(ps.getTradeIncome() + trade);
+                            ps.setTradeIncome(ps.getTradeIncome() - trade);
                         }
                     }
                 }
+                count++;
             }
-            count++;
         }
     }
+    
 }
