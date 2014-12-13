@@ -20,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -101,29 +102,14 @@ public class SinglePlayerGUI extends Application {
      */
     public void displayPowerStationsAndGetTradesBoxes() {
 
-        // right now this hBox is not being used!!!!!!!!!!
         HBox titleInfo = new HBox();
 
-        //titleInfo.setPadding(new Insets(15, 12, 15, 12));
-        //titleInfo.setSpacing(50);
-        //Label nameTitle = new Label();
-        //nameTitle.setText("Name");
-        //Label cleanRateTitle = new Label();
-        //cleanRateTitle.setText("Clean Rate");
-        //Label permitsTradedTitle = new Label();
-        //permitsTradedTitle.setText("Permits Traded");
-        Label salePriceTitle = new Label();
-        salePriceTitle.setText("Sale Price");
+        Label headerLabel = new Label();
+        headerLabel.setText("Trade Offers (can only accept up to 4)");
 
-        Label marginalProfitTitle = new Label();
-        marginalProfitTitle.setText("Marginal Profit");
-
-        //titleInfo.getChildren().add(nameTitle);
-        //titleInfo.getChildren().add(cleanRateTitle);
-        //titleInfo.getChildren().add(permitsTradedTitle);
-        //titleInfo.getChildren().add(salePriceTitle);
-        //titleInfo.getChildren().add(marginalProfitTitle);
-        //border.setLeft(titleInfo);
+        titleInfo.getChildren().add(headerLabel);
+        titleInfo.setAlignment(Pos.CENTER);
+        border.setLeft(titleInfo);
 
         /* Sets the information with the text fields to account for all the 
          information. This also formats the area where the information will 
@@ -181,8 +167,12 @@ public class SinglePlayerGUI extends Application {
             psInputBoxes.getChildren().add(powerStationInfo);
         }
 
-        // puts the button in that will get the input for trade info
+        //format button acceptedTradeBtns and submitTradeInfo button
+        VBox buttons = new VBox();
         Button submitTradeInfo = submitTradeInfo(acceptedTradeBtns);
+        buttons.getChildren().add(submitTradeInfo);
+        // puts the button in that will get the input for trade info
+        
         psInputBoxes.getChildren().add(submitTradeInfo);
         psInputBoxes.getChildren().add(updateTradeInfoButton(acceptedTradeBtns));
         border.setRight(psInputBoxes);
@@ -336,7 +326,8 @@ public class SinglePlayerGUI extends Application {
         displayPStationInfo += "" + basicInfo.calcSales() + "\n";
         displayList.add(displayPStationInfo);
 
-        String formatDisplay = "Name        CleanRate           Marginal Profit";
+        //formats the heading for all the teams
+        String formatDisplay = "Name        \t\tCleanRate           \tMarginal Profit";
         displayList.add(formatDisplay);
 
         PowerStation safePowerStation;
@@ -373,17 +364,25 @@ public class SinglePlayerGUI extends Application {
         displayPStationInfo += "" + basicInfo.calcSales() + "\n";
         displayList.add(displayPStationInfo);
 
-        String formatDisplay = "Name        CleanRate           Marginal Profit";
+        //formats the heading for all the teams
+        String formatDisplay = "Name        \t\tCleanRate           \tMarginal Profit";
         displayList.add(formatDisplay);
-
+        
         List<Integer> currentRoundMarginalProfit = Controller.getInstance().getCurrentRoundMarginalProfit();
-        int i = 0;
-        for (PowerStation ps : Controller.getInstance().getPowerStations()) {
-            formatDisplay = ps.getPowerStationName() + " \t\t\t"
-                    + Integer.toString(ps.getCleanRate())
+        
+        //formats the player to conform to all the other teams
+        PowerStation player = Controller.getInstance().getPowerStations().get(0);
+        formatDisplay = player.getPowerStationName() + "       \t\t\t" + player.getCleanRate()
+                + "\t\t\t\t" + currentRoundMarginalProfit.get(0);
+        displayList.add(formatDisplay);
+        
+        //formats the computer teams to make them display correctly
+        List<PowerStation> ps = Controller.getInstance().getPowerStations();
+        for (int i = 1; i < ps.size(); i++) {
+            formatDisplay = ps.get(i).getPowerStationName() + " \t\t\t"
+                    + Integer.toString(ps.get(i).getCleanRate())
                     + " \t\t\t\t" + Integer.toString(currentRoundMarginalProfit.get(i));
             displayList.add(formatDisplay);
-            i++;
         }
 
         return displayList;
