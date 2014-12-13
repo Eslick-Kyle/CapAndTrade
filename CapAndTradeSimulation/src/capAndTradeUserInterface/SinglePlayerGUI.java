@@ -183,9 +183,9 @@ public class SinglePlayerGUI extends Application {
         }
 
         // puts the button in that will get the input for trade info
-        Button submitTradeInfo = submitTradeInfo(prices);
+        Button submitTradeInfo = submitTradeInfo();
         psInputBoxes.getChildren().add(submitTradeInfo);
-        psInputBoxes.getChildren().add(updateTradeInfoButton(prices, acceptedTradeBtns));
+        psInputBoxes.getChildren().add(updateTradeInfoButton(acceptedTradeBtns));
         border.setRight(psInputBoxes);
     }
 
@@ -239,23 +239,15 @@ public class SinglePlayerGUI extends Application {
     /**
      * This sets up and controls the button that sill submit tradeInformation
      *
-     * @param prices - the text fields that get the price input
-     * @param permitsTraded - the text fields that get the permitsTraded input
      * @return returns a button
      */
-    public Button submitTradeInfo(List<Integer> prices) {
+    public Button submitTradeInfo() {
         Button submitTradeInfoBtn = new Button();
         submitTradeInfoBtn.setText("Submit Trade Info");
         submitTradeInfoBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                ArrayList<Trade> trades = new ArrayList<>();
-                for (int i = 0; i < prices.size(); i++) {
-                    //trades.add(new Trade(permitsTraded.get(i).getText(), prices.get(i).getText()));
-                    //prices.get(i).clear();
-                    //permitsTraded.get(i).clear();
-                }
-                //Controller.getInstance().updateTradeInfo(trades);
+                Controller.getInstance().updateTradeInfo(makeTradeList());
                 displaySingleplayerWindow();
             }
         });
@@ -268,21 +260,16 @@ public class SinglePlayerGUI extends Application {
      * @param acceptedTradeBtns list of buttons
      * @return returns a button
      */
-    public Button updateTradeInfoButton(List<Integer> prices, List<Button> acceptedTradeBtns) {
+    public Button updateTradeInfoButton(List<Button> acceptedTradeBtns) {
         Button updateTradeInfoBtn = new Button();
         updateTradeInfoBtn.setText("Update Trade Info");
         updateTradeInfoBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                ArrayList<Trade> trades = new ArrayList<>();
-                for (int i = 0; i < prices.size(); i++) {
-                    //trades.add(new Trade(permitsTraded.get(i).getText(), prices.get(i).));
-                }
-                //Controller.getInstance().updateTradeInfo(trades);
                 for (Button acceptedTradeBtn : acceptedTradeBtns) {
                         acceptedTradeBtn.setDisable(true);
                 }
-                updateListView(trades);
+                updateListView(makeTradeList());
             }
         });
         return updateTradeInfoBtn;
@@ -433,6 +420,11 @@ public class SinglePlayerGUI extends Application {
             }
         }
     }
+    
+    /**
+     * Makes a List of trades from the information stored in the power stations
+     * @return 
+     */
     public List<Trade> makeTradeList() {
         ArrayList<Trade> trades = new ArrayList<>();
         for (PowerStation ps : Controller.getInstance().getPowerStations()) {
