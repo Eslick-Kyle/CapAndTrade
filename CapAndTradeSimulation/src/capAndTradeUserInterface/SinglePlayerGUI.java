@@ -329,7 +329,7 @@ public class SinglePlayerGUI extends Application {
         displayList.add(displayPStationInfo);
 
         //formats the heading for all the teams
-        String formatDisplay = "Name        \t\tCleanRate           \tMarginal Profit";
+        String formatDisplay = "Name\t\t\tCleanRate\t\tMarginal Profit";
         displayList.add(formatDisplay);
 
         PowerStation safePowerStation;
@@ -367,7 +367,7 @@ public class SinglePlayerGUI extends Application {
         displayList.add(displayPStationInfo);
 
         //formats the heading for all the teams
-        String formatDisplay = "Name        \t\tCleanRate           \tMarginal Profit";
+        String formatDisplay = "Name\t\t\tCleanRate\t\tMarginal Profit";
         displayList.add(formatDisplay);
         
         List<Integer> currentRoundMarginalProfit = Controller.getInstance().getCurrentRoundMarginalProfit();
