@@ -370,12 +370,11 @@ public class SinglePlayerGUI extends Application {
         String formatDisplay = "Name\t\t\tCleanRate\t\tMarginal Profit";
         displayList.add(formatDisplay);
         
-        List<Integer> currentRoundMarginalProfit = Controller.getInstance().getCurrentRoundMarginalProfit();
-        
+        List<Integer> totalMarginalProfit = Controller.getInstance().getTotalMarginalProfit();
         //formats the player to conform to all the other teams
         PowerStation player = Controller.getInstance().getPowerStations().get(0);
         formatDisplay = player.getPowerStationName() + "       \t\t\t" + player.getCleanRate()
-                + "\t\t\t\t" + currentRoundMarginalProfit.get(0);
+                + "\t\t\t\t" + totalMarginalProfit.get(0);
         displayList.add(formatDisplay);
         
         //formats the computer teams to make them display correctly
@@ -383,7 +382,7 @@ public class SinglePlayerGUI extends Application {
         for (int i = 1; i < ps.size(); i++) {
             formatDisplay = ps.get(i).getPowerStationName() + " \t\t\t"
                     + Integer.toString(ps.get(i).getCleanRate())
-                    + " \t\t\t\t" + Integer.toString(currentRoundMarginalProfit.get(i));
+                    + " \t\t\t\t" + Integer.toString(totalMarginalProfit.get(i));
             displayList.add(formatDisplay);
         }
 
