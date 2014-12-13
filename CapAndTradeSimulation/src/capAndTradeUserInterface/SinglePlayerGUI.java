@@ -44,7 +44,7 @@ public class SinglePlayerGUI extends Application {
     private BorderPane border;
     private ObservableList<String> displayList;
     private int numTrades;
-    
+    private boolean allTradeButtonsDisabled = false;
     
 
     @Override
@@ -207,33 +207,44 @@ public class SinglePlayerGUI extends Application {
                 numTrades++;
                 acceptTradeBtn.setText("Accepted");
                 acceptTradeBtn.setDisable(true);
-
+                updatePowerStationsPlayer(prices, acceptedTradeBtns);
                 // check if four trades have been made and disable buttons
-                if (numTrades >= 4) {
-                    int playerPrice = 0;
-                    int playerPermits = 0;
-                    List<PowerStation> powerStations = Controller.getInstance().getPowerStations();
-                    for (int i = 0; i < prices.size(); i++) {
-                        if (acceptedTradeBtns.get(i).isDisabled()) {
-                            playerPrice += prices.get(i);
-                            playerPermits += 25;
-                            int tempPriceTrade = prices.get(i) + powerStations.get(i).getTradeIncome();
-                            powerStations.get(i).setPermitsTraded(tempPriceTrade);
-                            int tempPermitsTraded = 25 + powerStations.get(i).getPermitsTraded();
-                            powerStations.get(i).setTradeIncome(tempPermitsTraded);
-                        }
-                    }
-                    powerStations.get(0).setPermitsTraded(playerPermits);
-                    powerStations.get(0).setTradeIncome(playerPrice);
-                    
-                    for (Button acceptedTradeBtn : acceptedTradeBtns) {
-                        acceptedTradeBtn.setDisable(true);
-                    }
+                if (numTrades >= 4) {    
+                    disableAcceptTradeButtons(acceptedTradeBtns);
                 }
             }
         });
 
         return acceptTradeBtn;
+    }
+    
+    public void disableAcceptTradeButtons(List<Button> acceptedTradeBtns) {
+        for (Button acceptedTradeBtn : acceptedTradeBtns) {
+            acceptedTradeBtn.setDisable(true);
+        }
+        if (!allTradeButtonsDisabled) {
+            doComputerTrades();
+            allTradeButtonsDisabled = true;
+        }
+    }
+    
+    public void updatePowerStationsPlayer(List<Integer> prices, List<Button> acceptedTradeBtns) {
+        int playerPrice = 0;
+        int playerPermits = 0;
+        List<PowerStation> powerStations = Controller.getInstance().getPowerStations();
+        for (int i = 0; i < prices.size(); i++) {
+            if (acceptedTradeBtns.get(i).isDisabled()) {
+                playerPrice += prices.get(i);
+                playerPermits += 25;
+                int tempPriceTrade = prices.get(i) + powerStations.get(i).getTradeIncome();
+                powerStations.get(i).setPermitsTraded(tempPriceTrade);
+                int tempPermitsTraded = 25 + powerStations.get(i).getPermitsTraded();
+                powerStations.get(i).setTradeIncome(tempPermitsTraded);
+            }
+        }
+        powerStations.get(0).setPermitsTraded(playerPermits);
+        powerStations.get(0).setTradeIncome(playerPrice);
+                    
     }
 
     /**
@@ -248,6 +259,7 @@ public class SinglePlayerGUI extends Application {
             @Override
             public void handle(ActionEvent event) {
                 Controller.getInstance().updateTradeInfo(makeTradeList());
+                numTrades = 0;
                 displaySingleplayerWindow();
             }
         });
@@ -266,9 +278,8 @@ public class SinglePlayerGUI extends Application {
         updateTradeInfoBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                for (Button acceptedTradeBtn : acceptedTradeBtns) {
-                        acceptedTradeBtn.setDisable(true);
-                }
+                disableAcceptTradeButtons(acceptedTradeBtns);
+                doComputerTrades();
                 updateListView(makeTradeList());
             }
         });
