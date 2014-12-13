@@ -54,7 +54,6 @@ public class SinglePlayerGUI extends Application {
 
         Controller.getInstance().setSinglePlayerNames();
         displaySingleplayerWindow();
-        doComputerTrades();
     }
 
     /**
@@ -433,5 +432,15 @@ public class SinglePlayerGUI extends Application {
             }
         }
     }
-    
+    public List<Trade> makeTradeList() {
+        ArrayList<Trade> trades = new ArrayList<>();
+        for (PowerStation ps : Controller.getInstance().getPowerStations()) {
+            Trade tempTrade = new Trade();
+            tempTrade.setPermitsTraded(ps.getPermitsTraded());
+            tempTrade.setPriceOfTrade(ps.getTradeIncome());
+            trades.add(tempTrade);
+        }
+        
+        return trades;
+    }
 }
