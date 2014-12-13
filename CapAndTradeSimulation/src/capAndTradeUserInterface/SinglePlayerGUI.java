@@ -292,6 +292,11 @@ public class SinglePlayerGUI extends Application {
                 List<Trade> makeTradeList = makeTradeList();
                 Controller.getInstance().updateTradeInfo(makeTradeList);
                 makeTradeList = null;
+                if (!allTradeButtonsDisabled)
+                {
+                    doComputerTrades();
+                }
+                allTradeButtonsDisabled = false;
                 numTrades = 0;
                 displaySingleplayerWindow();
             }
