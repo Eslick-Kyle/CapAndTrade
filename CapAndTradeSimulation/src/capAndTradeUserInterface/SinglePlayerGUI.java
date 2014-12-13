@@ -224,7 +224,7 @@ public class SinglePlayerGUI extends Application {
             acceptedTradeBtn.setDisable(true);
         }
         if (!allTradeButtonsDisabled) {
-            doComputerTrades();
+            //doComputerTrades();
             allTradeButtonsDisabled = true;
         }
     }
@@ -421,9 +421,13 @@ public class SinglePlayerGUI extends Application {
                         if (trade > 0) {        //positive means the second station wants to sell
                             ps.setPermitsTraded(ps.getPermitsTraded() + 25);
                             ps.setTradeIncome(ps.getTradeIncome() - trade);
+                            Controller.getInstance().getPowerStations().get(count).setPermitsTraded(Controller.getInstance().getPowerStations().get(count).getPermitsTraded() - 25);
+                            Controller.getInstance().getPowerStations().get(count).setTradeIncome(Controller.getInstance().getPowerStations().get(count).getTradeIncome() + trade);
                         } else if (trade < 0) { //negitive means the second station wants to buy
                             ps.setPermitsTraded(ps.getPermitsTraded() - 25);
                             ps.setTradeIncome(ps.getTradeIncome() - trade);
+                            Controller.getInstance().getPowerStations().get(count).setPermitsTraded(Controller.getInstance().getPowerStations().get(count).getPermitsTraded() + 25);
+                            Controller.getInstance().getPowerStations().get(count).setTradeIncome(Controller.getInstance().getPowerStations().get(count).getTradeIncome() + trade);
                         }
                     }
                 }
