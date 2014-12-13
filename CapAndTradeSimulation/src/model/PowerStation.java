@@ -50,6 +50,14 @@ public class PowerStation {
             }
         }
     }
+    
+    public void powerStationReset() {
+        energyProd = 100;
+        emissions = 200;
+        permits = 100;
+        permitsTraded = 0;
+        tradeIncome = 0;
+    }
 
     public int calcPermitUsed() {
         int currentPermits = permitsTraded + permits;

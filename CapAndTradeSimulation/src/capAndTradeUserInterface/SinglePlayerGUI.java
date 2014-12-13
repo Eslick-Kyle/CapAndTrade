@@ -272,7 +272,6 @@ public class SinglePlayerGUI extends Application {
         }
         powerStations.get(0).setPermitsTraded(playerPermits); // sets my permits
         powerStations.get(0).setTradeIncome(playerPrice); // sets my total income
-
     }
 
     /**
@@ -286,7 +285,9 @@ public class SinglePlayerGUI extends Application {
         submitTradeInfoBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Controller.getInstance().updateTradeInfo(makeTradeList());
+                List<Trade> makeTradeList = makeTradeList();
+                Controller.getInstance().updateTradeInfo(makeTradeList);
+                makeTradeList = null;
                 numTrades = 0;
                 displaySingleplayerWindow();
             }

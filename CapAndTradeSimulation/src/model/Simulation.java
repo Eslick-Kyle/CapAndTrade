@@ -227,6 +227,7 @@ public class Simulation {
             powerStations.get(i).setTradeIncome(theTrade.getPriceOfTrade());
             marginalProfit.add(powerStations.get(i).calcMarginalProfit());
             powerStations.get(i).calcCleanRate();
+            powerStations.get(i).powerStationReset();
             i++;
         }
         numberOfRounds++;
