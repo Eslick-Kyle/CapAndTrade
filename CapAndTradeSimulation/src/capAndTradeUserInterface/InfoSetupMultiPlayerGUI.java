@@ -40,19 +40,20 @@ public class InfoSetupMultiPlayerGUI extends Application {
     @Override
     public void start(Stage primaryStage) {
         getTeamNamesStage = primaryStage;
+        
         Label welcome = new Label();
         welcome.setText("Multiplayer Setup");
+        
+        //sets the root values 
         askInfo = new VBox(10);
         askInfo.setAlignment(Pos.CENTER);
         askInfo.getChildren().add(welcome);
         getNumberOfTeams();
+        
+        //creates and adds the scene to the stage
         multiPlayerSetupScene = new Scene(askInfo, 700, 500);
         primaryStage.setScene(multiPlayerSetupScene);
         multiPlayerSetupScene.getStylesheets().add("Style.css");
-    }
-
-        public void displayGetNumberOfTeams () {
-
     }
 
     /**
@@ -60,15 +61,13 @@ public class InfoSetupMultiPlayerGUI extends Application {
      * send the info to name those teams the default names.
      */
     public void getNumberOfTeams() {
-        /* The container to contain the information, This will most likely need 
-         to be changed to something else */
-        
         Label enterTeamsLbl = new Label();
         enterTeamsLbl.setText("Number of Teams:");
         
         HBox enterNumTeamsHBox = new HBox();
-        enterNumTeamsHBox.setAlignment(Pos.CENTER);
+        
         //format enterNumTeamsHBox
+        enterNumTeamsHBox.setAlignment(Pos.CENTER);
         enterNumTeamsHBox.setSpacing(10);
         
         //Enter info to enterNumTeamsHBox
@@ -76,9 +75,10 @@ public class InfoSetupMultiPlayerGUI extends Application {
         enterNumTeamsHBox.getChildren().add(enterTeamsLbl);
         enterNumTeamsHBox.getChildren().add(inputNumTeamsComboBox);
         
-               
+        //creates the buttons    
         defaultNamesButton();
         nonDefaultNamesButton();
+        
         // Enter information into the base containter
         askInfo.getChildren().add(enterNumTeamsHBox);
         askInfo.getChildren().add(defaultNamesBtn);
@@ -128,13 +128,16 @@ public class InfoSetupMultiPlayerGUI extends Application {
      * @param numTeams - this is the number of teams
      */
     public void getCustomPowerStationNames(int numTeams) {
-
+        
         Label customNamesLabel = new Label();
         customNamesLabel.setText("Enter Power Station Names:");
+        
+        //formats the root to be a new Vbox
         askInfo = new VBox(5);
         askInfo.setAlignment(Pos.CENTER);
         askInfo.getChildren().add(customNamesLabel);
 
+        //creates the number of textfields that need to be avilable for the team names
         ArrayList<TextField> inputFields = new ArrayList<>();
         for (int i = 0; i < numTeams; i++) {
             TextField inputName = new TextField();
@@ -143,9 +146,12 @@ public class InfoSetupMultiPlayerGUI extends Application {
             askInfo.getChildren().add(inputName);
         }
 
+        //calls the submit button wich will enter the team names to the controller
         submitButton(inputFields);
         askInfo.getChildren().add(submitCustomNamesBtn);
 
+        
+        //creates and sets a scene to the stage
         Scene customNamesScene = new Scene(askInfo, 700, 500);
 
         getTeamNamesStage.setScene(customNamesScene);
@@ -166,8 +172,9 @@ public class InfoSetupMultiPlayerGUI extends Application {
                 ArrayList<String> names = new ArrayList<>();
                 String teamName = "";
                 for (int i = 0; i < inputFields.size(); i++) {
-                    teamName = inputFields.get(i).getText();
-                    if (teamName.equals("")) {
+                    teamName = inputFields.get(i).getText();      //gets the text from the GUI
+                    
+                    if (teamName.equals("")) {                     //if no name was entered
                         teamName = "No Name";
                     }
                     names.add(teamName);
@@ -179,13 +186,13 @@ public class InfoSetupMultiPlayerGUI extends Application {
     }
     
     /**
-     * This will create a new ComboBox that will set up the get num teams info
+     * This will create a new ComboBox that will set up the get number of teams info
      */
     public void createComboBoxForNumTeams() {
         inputNumTeamsComboBox = new ComboBox();
         ObservableList<String> displaySelection = FXCollections.observableArrayList();
         
-        // put the numbers into the list
+        // put the numbers into the dropdown list
         for (int i = 1; i <= 13; i++) {
             displaySelection.add(Integer.toString(i));
         }
@@ -194,6 +201,9 @@ public class InfoSetupMultiPlayerGUI extends Application {
         inputNumTeamsComboBox.setValue("1");
     }
     
+    /**
+     * Button that returns to the main menu
+     */
     public void returnToMenu () {
         Button menuBtn = new Button();
         menuBtn.setText("Main Menu");

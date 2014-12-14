@@ -65,22 +65,30 @@ public class MultiPlayerGUI extends Application {
 
         root = new VBox();
         
-        //format buttons at the bottom
+        //formats buttons into a horizontal position
         HBox endGameButtonsHBox = new HBox(5);
         endGameButtonsHBox.getChildren().add(returnToMenu());
         endGameButtonsHBox.getChildren().add(endGameButton());
         
+        //sets the format for the multi player game
         border.setTop(welcome);
         border.setCenter(displayTeamsArea);
         border.setBottom(endGameButtonsHBox);
         displayPowerStationsAndGetTradesBoxes();
 
+        //declares a new scene and puts it into the primary stage
         multiPlayerScene = new Scene(border, 700, 500);
         multiPlayerScene.getStylesheets().add("multiplayerStyle.css");
         primaryStage.setScene(multiPlayerScene);
         primaryStage.setFullScreen(true);
     }
     
+    /**
+     * This will update the list view to make it so that only marginal profit for the round is 
+     * shown
+     * 
+     * @param trades
+     */
     public void updateListView(List<Trade> trades) {
         displayList.clear();
         updatePowerStationsInfo(trades);
@@ -88,23 +96,18 @@ public class MultiPlayerGUI extends Application {
     }
     
     /**
-     * This is an optional way to display the information, this might be easier
-     * to format the way that we want as opposed to the display list. This could
-     * allow us to get the trades information.
+     * This will display the section that has trade input boxes and will have basic team 
+     * information.
      */
     public void displayPowerStationsAndGetTradesBoxes() {
-        
-        
-        // right now this hBox is not being used!!!!!!!!!!
+        /*
+        The header information, it will have the tiles of all the information to be used
+        */
         HBox titleInfo = new HBox();
 
-        //titleInfo.setPadding(new Insets(15, 12, 15, 12));
         titleInfo.setSpacing(50);
         Label nameTitle = new Label();
         nameTitle.setText("Name");
-
-        Label cleanRateTitle = new Label();
-        cleanRateTitle.setText("Clean Rate");
 
         Label permitsTradedTitle = new Label();
         permitsTradedTitle.setText("Permits Traded");
@@ -112,15 +115,9 @@ public class MultiPlayerGUI extends Application {
         Label salePriceTitle = new Label();
         salePriceTitle.setText("Sale Price");
 
-        Label marginalProfitTitle = new Label();
-        marginalProfitTitle.setText("Marginal Profit");
-
         titleInfo.getChildren().add(nameTitle);
-        //titleInfo.getChildren().add(cleanRateTitle);
         titleInfo.getChildren().add(permitsTradedTitle);
         titleInfo.getChildren().add(salePriceTitle);
-        //titleInfo.getChildren().add(marginalProfitTitle);
-        //border.setLeft(titleInfo);
         
         
         /* Sets the information with the text fields to account for all the 
@@ -133,50 +130,48 @@ public class MultiPlayerGUI extends Application {
         VBox psInputBoxes = new VBox(5);
         psInputBoxes.getChildren().add(titleInfo);
         for (PowerStation powerStation : Controller.getInstance().getPowerStations()) {
+            //create and format the HBox
             HBox powerStationInfo = new HBox();
             powerStationInfo.setSpacing(10);
             powerStationInfo.setMinWidth(165);
             
+            //name of the power station
             Label name = new Label();
             name.setText(powerStation.getPowerStationName());
             name.setMinWidth(100);
 
-            //Label cleanRate = new Label();
-            //cleanRate.setText(Integer.toString(powerStation.getCleanRate()));
-            //cleanRate.setMinWidth(40);
-
+            //create first input field, number of trades
             TextField inputNumOfPermitsTraded = new TextField();
             permitsTraded.add(inputNumOfPermitsTraded);
             inputNumOfPermitsTraded.setMinWidth(70);
             inputNumOfPermitsTraded.setMaxWidth(165);
 
+            //create second input field price of trades
             TextField inputPriceOfTrades = new TextField();
             prices.add(inputPriceOfTrades);
             inputPriceOfTrades.setMinWidth(70);
             inputPriceOfTrades.setMaxWidth(165);
 
-            //Label marginalProfit = new Label();
-            //marginalProfit.setText(Integer.toString(powerStation.calcMarginalProfit()));
-            //marginalProfit.setMinWidth(40);
-
+            //adds the information to the HBox
             powerStationInfo.getChildren().add(name);
-            //powerStationInfo.getChildren().add(cleanRate);
             powerStationInfo.getChildren().add(inputNumOfPermitsTraded);
             powerStationInfo.getChildren().add(inputPriceOfTrades);
-            //powerStationInfo.getChildren().add(marginalProfit);
 
+            //puts the HBox into the VBox that contains all the information
             psInputBoxes.getChildren().add(powerStationInfo);
         }
         
         // puts the button in that will get the input for trade info
         Button submitTradeInfo = submitTradeInfo(prices, permitsTraded);
         psInputBoxes.getChildren().add(updateTradeInfoButton(prices, permitsTraded));
-        psInputBoxes.getChildren().add(submitTradeInfo);        
+        psInputBoxes.getChildren().add(submitTradeInfo); 
+        
         border.setRight(psInputBoxes);
     }
 
     /**
      * This sets up and controls the button that sill submit tradeInformation
+     * 
      * @param prices - the text fields that get the price input
      * @param permitsTraded - the text fields that get the permitsTraded input
      * @return returns a button
@@ -200,25 +195,45 @@ public class MultiPlayerGUI extends Application {
         return submitTradeInfoBtn;
     }
     
-        public Button updateTradeInfoButton(List<TextField> prices, List<TextField> permitsTraded) {
+    /**
+     * Button that will update the trade information that has been entered in the input boxes
+     * 
+     * @param prices - list of prices of the trades
+     * @param permitsTraded - list of the permits that are traded
+     * @return returns the button
+     */
+    public Button updateTradeInfoButton(List<TextField> prices, List<TextField> permitsTraded) {
         Button updateTradeInfoBtn = new Button();
         updateTradeInfoBtn.setText("Update Trade Info");
+        
         updateTradeInfoBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                
+                //creates a trades array that will be used to show the current round
                 ArrayList<Trade> trades = new ArrayList<>();
                 for (int i = 0; i < prices.size(); i++) {
                     trades.add(new Trade(permitsTraded.get(i).getText(), prices.get(i).getText()));
                 }
-                updateListView(trades);
+          
+                updateListView(trades);    /*calls the function which will update the list view
+                                           and will update the view to show the results of the 
+                                           //trades*/
             }
         });
         return updateTradeInfoBtn;
     }
     
+    /**
+     * updates the power stations information in an observable list so that it will display 
+     * the list view that takes an observable list.
+     * 
+     * @param trades - the trades that have been made
+     */
     public void updatePowerStationsInfo(List<Trade> trades) {
         displayList.clear();
 
+        //Formats all the header information into a string
         String displayPStationInfo;
         displayPStationInfo = "Clean Rate\t\tEmissions\t\tEnergy Production\t\tPermits\t\tSales\n";
         displayList.add(displayPStationInfo);
@@ -229,40 +244,42 @@ public class MultiPlayerGUI extends Application {
         displayPStationInfo += "   " + basicInfo.getPermits() + "   \t       ";
         displayPStationInfo += "" + basicInfo.calcSales() + "\n";
         displayList.add(displayPStationInfo);
+
         
+        //Formats the changed information for all the power stations        
         String formatDisplay = "Name        CleanRate           Marginal Profit";
         displayList.add(formatDisplay);
-        
+       
         PowerStation safePowerStation;      
         int i = 0;
         for (PowerStation ps : Controller.getInstance().getPowerStations()) {
+            //sets the power stations information
             safePowerStation = new PowerStation();
             safePowerStation.setCleanRate(ps.getCleanRate());
             safePowerStation.setTradeIncome(trades.get(i).getPriceOfTrade());
             safePowerStation.setPermitsTraded(trades.get(i).getPermitsTraded());
-            System.out.println("number of permits:"+safePowerStation.getPermitsTraded());
-            System.out.println("price of trade   :"+safePowerStation.getTradeIncome());
+            
+            //formats the string to output the information in the correct format
             formatDisplay = ps.getPowerStationName() + " \t\t\t"
                     + Integer.toString(ps.getCleanRate())
                     + " \t\t\t\t" + Integer.toString(safePowerStation.calcMarginalProfit());
-            displayList.add(formatDisplay);
+           
+            displayList.add(formatDisplay);     //add information to the displayList
             i++;
         }
 
-    }
-    
-    public void getTradeInfo() {
-
-    }    
+    }  
         
     /**
-     * This formats the information to be displayed in the observable list
+     * This formats the information to be displayed in the observable list for when the informatin
+     * is submitted
      *
      * @return a list to be displayed
      */
     public ObservableList displayPowerStationsInfo() {
         ObservableList<String> displayList = FXCollections.observableArrayList();
 
+        //formats the string for all the head information
         String displayPStationInfo;
         displayPStationInfo = "Clean Rate\t\tEmissions\t\tEnergy Production\t\tPermits\t\tSales\n";
         displayList.add(displayPStationInfo);
@@ -276,7 +293,8 @@ public class MultiPlayerGUI extends Application {
         
         String formatDisplay = "Name        CleanRate           Marginal Profit";
         displayList.add(formatDisplay);
-        
+ 
+        //formats the string to correctly display the power stations changed information
         List<Integer> currentMargeProfit = Controller.getInstance().getCurrentRoundMarginalProfit();
         int i = 0;
         for (PowerStation ps : Controller.getInstance().getPowerStations()) {
@@ -291,7 +309,8 @@ public class MultiPlayerGUI extends Application {
     }
     
     /**
-     * This creates an end of game button
+     * This creates a button that ends the game and displays the results
+     * 
      * @return the button to send info to end of game screen.
      */
     public Button endGameButton() {
@@ -309,7 +328,8 @@ public class MultiPlayerGUI extends Application {
     }
     
     /**
-     * This creates a return to menu button
+     * This creates a button that will return the user to the main menu
+     * 
      * @return returns the button created
      */
     public Button returnToMenu () {

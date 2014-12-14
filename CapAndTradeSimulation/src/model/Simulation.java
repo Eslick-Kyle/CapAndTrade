@@ -86,8 +86,6 @@ public class Simulation {
     /**
      * Description: Sets user's name to player and adds names for computers
      * names computer power stations with letters starting at 'a'
-     *
-     *
      */
     public void setSinglePlayerPowerStationNames() {
         PowerStation team = new PowerStation();
@@ -111,8 +109,9 @@ public class Simulation {
      * clean rates between the user and the computer with a bit of random to
      * make the bids higher or lower
      *
-     * @param psTwo
-     * @return askPrice
+     * @param psOne - first team that is being given the offer
+     * @param psTwo - second team that is providing the offer
+     * @return askPrice - the price of the offer for 25 permits
      */
     public int getComputerAskPrice(int psOne, int psTwo) {
         int firstPSCleanRate = powerStations.get(psOne).getCleanRate();
@@ -211,9 +210,9 @@ public class Simulation {
     }
 
     /**
-     * Returns the last rounds marginal profit
+     * Returns the previous rounds marginal profit
      *
-     * @return
+     * @return returns list of marginal profit from all teams
      */
     public List<Integer> getCurrentRoundMarginalProfit() {
         return marginalProfitHistory.get(marginalProfitHistory.size() - 1);
@@ -229,25 +228,33 @@ public class Simulation {
     public void setPowerStationsTradeInformation(List<Trade> trades) {
         tradeHistory.add(trades);
         if (trades.size() != powerStations.size()) {
-            System.out.println("ERROR: (setPowerStationsInformation) not enough information provided");
+            System.out.println("ERROR: (setPowerStationsInformation) not enough information"
+                    + " provided");
             System.exit(0);
         }
         ArrayList<Integer> marginalProfit = new ArrayList<>();
-
-        // set the trade values in the power stations
+        
         int i = 0;
         for (Trade theTrade : trades) {
+            // set the trade values in the power stations
             powerStations.get(i).setPermitsTraded(theTrade.getPermitsTraded());
             powerStations.get(i).setTradeIncome(theTrade.getPriceOfTrade());
+            
+            //adds to the marginal profit array which will be added to the history
             marginalProfit.add(powerStations.get(i).calcMarginalProfit());
-            powerStations.get(i).calcCleanRate();
-            powerStations.get(i).powerStationReset();
+            
+            powerStations.get(i).calcCleanRate();     // calculates new clean rate
+            powerStations.get(i).powerStationReset(); //resets default power station values
             i++;
         }
-        numberOfRounds++;
-        marginalProfitHistory.add(marginalProfit);
+        numberOfRounds++;                          // adds to the number of rounds
+        marginalProfitHistory.add(marginalProfit); //adds to the history
     }
 
+    /**
+     * resets the private member variables so that a game does no have to close to 
+     * restart
+     */
     public void restartSimulation() {
         tradeHistory = new LinkedList<>();
         powerStations = new ArrayList<>();
@@ -255,11 +262,13 @@ public class Simulation {
         numberOfRounds = 0;
     }
 
+    /**
+     * gets the marginal profit history, the history of the previous rounds and 
+     * returns it to the user
+     * 
+     * @return
+     */
     public List<List<Integer>> getMarginalProfitHistory() {
         return marginalProfitHistory;
-    }
-
-    public void setMarginalProfitHistory(List<List<Integer>> marginalProfitHistory) {
-        this.marginalProfitHistory = marginalProfitHistory;
     }
 }

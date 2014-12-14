@@ -18,9 +18,17 @@ import java.util.Scanner;
  */
 public class CapAndTradeConsole {
 
+    /**
+     * default constructor does nothing
+     */
     public CapAndTradeConsole() {
     }
 
+    /**
+     * This gets the number of teams that the user would like in the simulation
+     * 
+     * @return returns the number of teams as an int
+     */
     public int getNumTeams() {
         int numTeams;
         Scanner in = new Scanner(System.in);
@@ -30,10 +38,17 @@ public class CapAndTradeConsole {
         return numTeams;
     }
 
+    /**
+     * This is a prompt that asks the user if they would like to set their own names
+     * or use the default names
+     * 
+     * @return returns true if the user wants to use default names
+     */
     public boolean useDefaultNames() {
         boolean isDefault = true;
         Scanner in = new Scanner(System.in);
 
+        //prompt for default teams
         System.out.print("Do you want to set the team names(y/n)");
         String checkValue = in.nextLine();
         if (checkValue.matches("(?i)y")) {
@@ -54,6 +69,8 @@ public class CapAndTradeConsole {
     public List<String> getPowerStationNamesConsole(int numberOfTeams) {
         List<String> teamNames = new ArrayList<>();
         Scanner input = new Scanner(System.in);
+        
+        //loops through the number of teams getting each teams name
         for (int i = 0; i < numberOfTeams; i++) {
             System.out.print("Power Station Name " + Integer.toString(i + 1) + ": ");
             String powerStationName = input.nextLine();
@@ -72,15 +89,21 @@ public class CapAndTradeConsole {
      */
     public List<Trade> getPowerStationsTradeInformationConsole(List<PowerStation> powerStations) {
         List<Trade> theTrades = new ArrayList<>();
+        
         // get information from console
         Scanner input = new Scanner(System.in);
         for (int i = 0; i < powerStations.size(); i++) {
+            
+            //permits traded
             System.out.print(powerStations.get(i).getPowerStationName() + "'s Permits Traded: ");
             String numPermitsTraded = input.nextLine();
-            System.out.print(powerStations.get(i).getPowerStationName() + "'s Permits Total Price: ");
+            
+            //price of the trade
+            System.out.print(powerStations.get(i).getPowerStationName() + "'s Permits Total Price:"
+                    + " ");
             String permitsTotalPrice = input.nextLine();
 
-            theTrades.add(new Trade(numPermitsTraded, permitsTotalPrice));
+            theTrades.add(new Trade(numPermitsTraded, permitsTotalPrice)); //sets the trades
         }
 
         return theTrades;
@@ -94,13 +117,19 @@ public class CapAndTradeConsole {
      */
     public void displayPowerStationsInfo(List<PowerStation> powerStations) {
         System.out.println("------------------------------");
+        
+        //loops through each power station and displays the marginal profit
         for (PowerStation thePowerStation : powerStations) {
-
             System.out.println(thePowerStation.getPowerStationName()
                     + "'s marginal profit:" + thePowerStation.calcMarginalProfit());
         }
     }
 
+    /**
+     * this will display the power stations clean rate
+     * 
+     * @param powerStations - list of the power stations to be displayed
+     */
     public void displayPowerStationCleanRate(List<PowerStation> powerStations) {
         for (PowerStation thePowerStation : powerStations) {
             System.out.println(thePowerStation.getPowerStationName()
@@ -108,6 +137,11 @@ public class CapAndTradeConsole {
         }
     }
 
+    /**
+     *  prompts the user to quit the game
+     * 
+     * @return returns true if the user would like to continue the game
+     */
     public boolean promptToQuit() {
         boolean isDefault = true;
         Scanner in = new Scanner(System.in);
@@ -121,10 +155,18 @@ public class CapAndTradeConsole {
         return isDefault;
     }
 
+    /**
+     * finds and displays the winner of all the rounds
+     * 
+     * @param totalMarginalProfit - list of the total marginal profit
+     * @param powerStations - list of the power stations
+     */
     public void displayWinner(List<Integer> totalMarginalProfit, List<PowerStation> powerStations) {
         int temp = 0;
         int index = 0;
         int i = 0;
+        
+        //finds the index of the top team
         for (int profit : totalMarginalProfit) {
             if (temp < profit) {
                 temp = profit;
@@ -132,6 +174,8 @@ public class CapAndTradeConsole {
             }
             i++;
         }
+        
+        //outputs the top team, does not take into account a tie
         System.out.println("The winner is : " 
                 + powerStations.get(index).getPowerStationName() 
                 + " with a total marginal profit of: " + temp);

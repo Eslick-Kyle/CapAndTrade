@@ -19,8 +19,6 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
@@ -42,10 +40,13 @@ public class EndGameMultiplayerGUI extends Application {
     public void start(Stage primaryStage) {
         Label welcome = new Label();
         welcome.setText("The Simulation Results");
+        
+        //container for quit and return buttons
         HBox formatButtons = new HBox(5);
         formatButtons.getChildren().add(returnToMenu());
         formatButtons.getChildren().add(quitSimulation());
 
+        //base format box for this scene
         root = new VBox();
         root.setPadding(new Insets(10, 10 , 10, 10));
         root.getChildren().add(welcome);
@@ -74,11 +75,17 @@ public class EndGameMultiplayerGUI extends Application {
         //titleInfo.setPadding(new Insets(15, 12, 15, 12));
         titleInfo.setSpacing(20);
 
+        //name Label
         Label nameTitle = new Label();
         nameTitle.setMinWidth(40);
         nameTitle.setText("Name");
         titleInfo.getChildren().add(nameTitle);
+        
+        //checks if the round is more than two rounds
         if (Controller.getInstance().getNumRounds() < 2) {
+            
+            //formats how many rounds of trade information the game should display, it sets the 
+            //titles for all the rounds
             for (int i = 0; i < Controller.getInstance().getNumRounds(); i++) {
                 Label permitsTradedTitle = new Label();
                 permitsTradedTitle.setMinWidth(40);
@@ -99,7 +106,6 @@ public class EndGameMultiplayerGUI extends Application {
             marginalProfitTitle.setText("Total Marginal Profit");
 
             titleInfo.getChildren().add(marginalProfitTitle);
-            //border.setLeft(titleInfo);
 
             displayInfoVBox.getChildren().add(titleInfo);
 
@@ -133,6 +139,7 @@ public class EndGameMultiplayerGUI extends Application {
                     powerStationInfo.getChildren().add(permitsTradedLbl);
                 }
 
+                //formats and displays the marginal profit for the game
                 Label marginalProfit = new Label();
                 marginalProfit.setMinWidth(120);
                 marginalProfit.setTextAlignment(TextAlignment.RIGHT);
@@ -144,13 +151,15 @@ public class EndGameMultiplayerGUI extends Application {
                 displayInfoVBox.getChildren().add(powerStationInfo);
                 i++;
             }
-        } else {
+        } else {                                        //if the round is more than two rounds
+            /*This will display the chart of all the marginal profit earned over the rounds*/
             final CategoryAxis xAxis = new CategoryAxis();
             final NumberAxis yAxis = new NumberAxis();
             xAxis.setLabel("Teams");
             final LineChart<String, Number> lineChart
                     = new LineChart<String, Number>(xAxis, yAxis);
 
+            //sets the end of game results
             lineChart.setTitle("End of game results");
             Integer j = 0;
             for (PowerStation powerStation : Controller.getInstance().getPowerStations()) {
@@ -163,6 +172,14 @@ public class EndGameMultiplayerGUI extends Application {
             
         }
     }
+
+    /**
+     * builds the chart to be displayed for the final results
+     * 
+     * @param powerStation - takes the power stations
+     * @param j
+     * @return
+     */
     public XYChart.Series buildSeries(String powerStation, Integer j) {
         XYChart.Series series = new XYChart.Series();
                 series.setName(powerStation);
@@ -181,13 +198,15 @@ public class EndGameMultiplayerGUI extends Application {
      * This will create a label with all the winner information in it and will
      * return the results
      *
-     * @return
+     * @return a label with the winner information
      */
     public Label displayWinner() {
         Label winner = new Label();
         int maxMargProfit = 0;
         int index = 0;
         int indexTie = -1;
+        
+        //checks for the winner of the game's index
         int i = 0;
         for (int profit : Controller.getInstance().getTotalMarginalProfit()) {
             if (maxMargProfit < profit) {
@@ -197,7 +216,7 @@ public class EndGameMultiplayerGUI extends Application {
             i++;
         }
 
-        //check for multipleWinners
+        //check for multipleWinners and puts their index values into the array
         ArrayList<Integer> winners = new ArrayList<>();
         for (int profit : Controller.getInstance().getTotalMarginalProfit()) {
             if (maxMargProfit == profit) {
@@ -206,11 +225,14 @@ public class EndGameMultiplayerGUI extends Application {
             i++;
         }
 
+        //displays the winner information
         String winnerText = "";
-        if (winners.size() > 1) {
+        if (winners.size() > 1) {                               //if there are multiple winners
 
             winnerText = "There is a " + Integer.toString(winners.size()) + " way tie\n";
             winnerText += "The winning teams are ";
+            
+            //displays all the names of the teams that are the winners
             for (int h = 0; h < winners.size(); h++) {
                 if (winners.size() - 1 == h) {
                     winnerText += "and " + Controller.getInstance()
@@ -221,14 +243,14 @@ public class EndGameMultiplayerGUI extends Application {
                 }
             }
             winnerText += " with a marginal profit of " + maxMargProfit;
-        } else {
+        } else {                                                  //if there is only one winner
             winnerText = "The Winner is team "
                     + Controller.getInstance().getPowerStations().get(index)
                     .getPowerStationName()
                     + " with a marginal profit of " + maxMargProfit;
         }
 
-        winner.setText(winnerText);
+        winner.setText(winnerText);    //sets the winner text into the label
         return winner;
     }
 

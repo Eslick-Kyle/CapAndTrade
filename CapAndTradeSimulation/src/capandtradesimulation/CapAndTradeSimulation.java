@@ -16,7 +16,6 @@ public class CapAndTradeSimulation {
      */
     public static void main(String[] args) {
         Controller.getInstance().runConsoleApplication();
-        Controller.getInstance().runGUIApplication();
     }
     
 }

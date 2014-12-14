@@ -9,8 +9,6 @@ import capandtradesimulation.Controller;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -55,8 +53,8 @@ public class TutorialGUI extends Application{
      * @return a VBox with the correctly formatted labels
      */
     public VBox displayExplanationOfGame() {
-        VBox formatedExplanation = new VBox(10);
-        
+        /*Formats the Labels so that the rules of the game can be entered into the labels
+        and formatted correctly*/
         Label basicPowerStationTitleLbl = new Label();
         basicPowerStationTitleLbl.setText("A Basic Power Station Contains");
         
@@ -100,6 +98,8 @@ public class TutorialGUI extends Application{
                 + "and used it is the amount earned after sales and clean costs are "
                 + "deducted.");
         
+        //creates the VBox and adds all the labels to it so they are formatted correcly
+        VBox formatedExplanation = new VBox(10); 
         
         formatedExplanation.getChildren().add(basicPowerStationTitleLbl);
         formatedExplanation.getChildren().add(energyProdLbl);
@@ -117,6 +117,7 @@ public class TutorialGUI extends Application{
     
     /**
      * This is the explanation for the purpose of the game
+     * 
      * @return Label with an explanation of the game
      */
     public Label purposeOfGameExplanationLabel() {

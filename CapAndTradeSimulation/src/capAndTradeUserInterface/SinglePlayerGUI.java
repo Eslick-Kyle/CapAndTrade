@@ -18,14 +18,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -74,9 +72,11 @@ public class SinglePlayerGUI extends Application {
         Label welcome = new Label();
         welcome.setText("Welcome to the Multiplayer");
 
+        //this is assigned a new value and will be used throughout the rest 
+        //of the game
         root = new VBox();
 
-        //format buttons at the bottom
+        //format buttons to display at the bottom of the screen
         HBox endGameButtonsHBox = new HBox(5);
         endGameButtonsHBox.getChildren().add(returnToMenu());
         endGameButtonsHBox.getChildren().add(endGameButton());
@@ -92,6 +92,12 @@ public class SinglePlayerGUI extends Application {
         primaryStage.setFullScreen(true);
     }
 
+    /**
+     * this updates the list view for the single player
+     * 
+     * @param trades - this is the trades that have been made both by the user and by 
+     * the computers
+     */
     public void updateListView(List<Trade> trades) {
         displayList.clear();
         updatePowerStationsInfo(trades);
@@ -112,8 +118,7 @@ public class SinglePlayerGUI extends Application {
         border.setLeft(titleInfo);
 
         /* Sets the information with the text fields to account for all the 
-         information. This also formats the area where the information will 
-         be displayed and input can be gotten from the user.
+         information.
          */
         ArrayList<Integer> prices = new ArrayList<>();
         ArrayList<Button> acceptedTradeBtns = new ArrayList<>();
@@ -126,44 +131,49 @@ public class SinglePlayerGUI extends Application {
             prices.add(Controller.getInstance().computerAskPrice(0, i));
         }
 
+        //basic vbox that will store all the basic information
         VBox psInputBoxes = new VBox(5);
         psInputBoxes.getChildren().add(titleInfo);
+        
+        //formats the power station offers to the user and places the acceptance button 
+        //into the Hbox
         List<PowerStation> powerStations = Controller.getInstance().getPowerStations();
         for (int i = 1; i < powerStations.size(); i++) {
+            //creats the HBox that will store the information
             HBox powerStationInfo = new HBox();
             powerStationInfo.setSpacing(10);
             powerStationInfo.setMinWidth(165);
 
-            Label name = new Label();
-            name.setText(powerStations.get(i).getPowerStationName());
-            name.setMinWidth(100);
-
+            //displays the offers from the computer and formats it correctly
             Label permitsToTradeLbl = new Label();
             permitsToTradeLbl.setMinWidth(446);
             permitsToTradeLbl.setMaxWidth(500);
+            
+            //gets the price and performs some checks on it
             int tradePrice = prices.get(i);
-
-            if (tradePrice != 0) {
+            if (tradePrice != 0) {                          //ensures the price is not zero
                 String tradeOfferString = powerStations.get(i).getPowerStationName();
-                if (tradePrice < 0) {
+                if (tradePrice < 0) {               //if the price is negative it is an offer to buy
                     tradeOfferString += " offers to buy 25 permits for $"
                             + Integer.toString((-1) * tradePrice);
-                } else if (tradePrice > 0) {
+                } else if (tradePrice > 0) {      // if the price is positive it is an offer to sell
                     tradeOfferString += " offers to sell 25 permits for $"
                             + tradePrice;
                 }
 
-                permitsToTradeLbl.setText(tradeOfferString);
+                permitsToTradeLbl.setText(tradeOfferString);  //adds the string to the label
 
+                //gets the button and adds it to the list of buttons
                 Button acceptTradeBtn = acceptTradeButton(prices, acceptedTradeBtns);
                 acceptedTradeBtns.add(acceptTradeBtn);
 
+                //adds the information to the HBox
                 powerStationInfo.getChildren().add(permitsToTradeLbl);
                 powerStationInfo.getChildren().add(acceptTradeBtn);
-            } else {
+            } else {                                // adds an empty button to the list
                 acceptedTradeBtns.add(new Button());
             }
-            psInputBoxes.getChildren().add(powerStationInfo);
+            psInputBoxes.getChildren().add(powerStationInfo);  //add HBoxInfo to VBoxAllTeamsInfo
         }
 
         //format button acceptedTradeBtns and submitTradeInfo button
@@ -179,10 +189,11 @@ public class SinglePlayerGUI extends Application {
     }
 
     /**
-     * This will create a button that checks if a trade is excepted or not
+     * This will create a button that checks if a trade is accepted or not, this only allows the
+     * user to make up to four trades
      *
-     * @param prices
-     * @param acceptedTradeBtns
+     * @param prices - the prices of the trade
+     * @param acceptedTradeBtns - buttons that have memory if they were disabled
      * @return - returns a button
      */
     public Button acceptTradeButton(List<Integer> prices, List<Button> acceptedTradeBtns) {
@@ -197,6 +208,7 @@ public class SinglePlayerGUI extends Application {
                 acceptTradeBtn.setText("Accepted");
                 acceptTradeBtn.setDisable(true);
                 updatePowerStationsPlayer(prices, acceptedTradeBtns);
+                
                 // check if four trades have been made and disable buttons
                 if (numTrades >= 4) {
                     disableAcceptTradeButtons(acceptedTradeBtns);
@@ -213,10 +225,11 @@ public class SinglePlayerGUI extends Application {
      * @param acceptedTradeBtns
      */
     public void disableAcceptTradeButtons(List<Button> acceptedTradeBtns) {
+        //loops through all buttons and disables them
         for (Button acceptedTradeBtn : acceptedTradeBtns) {
             acceptedTradeBtn.setDisable(true);
         }
-        //only allows the function in this if to be called once
+        //only allows the function in this if statement to be called once
         if (!allTradeButtonsDisabled) {
             doComputerTrades();
             allTradeButtonsDisabled = true;
@@ -280,11 +293,15 @@ public class SinglePlayerGUI extends Application {
         submitTradeInfoBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                //updates the trades and disables all buttons
                 disableAcceptTradeButtons(acceptedTradeBtns);
                 Controller.getInstance().updateTradeInfo(makeTradeList());
+                
+                //resets the basic information so another round can be played
                 allTradeButtonsDisabled = false;
                 numTrades = 0;
-                displaySingleplayerWindow();
+                
+                displaySingleplayerWindow();  //will display the view again with updated information
             }
         });
         return submitTradeInfoBtn;
@@ -299,6 +316,7 @@ public class SinglePlayerGUI extends Application {
     public Button updateTradeInfoButton(List<Button> acceptedTradeBtns) {
         Button updateTradeInfoBtn = new Button();
         updateTradeInfoBtn.setText("Update Trade Info");
+        
         updateTradeInfoBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -317,9 +335,11 @@ public class SinglePlayerGUI extends Application {
     public void updatePowerStationsInfo(List<Trade> trades) {
         displayList.clear();
 
+        //formats that string that will display the header inforamtion
         String displayPStationInfo;
         displayPStationInfo = "Clean Rate\t\tEmissions\t\tEnergy Production\t\tPermits\t\tSales\n";
         displayList.add(displayPStationInfo);
+        
         PowerStation basicInfo = Controller.getInstance().getPowerStations().get(0);
         displayPStationInfo = "      " + basicInfo.getCleanRate() + "\t  \t\t";
         displayPStationInfo += "     " + basicInfo.getEmissions() + "     \t\t";
@@ -331,7 +351,8 @@ public class SinglePlayerGUI extends Application {
         //formats the heading for all the teams
         String formatDisplay = "Name\t\t\tCleanRate\t\tMarginal Profit";
         displayList.add(formatDisplay);
-        
+  
+        //formats they player team correctly
         PowerStation player = Controller.getInstance().getPowerStations().get(0);
         formatDisplay = player.getPowerStationName() + "       \t\t\t" + player.getCleanRate()
                 + "\t\t\t\t" + player.calcMarginalProfit();
@@ -359,9 +380,11 @@ public class SinglePlayerGUI extends Application {
     public ObservableList displayPowerStationsInfo() {
         ObservableList<String> displayList = FXCollections.observableArrayList();
 
+        //formats the string to display the header information
         String displayPStationInfo;
         displayPStationInfo = "Clean Rate\t\tEmissions\t\tEnergy Production\t\tPermits\t\tSales\n";
         displayList.add(displayPStationInfo);
+        
         PowerStation basicInfo = Controller.getInstance().getPowerStations().get(0);
         displayPStationInfo = "      " + basicInfo.getCleanRate() + "\t  \t\t";
         displayPStationInfo += "     " + basicInfo.getEmissions() + "     \t\t";
@@ -375,7 +398,7 @@ public class SinglePlayerGUI extends Application {
         displayList.add(formatDisplay);
         
         List<Integer> totalMarginalProfit = Controller.getInstance().getTotalMarginalProfit();
-        //formats the player to conform to all the other teams
+        //formats the player to conform to all the other teams when displayed
         PowerStation player = Controller.getInstance().getPowerStations().get(0);
         formatDisplay = player.getPowerStationName() + "       \t\t\t" + player.getCleanRate()
                 + "\t\t\t\t" + totalMarginalProfit.get(0);
@@ -433,7 +456,7 @@ public class SinglePlayerGUI extends Application {
     }
 
     /**
-     * the computers trade amungst themselves and store the information in each
+     * the computers trade amongst themselves and store the information in each
      * of the power stations.
      */
     public void doComputerTrades() {

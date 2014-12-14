@@ -6,15 +6,12 @@
 package capAndTradeUserInterface;
 
 import capandtradesimulation.Controller;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -23,8 +20,8 @@ import javafx.stage.Stage;
  * @author Benjamin
  */
 public class CapAndTradeGUI extends Application {
-    Scene scene;
-    VBox root;
+    private Scene scene; //the scene of the game
+    private VBox root; //the base user view
     
     private Button tutorialBtn;
     private Button singlePlayerBtn;
@@ -34,7 +31,7 @@ public class CapAndTradeGUI extends Application {
     public void start(Stage primaryStage) {
         Controller.getInstance().setPrimaryStage(primaryStage);
         
-        /* Create the Buttons in their own functions  */
+        /* Create the Buttons by calling the method that creates them  */
         createTutorialButton();
         createSinglePlayerButton();
         createMultiPlayerButton();
@@ -57,6 +54,9 @@ public class CapAndTradeGUI extends Application {
         primaryStage.show();
     }
     
+    /**
+     * creates the tutorial button which will take the user to a tutorial view
+     */
     public void createTutorialButton () {
         tutorialBtn = new Button();
         tutorialBtn.setText("Tutorial");
@@ -71,7 +71,6 @@ public class CapAndTradeGUI extends Application {
     
     /**
      * This is the set up and control of the singlePlayerButton
-     * @return
      */
     public void createSinglePlayerButton () {
         // create the single player button
@@ -86,6 +85,9 @@ public class CapAndTradeGUI extends Application {
         });
     }
     
+    /**
+     * this is the multi player button that will call the multi player GUI classes
+     */
     public void createMultiPlayerButton() {
         // create the multiplayer button
         multiPlayerBtn = new Button();
@@ -119,6 +121,8 @@ public class CapAndTradeGUI extends Application {
     }
     
     /**
+     * The main class that is used to launch the game
+     * 
      * @param args the command line arguments
      */
     public static void main(String[] args) {
